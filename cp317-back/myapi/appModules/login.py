@@ -7,13 +7,14 @@ import bcrypt
 
 
 def loginreqs(request):
+    print(request.data)
     cred = credentials.Certificate("serviceAccountKey.json")
     app = firebase_admin.initialize_app(cred)
     db = firestore.client()
     users_ref = db.collection('creds')
     if request.method == 'POST' or request.method == 'GET':
         try:
-            email = request.data['email']
+            email = request.data['username']
             password = request.data['password']
         except Exception as e:
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)

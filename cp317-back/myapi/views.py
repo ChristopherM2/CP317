@@ -14,12 +14,12 @@ def hello_world(request):
     return Response({'message': 'if this works i wont end it all!!'})
 
 
-@api_view(['GET'])
+@api_view(['POST', 'GET'])
 def login(request):
     return loginreqs(request)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def signup(request):
     return signupreqs(request)
 

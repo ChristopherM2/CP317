@@ -1,8 +1,8 @@
 from django.utils import dateformat, timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from appModules.login import loginreqs
-from appModules.login import signupreqs
+from .appModules.login import loginreqs
+from .appModules.login import signupreqs
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore

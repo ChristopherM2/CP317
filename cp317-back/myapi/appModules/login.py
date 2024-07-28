@@ -16,7 +16,7 @@ def loginreqs(request):
             email = request.data['email']
             password = request.data['password']
         except Exception as e:
-            return Response({'message': "Invalid request, missing fields :(((("}, status=400)
+            return Response({'message': "Invalid request, missing fields :(((("}, status=418)
         user = users_ref.where('email', '==', email).get()
         if bcrypt.checkpw(password, user[0].to_dict()['password']):
             return Response({'message': "Login Successful", 'id': user.id}, status=200)

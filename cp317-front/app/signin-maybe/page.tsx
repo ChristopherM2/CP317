@@ -16,7 +16,7 @@ const Login = () => {
 
 
     useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/login/',{
+        fetch('http://127.0.0.1:8000/api/signup/',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,4 +45,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signin;

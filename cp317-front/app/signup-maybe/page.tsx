@@ -9,7 +9,7 @@ interface HelloWorldResponse{
 }
 
 
-const Login = () => {
+const Signup = () => {
     const [message, setMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null)
@@ -45,4 +45,5 @@ const Login = () => {
     );
 };
 
-export default Signin;
+
+export default Signup;

@@ -20,7 +20,7 @@ def loginreqs(request):
         else:
             return Response({'message': "Login Failed"}, status=401)
 
-
+#i love this :3
 
 def signupreqs(request):
     cred = credentials.Certificate("cp317-back/serviceAccountKey.json")

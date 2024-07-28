@@ -16,7 +16,7 @@ const HelloWorld = () => {
 
 
     useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/hello-world/')
+        fetch('http://127.0.0.1:8000/api/meow/')
         .then(response => response.json())
         .then((data: HelloWorldResponse) => {
             setMessage(data.message);

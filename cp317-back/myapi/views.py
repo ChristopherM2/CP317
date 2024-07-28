@@ -21,7 +21,7 @@ def login(request):
 
 @api_view(['GET'])
 def signup(request):
-    return Response({'message': 'meow'})
+    return signupreqs(request)
 
 
 @api_view(['GET'])

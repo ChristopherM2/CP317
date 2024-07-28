@@ -5,13 +5,13 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import bcrypt
 
-
+cred = credentials.Certificate("serviceAccountKey.json")
+app = firebase_admin.initialize_app(cred)
+db = firestore.client()
+users_ref = db.collection('creds')
 def loginreqs(request):
     print(request.data)
-    cred = credentials.Certificate("serviceAccountKey.json")
-    app = firebase_admin.initialize_app(cred)
-    db = firestore.client()
-    users_ref = db.collection('creds')
+
     if request.method == 'POST' or request.method == 'GET':
         try:
             email = request.data['username']
@@ -19,6 +19,8 @@ def loginreqs(request):
         except Exception as e:
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)
         user = users_ref.where('email', '==', email).get()
+        if not user:
+            return Response({'message': "User does not exist"}, status=418)
         if bcrypt.checkpw(password, user[0].to_dict()['password']):
             return Response({'message': "Login Successful", 'id': user.id}, status=200)
         else:
@@ -28,10 +30,7 @@ def loginreqs(request):
 # I love this :3
 
 def signupreqs(request):
-    cred = credentials.Certificate("cp317-back/serviceAccountKey.json")
-    app = firebase_admin.initialize_app(cred)
-    db = firestore.client()
-    users_ref = db.collection('creds')
+
     if request.method == 'POST':
         email = request.data['email']
         password = request.data['password']

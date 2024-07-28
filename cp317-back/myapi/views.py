@@ -1,6 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from appModules.login import loginreqs
+from appModules.login import signupreqs
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+
 # Create your views here.
 @api_view(['GET'])
 def hello_world(request):
@@ -13,8 +19,15 @@ def login(request):
 
 
 @api_view(['GET'])
+def signup(request):
+    return Response({'message': 'meow'})
+
+
+@api_view(['GET'])
 def friends(request):
     return Response({'message': "test"})
+
+
 @api_view(['GET'])
 def group(request):
     return Response({'message': 'meow'})

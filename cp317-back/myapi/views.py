@@ -1,3 +1,4 @@
+from django.utils import dateformat, timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from appModules.login import loginreqs
@@ -31,3 +32,8 @@ def friends(request):
 @api_view(['GET'])
 def group(request):
     return Response({'message': 'meow'})
+
+@api_view (['GET'])
+def current_time(request):
+    now = dateformat.format(timezone.now(), 'Y-m-d H:i:s')
+    return Response({'time': str(now)})

@@ -1,3 +1,4 @@
 {
+  "/signup-maybe/page": "app/signup-maybe/page.js",
   "/login-maybe/page": "app/login-maybe/page.js"
 }

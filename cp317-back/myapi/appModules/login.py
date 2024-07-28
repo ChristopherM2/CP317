@@ -8,10 +8,11 @@ import bcrypt
 cred = credentials.Certificate("serviceAccountKey.json")
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
-users_ref = db.collection('creds')
+
+
 def loginreqs(request):
     print(request.data)
-
+    users_ref = db.collection('creds')
     if request.method == 'POST' or request.method == 'GET':
         try:
             email = request.data['username']
@@ -28,18 +29,35 @@ def loginreqs(request):
 
 
 # I love this :3
-
 def signupreqs(request):
+    users_ref = db.collection('creds')
+    print(request.data)
 
     if request.method == 'POST':
-        email = request.data['email']
-        password = request.data['password']
+        email = request.data.get('username')
+        password = request.data.get('password')
+
+        if not email or not password:
+            return Response({'message': "Missing username or password"}, status=400)
+
+        password = password.encode('utf-8')
         user = users_ref.where('email', '==', email).get()
+
         if user:
-            return Response({'message': "User already exists"}, status=400)
+            print(user[0].to_dict())
+            print(user[0].id)
+            return Response({'message': "User already exists\n (im a teapot)"}, status=418)
         else:
-            user = users_ref.add({
+            hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+            new_user = {
                 'email': email,
-                'password': bcrypt.hashpw(password, bcrypt.gensalt())
-            })
-            return Response({'message': "User created", 'id': user.id}, status=201)
+                'password': hashed.decode('utf-8')  # Store password as string
+            }
+            user_ref = users_ref.add(new_user)
+
+            # Check for duplicates
+            duplicate_user = users_ref.where('email', '==', email).get()
+            if len(duplicate_user) > 1:
+                users_ref.document(duplicate_user[1].id).delete()
+
+            return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201)

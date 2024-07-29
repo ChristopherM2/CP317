@@ -1,7 +1,11 @@
 
 from django.urls import path
 from . import views
-
+"""
+-------------------------------------------------------
+List of URL patterns to be used in the project
+-------------------------------------------------------
+"""
 urlpatterns = [
     path('hello-world/', views.hello_world, name="hello-world"),
     path('login/', views.login, name="login"),

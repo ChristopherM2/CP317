@@ -9,7 +9,18 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-
+"""
+-------------------------------------------------------
+Each method is a view that returns a response to the client, 
+@api view declares what type of http requests are allowed get delete  or post
+Use: variable = methodname(params)
+-------------------------------------------------------
+Parameters:
+    1- Http request
+Returns:
+    Respective Return per method
+-------------------------------------------------------
+"""
 # Create your views here.
 @api_view(['GET'])
 def hello_world(request):

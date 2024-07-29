@@ -18,5 +18,19 @@ Returns:
     http response
 -------------------------------------------------------
 """
-def groups(request):  # TODO implement
+
+
+def newGroup(request):  # TODO implement
+    return Response({'message': "Not implemented yet"}, status=501)
+
+
+def addUserToGroup(request):  # TODO implement
+    return Response({'message': "Not implemented yet"}, status=501)
+
+
+def removeUserFromGroup(request):  # TODO implement
+    return Response({'message': "Not implemented yet"}, status=501)
+
+
+def getGroup(request):  # TODO implement
     return Response({'message': "Not implemented yet"}, status=501)

@@ -50,8 +50,20 @@ def friends(request):
 
 
 @api_view(['GET'])
-def group(request):
-    return Response({'message': 'Not Yet'}, status=501)
+def new_group(request):
+    return Response({'message': "Not implemented yet"}, status=501)
+
+
+def add_user_to_group(request):
+    return Response({'message': "Not implemented yet"}, status=501)
+
+
+def remove_user_from_group(request):
+    return Response({'message': "Not implemented yet"}, status=501)
+
+
+def get_group(request):
+    return Response({'message': "Not implemented yet"}, status=501)
 
 
 @api_view(['GET'])

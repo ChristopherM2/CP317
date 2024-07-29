@@ -21,7 +21,7 @@ const Signup = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({email: 'admin', password: 'password'}) // TODO replace with actual params instead of test data
+            body: JSON.stringify({email: 'admin@gmail.com', password: 'password'}) // TODO replace with actual params instead of test data
 
         })
         .then(response => response.json())

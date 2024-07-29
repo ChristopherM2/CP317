@@ -18,10 +18,29 @@ const HelloWorld = async () => {
         <div>
             <h1>Home</h1>
             <p>{j.time}</p>
-            <Link href='/home'>Home Page</Link>
-            <Link href='/friends'>Friends Page</Link>
-            <Link href='/login'>Login Page</Link>
-            <Link href='/profile'>Profile Page</Link>
+            <ul>
+                <li> 
+                    <Link href='/home'>Home Page</Link>
+                </li>
+
+                <li>
+                    <Link href='/friends'>Friends Page</Link>
+                </li>
+                    
+                <li>
+                    <Link href='/login'>Login Page</Link>
+                </li>
+
+                <li>
+                    <Link href='/profile'>Profile Page</Link>
+                </li>
+
+                <li>
+                    <Link href='/signup'>Signup Page</Link>
+                </li>
+                
+            </ul>
+            
         </div>
     );
 };

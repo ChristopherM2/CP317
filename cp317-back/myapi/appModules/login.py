@@ -19,17 +19,17 @@ Returns:
 
 def loginreqs(request, app):
     db = firestore.client(app)
-    print(request.data)
+    print(request.data.get('password'))
     users_ref = db.collection('creds')
     if request.method == 'POST' or request.method == 'GET':
         try:
-            email = request.data['username']
+            email = request.data['email']
             password = request.data['password'].encode('utf-8')
         except Exception as e:
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)
         user = users_ref.where('email', '==', email).get()
         if not user:
-            return Response({'message': "User does not exist"}, status=418)
+            return Response({'message': "User does not exist"}, status=400)
         password2 = user[0].to_dict()['password'].encode('utf-8')
         if bcrypt.checkpw(password, password2):
             return Response({'message': "Login Successful", 'id': user[0].id}, status=200)
@@ -55,7 +55,7 @@ def signupreqs(request, app):
     print(request.data)
     # MEOW
     if request.method == 'POST':
-        email = request.data.get('username')
+        email = request.data.get('email')
         password = request.data.get('password')
 
         if not email or not password:

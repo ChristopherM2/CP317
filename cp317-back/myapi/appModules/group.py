@@ -3,9 +3,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate("serviceAccountKey.json")
-app = firebase_admin.initialize_app(cred)
-db = firestore.client()
+
 
 """
 -------------------------------------------------------
@@ -20,17 +18,17 @@ Returns:
 """
 
 
-def newGroup(request):  # TODO implement
+def newGroup(request, db):  # TODO implement
     return Response({'message': "Not implemented yet"}, status=501)
 
 
-def addUserToGroup(request):  # TODO implement
+def addUserToGroup(request, db):  # TODO implement
     return Response({'message': "Not implemented yet"}, status=501)
 
 
-def removeUserFromGroup(request):  # TODO implement
+def removeUserFromGroup(request, db):  # TODO implement
     return Response({'message': "Not implemented yet"}, status=501)
 
 
-def getGroup(request):  # TODO implement
+def getGroup(request, db):  # TODO implement
     return Response({'message': "Not implemented yet"}, status=501)

@@ -5,9 +5,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate("serviceAccountKey.json")
-app = firebase_admin.initialize_app(cred)
-db = firestore.client()
+
 
 """
 -------------------------------------------------------
@@ -19,7 +17,7 @@ Returns:
     Http response with a message and status code (200 OK or 418 I'm a teapot (error) or 405 Method Not Allowed)
 -------------------------------------------------------
 """
-def friends(request):  # TODO implement
+def friends(request, db):  # TODO implement
     if request.method == 'POST':
         try:
             users_ref = db.collection('accountInfo')

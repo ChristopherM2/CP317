@@ -5,9 +5,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import bcrypt
 
-cred = credentials.Certificate("serviceAccountKey.json")
-app = firebase_admin.initialize_app(cred)
-db = firestore.client()
+
 
 """
 -------------------------------------------------------
@@ -19,7 +17,7 @@ Returns:
     http response
 -------------------------------------------------------
 """
-def loginreqs(request):
+def loginreqs(request, db):
     print(request.data)
     users_ref = db.collection('creds')
     if request.method == 'POST' or request.method == 'GET':
@@ -48,7 +46,7 @@ Returns:
     http response
 -------------------------------------------------------
 """
-def signupreqs(request):
+def signupreqs(request, db):
     users_ref = db.collection('creds')
     print(request.data)
     # MEOW

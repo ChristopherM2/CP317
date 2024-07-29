@@ -3,9 +3,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-cred = credentials.Certificate("serviceAccountKey.json")
-app = firebase_admin.initialize_app(cred)
-db = firestore.client()
+
 
 """
 -------------------------------------------------------
@@ -20,7 +18,7 @@ Returns:
 """
 
 
-def getuser(request):
+def getuser(request, db):
     users_ref = db.collection('accountInfo')
     user = users_ref.document(request.data['token']).get()
     if user.exists:

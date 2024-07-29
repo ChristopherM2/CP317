@@ -30,7 +30,7 @@ def groupExists(group_id, db): #private function frfr
     return True
 
 
-def newGroup(request, app):  # TODO implement
+def newGroup(request, app):
     db = firestore.client(app)
     name = request.data['name']
     token = request.data['token']
@@ -45,7 +45,7 @@ def newGroup(request, app):  # TODO implement
         return Response({'message': "Group created", 'name': name}, status=200)
 
 
-def addUserToGroup(request, app):  # TODO implement
+def addUserToGroup(request, app):
     db = firestore.client(app)
     name = request.data['name']  # group name to join
     token = request.data['token']  # user to add
@@ -62,7 +62,7 @@ def addUserToGroup(request, app):  # TODO implement
         return Response({'message': "User added to group", 'name': name}, status=200)
 
 
-def removeUserFromGroup(request, app):  # TODO implement
+def removeUserFromGroup(request, app):
     db = firestore.client(app)
     name = request.data['name']  # group name to leave
     token = request.data['token']  # user to add
@@ -79,7 +79,7 @@ def removeUserFromGroup(request, app):  # TODO implement
         return Response({'message': "User removed from group", 'name': name}, status=200)
 
 
-def getGroup(request, app):  # TODO implement
+def getGroup(request, app):
     db = firestore.client(app)
     return Response({'message': "Not implemented yet"}, status=501)
     name = request.data['name']

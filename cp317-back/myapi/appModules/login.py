@@ -70,7 +70,8 @@ def signupreqs(request):
             hashed = bcrypt.hashpw(password, bcrypt.gensalt())
             new_user = {
                 'email': email,
-                'password': hashed.decode('utf-8')  # Store password as string
+                'password': hashed.decode('utf-8') , # Store password as string
+
             }
             user_ref = users_ref.add(new_user)
 
@@ -78,5 +79,9 @@ def signupreqs(request):
             duplicate_user = users_ref.where('email', '==', email).get()
             if len(duplicate_user) > 1:
                 users_ref.document(duplicate_user[1].id).delete()
+            account = db.collection('accountInfo').document(user_ref[0].id).set({
+                'followers': [],
+                'following': [],
+                'group': ''})
 
             return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201)

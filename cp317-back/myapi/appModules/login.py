@@ -29,7 +29,7 @@ def loginreqs(request, app):
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)
         user = users_ref.where('email', '==', email).get()
         if not user:
-            return Response({'message': "User does not exist"}, status=400)
+            return Response({'message': "User does not exist"}, status=401)
         password2 = user[0].to_dict()['password'].encode('utf-8')
         if bcrypt.checkpw(password, password2):
             return Response({'message': "Login Successful", 'id': user[0].id}, status=200)
@@ -88,7 +88,7 @@ def signupreqs(request, app):
                 'group': None})
             # remove duplicate
             duplicate_user = users_ref.where('email', '==', email).get()
-            # it always does it twice i hate this
+            # it always does it twice I hate this
             if len(duplicate_user) > 1:
                 print("Deleting duplicate user")
                 users_ref.document(duplicate_user[1].id).delete()

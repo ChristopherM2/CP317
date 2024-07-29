@@ -24,7 +24,7 @@ def signup(request):
     return signupreqs(request)
 
 
-@api_view(['GET'])
+@api_view(['POST', 'DELETE'])
 def friends(request):
     return Response({'message': "test"})
 
@@ -33,7 +33,8 @@ def friends(request):
 def group(request):
     return Response({'message': 'meow'})
 
-@api_view (['GET'])
+
+@api_view(['GET'])
 def current_time(request):
     now = dateformat.format(timezone.now(), 'Y-m-d H:i:s')
     return Response({'time': str(now)})

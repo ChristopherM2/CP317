@@ -9,7 +9,16 @@ cred = credentials.Certificate("serviceAccountKey.json")
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-
+"""
+-------------------------------------------------------
+Login a user and return a response including the user token
+-------------------------------------------------------
+Parameters:
+    1- http request
+Returns:
+    http response
+-------------------------------------------------------
+"""
 def loginreqs(request):
     print(request.data)
     users_ref = db.collection('creds')
@@ -29,7 +38,16 @@ def loginreqs(request):
             return Response({'message': "Login Failed"}, status=401)
 
 
-# I love this :3
+"""
+-------------------------------------------------------
+Adds a new user to the database and returns a response including the user token
+-------------------------------------------------------
+Parameters:
+    1- http request
+Returns:
+    http response
+-------------------------------------------------------
+"""
 def signupreqs(request):
     users_ref = db.collection('creds')
     print(request.data)

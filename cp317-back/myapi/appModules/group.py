@@ -7,6 +7,16 @@ cred = credentials.Certificate("serviceAccountKey.json")
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-
+"""
+-------------------------------------------------------
+Create a group using HTTP request add user to group or remove user from group etc
+Use: variable = methodname(params)
+-------------------------------------------------------
+Parameters:
+    1- http request
+Returns:
+    http response
+-------------------------------------------------------
+"""
 def groups(request):  # TODO implement
     return Response({'message': "Not implemented yet"}, status=501)

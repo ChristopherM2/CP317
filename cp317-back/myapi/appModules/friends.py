@@ -9,7 +9,16 @@ cred = credentials.Certificate("serviceAccountKey.json")
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-
+"""
+-------------------------------------------------------
+Add or remove friends using HTTP POST OR DELETE respectively
+-------------------------------------------------------
+Parameters:
+    1- Http request 
+Returns:
+    Http response with a message and status code (200 OK or 418 I'm a teapot (error) or 405 Method Not Allowed)
+-------------------------------------------------------
+"""
 def friends(request):  # TODO implement
     if request.method == 'POST':
         try:

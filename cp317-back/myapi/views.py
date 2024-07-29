@@ -21,14 +21,18 @@ Returns:
     Respective Return per method
 -------------------------------------------------------
 """
+
+
 # Create your views here.
 @api_view(['GET'])
 def hello_world(request):
     return Response({'message': 'if this works i wont end it all!!'}, status=200)
 
+
 @api_view(['GET'])
 def get_user(request):
     return getuser(request)
+
 
 @api_view(['POST', 'GET'])
 def login(request):

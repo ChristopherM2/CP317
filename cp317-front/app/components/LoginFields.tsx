@@ -8,10 +8,18 @@ interface UserDetails{
     password: string;
 }
 
-const LoginFields = () => {
+interface FieldProps {
+    api: string;
+    headerText: string;
+    buttonText: string;
+}
+
+const LoginFields : React.FC<FieldProps> = ({api,
+                                             headerText = "Login Page",
+                                             buttonText = "Login"
+                                            }) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPass] = useState<string>('');
-    const api: string = 'http://127.0.0.1:8000/api/login/'
 
     //handle submission
     const handleSubmission = async (event: React.FormEvent) => {
@@ -44,7 +52,7 @@ const LoginFields = () => {
     <div className = {styles.container}>
         <div className={styles.box}>
 
-            <h1 className={styles.header}>Loginpage</h1>
+            <h1 className={styles.header}>{headerText}</h1>
             <form onSubmit={handleSubmission} id ={styles.UserForm}>
                 <div className = {styles.emailInput}>
                     <label htmlFor="email">Email: </label>
@@ -56,7 +64,7 @@ const LoginFields = () => {
                     <input value={password} onChange={(e) => setPass(e.target.value)} />
                 </div>
                 
-                <button type='submit' className= {styles.loginButton}>Login</button>
+                <button type='submit' className= {styles.loginButton}>{buttonText}</button>
 
 
             </form>

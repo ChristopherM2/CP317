@@ -1,11 +1,5 @@
 {
-<<<<<<< HEAD
-  "/_not-found/page": "app/_not-found/page.js",
-  "/home/page": "app/home/page.js",
-  "/friends/page": "app/friends/page.js",
-  "/profile/page": "app/profile/page.js",
-=======
->>>>>>> bd0eae2fcbda2ae830ad4608b414ddc047dd9995
+  "/signup/page": "app/signup/page.js",
   "/login/page": "app/login/page.js",
-  "/signup/page": "app/signup/page.js"
+  "/home/page": "app/home/page.js"
 }

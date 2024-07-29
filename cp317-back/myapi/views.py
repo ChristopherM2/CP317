@@ -109,5 +109,5 @@ def getGroupMembers(request):
     return Response({'message': 'not implemented yet', 'status': 501})
 
 
-def updateMememberCompletion(request):
+def updateMemberCompletion(request):
     return Response({'message': 'not implemented yet', 'status': 501})

@@ -28,7 +28,7 @@ urlpatterns = [
 
     path('getGroupMembers/', views.getGroupMembers, name="getGroupMembers"),
 
-    path('updateMemberCompletion/', views.updateMememberCompletion, name="updateMemberCompletion"),
+    path('updateMemberCompletion/', views.updateMemberCompletion(), name="updateMemberCompletion"),
 
 
 

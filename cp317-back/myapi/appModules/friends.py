@@ -5,8 +5,6 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-
-
 """
 -------------------------------------------------------
 Add or remove friends using HTTP POST OR DELETE respectively
@@ -17,7 +15,10 @@ Returns:
     Http response with a message and status code (200 OK or 418 I'm a teapot (error) or 405 Method Not Allowed)
 -------------------------------------------------------
 """
-def friends(request, db):  # TODO implement
+
+
+def friends(request, app):  # TODO implement
+    db = firestore.client(app)
     if request.method == 'POST':
         try:
             users_ref = db.collection('accountInfo')

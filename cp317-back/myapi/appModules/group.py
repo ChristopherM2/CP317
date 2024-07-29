@@ -18,17 +18,21 @@ Returns:
 """
 
 
-def newGroup(request, db):  # TODO implement
+def newGroup(request, app):  # TODO implement
+    db = firestore.client(app)
     return Response({'message': "Not implemented yet"}, status=501)
 
 
-def addUserToGroup(request, db):  # TODO implement
+def addUserToGroup(request, app):  # TODO implement
+    db = firestore.client(app)
     return Response({'message': "Not implemented yet"}, status=501)
 
 
-def removeUserFromGroup(request, db):  # TODO implement
+def removeUserFromGroup(request, app):  # TODO implement
+    db = firestore.client(app)
     return Response({'message': "Not implemented yet"}, status=501)
 
 
-def getGroup(request, db):  # TODO implement
+def getGroup(request, app):  # TODO implement
+    db = firestore.client(app)
     return Response({'message': "Not implemented yet"}, status=501)

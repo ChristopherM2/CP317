@@ -5,8 +5,6 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import bcrypt
 
-
-
 """
 -------------------------------------------------------
 Login a user and return a response including the user token
@@ -17,7 +15,10 @@ Returns:
     http response
 -------------------------------------------------------
 """
-def loginreqs(request, db):
+
+
+def loginreqs(request, app):
+    db = firestore.client(app)
     print(request.data)
     users_ref = db.collection('creds')
     if request.method == 'POST' or request.method == 'GET':
@@ -46,7 +47,10 @@ Returns:
     http response
 -------------------------------------------------------
 """
-def signupreqs(request, db):
+
+
+def signupreqs(request, app):
+    db = firestore.client(app)
     users_ref = db.collection('creds')
     print(request.data)
     # MEOW
@@ -68,7 +72,7 @@ def signupreqs(request, db):
             hashed = bcrypt.hashpw(password, bcrypt.gensalt())
             new_user = {
                 'email': email,
-                'password': hashed.decode('utf-8') , # Store password as string
+                'password': hashed.decode('utf-8'),  # Store password as string
 
             }
             user_ref = users_ref.add(new_user)

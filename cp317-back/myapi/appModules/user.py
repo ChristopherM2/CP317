@@ -18,8 +18,12 @@ Returns:
 """
 
 
-def getuser(request, db):
+def getuser(request, app):
+    db = firestore.client(app)
+
     users_ref = db.collection('accountInfo')
+    meow = db.collection('meow')
+
     user = users_ref.document(request.data['token']).get()
     if user.exists:
         return Response({'message': user.to_dict()}, status=200)

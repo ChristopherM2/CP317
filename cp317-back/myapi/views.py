@@ -24,7 +24,8 @@ Returns:
 """
 cred = credentials.Certificate("serviceAccountKey.json")
 app = firebase_admin.initialize_app(cred)
-db = firestore.client()
+db = firestore.client(app)
+
 
 # Create your views here.
 @api_view(['GET'])

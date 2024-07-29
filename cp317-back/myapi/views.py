@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .appModules.login import loginreqs
 from .appModules.login import signupreqs
+from .appModules.friends import friends
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -29,7 +30,7 @@ def signup(request):
 
 @api_view(['POST', 'DELETE'])
 def friends(request):
-    return Response({'message': "Not yet"}, status=501)
+    return friends(request)
 
 
 @api_view(['GET'])

@@ -19,7 +19,18 @@ urlpatterns = [
     path('getGroup/', views.getGroup, name="getGroup"),
     path('sendmessage/', views.sendMessage, name="sendMessage"),
     path('addTask/', views.addTask, name="addTask"),
-    path('getTasks/', views.getTasks, name="getTasks")
+    path('getTasks/', views.getTasks, name="getTasks"),
+    path('getMessages/', views.getMessages, name="getMessages"),
+
+    path('completeTask/', views.completeTask, name="completeTask"),
+
+    path('getCompletedTasks/', views.getCompletedTasks, name="getCompletedTasks"),
+
+    path('getGroupMembers/', views.getGroupMembers, name="getGroupMembers"),
+
+    path('updateMememberCompletion/', views.updateMememberCompletion, name="updateMememberCompletion"),
+
+
 
 
 ]

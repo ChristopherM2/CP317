@@ -91,3 +91,23 @@ def addTask(request):
 @api_view(['GET'])
 def getTasks(request):
     return getTasks(request, app)
+
+
+def getMessages(request):
+    return Response({'message': 'not implemented yet', 'status': 501})
+
+
+def completeTask(request):
+    return Response({'message': 'not implemented yet', 'status': 501})
+
+
+def getCompletedTasks(request):
+    return Response({'message': 'not implemented yet', 'status': 501})
+
+
+def getGroupMembers(request):
+    return Response({'message': 'not implemented yet', 'status': 501})
+
+
+def updateMememberCompletion(request):
+    return Response({'message': 'not implemented yet', 'status': 501})

@@ -5,6 +5,7 @@ from .appModules.login import loginreqs
 from .appModules.login import signupreqs
 from .appModules.friends import friends
 from .appModules.user import getuser
+from .appModules.group import *
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -51,19 +52,22 @@ def friends(request):
 
 @api_view(['GET'])
 def new_group(request):
-    return Response({'message': "Not implemented yet"}, status=501)
+    return newGroup(request)
 
 
+@api_view(['POST'])
 def add_user_to_group(request):
-    return Response({'message': "Not implemented yet"}, status=501)
+    return addUserToGroup(request)
 
 
+@api_view(['DELETE'])
 def remove_user_from_group(request):
-    return Response({'message': "Not implemented yet"}, status=501)
+    return removeUserFromGroup(request)
 
 
+@api_view(['GET'])
 def get_group(request):
-    return Response({'message': "Not implemented yet"}, status=501)
+    return getGroup(request)
 
 
 @api_view(['GET'])

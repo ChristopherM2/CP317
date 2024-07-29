@@ -23,10 +23,10 @@ def friends(request):  # TODO implement
             else:
                 return Response({'message': "User does not exist"}, status=418)
             user.update({
-                'friends': firebase_admin.firestore.ArrayUnion([friend])
+                'following': user.get('following').append(friend)
             })
             friend.update({
-                'followers': firebase_admin.firestore.ArrayUnion([user])
+                'followers': friend.get('followers').append(user)
             })
         except Exception as e:
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)
@@ -41,10 +41,10 @@ def friends(request):  # TODO implement
             user = users_ref.document(user_id)
             friend = users_ref.document(friend_id)
             user.update({
-                'friends': firebase_admin.firestore.ArrayRemove([friend])
+                'following': user.get('following').remove(friend)
             })
             friend.update({
-                'followers': firebase_admin.firestore.ArrayRemove([user])
+                'followers': friend.get('followers').remove(user)
             })
             return Response({'message': "No longer following"}, status=200)
         except Exception as e:

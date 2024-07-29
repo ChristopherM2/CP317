@@ -1,39 +1,23 @@
-"use client"; // Add this at the top of your file
-
-import { useState, useEffect } from "react";
+// Add this at the top of your file
 
 //component to export
 
 interface HelloWorldResponse{
-    message: string;
+    time: string;
 }
 
 
-const HelloWorld = () => {
-    const [message, setMessage] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null)
+const HelloWorld = async () => {
 
+    const response = await fetch("http://127.0.0.1:8000/api/time/", {next : {revalidate: 1}})
+    const j: HelloWorldResponse = await response.json();
+    
 
-    useEffect(()=>{
-        fetch('http://127.0.0.1:8000/api/hello-world/')
-        .then(response => response.json())
-        .then((data: HelloWorldResponse) => {
-            setMessage(data.message);
-            setLoading(false);
-        })
-        .catch(error => {
-            setError(error.message);
-            setLoading(false);
-        });
-    }, []);
-
-    if (loading) return <p> loading.. please wait </p>
-    if (error) return <p> idk man go kys it doesnt work</p>
+    
     return (
         <div>
             <h1>Home</h1>
-            <p>{message}</p>
+            <p>{j.time}</p>
         </div>
     );
 };

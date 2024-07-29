@@ -13,6 +13,9 @@ from firebase_admin import firestore
 def hello_world(request):
     return Response({'message': 'if this works i wont end it all!!'}, status=200)
 
+@api_view(['GET'])
+def get_user(request):
+    return Response({'message': 'Not Yet'}, status=501)
 
 @api_view(['POST', 'GET'])
 def login(request):

@@ -9,6 +9,6 @@ urlpatterns = [
     path('group/', views.group, name="group"),
     path('signup/', views.signup, name="signup"),
     path('time/', views.current_time, name="timywimey")
-
+    path('getuser/', views.get_user, name="get_user")
 
 ]

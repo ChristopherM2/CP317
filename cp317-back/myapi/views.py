@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .appModules.login import loginreqs
 from .appModules.login import signupreqs
 from .appModules.friends import friends
+from .appModules.user import getuser
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -16,7 +17,7 @@ def hello_world(request):
 
 @api_view(['GET'])
 def get_user(request):
-    return Response({'message': 'Not Yet'}, status=501)
+    return getuser(request)
 
 @api_view(['POST', 'GET'])
 def login(request):

@@ -27,7 +27,6 @@ def friends(request):  # TODO implement
         except Exception as e:
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)
 
-
         return Response({'message': "Successfully started following the user"}, status=200)
     elif request.method == 'DELETE':
         users_ref = db.collection('accountInfo')
@@ -45,7 +44,9 @@ def friends(request):  # TODO implement
             })
             return Response({'message': "No longer following"}, status=200)
         except Exception as e:
-            return Response({'message': "Invalid request, missing fields  or some other error happened:(((("+traceback.format_exc()}, status=418)
+            return Response({
+                                'message': "Invalid request, missing fields  or some other error happened:((((" + traceback.format_exc()},
+                            status=418)
 
 
     else:

@@ -12,11 +12,13 @@ interface FieldProps {
     api: string;
     headerText: string;
     buttonText: string;
+    buttonColor: string;
 }
 
 const LoginFields : React.FC<FieldProps> = ({api,
                                              headerText = "Login Page",
-                                             buttonText = "Login"
+                                             buttonText = "Login",
+                                             buttonColor = 'orange'
                                             }) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPass] = useState<string>('');
@@ -64,7 +66,9 @@ const LoginFields : React.FC<FieldProps> = ({api,
                     <input value={password} onChange={(e) => setPass(e.target.value)} />
                 </div>
                 
-                <button type='submit' className= {styles.loginButton}>{buttonText}</button>
+                <button type='submit' className= {styles.loginButton} style={{ backgroundColor: buttonColor }}>
+                            {buttonText}
+                </button>
 
 
             </form>

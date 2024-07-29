@@ -15,9 +15,13 @@ def friends(request):  # TODO implement
         try:
             users_ref = db.collection('accountInfo')
             user_id = request.data['user_id']
-            friend_id = request.data['friend_id']
+            friend_email = request.data['friend_email']
             user = db.collection('accountInfo').document(user_id)
-            friend = db.collection('accountInfo').document(friend_id)
+            friend = db.collection('accountInfo').where('email', '==', friend_email).get()[0]
+            if friend:
+                friend = friend.reference
+            else:
+                return Response({'message': "User does not exist"}, status=418)
             user.update({
                 'friends': firebase_admin.firestore.ArrayUnion([friend])
             })

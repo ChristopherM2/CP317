@@ -1,5 +1,5 @@
 // Add this at the top of your file
-
+import Link from 'next/link'
 //component to export
 
 interface HelloWorldResponse{
@@ -18,6 +18,10 @@ const HelloWorld = async () => {
         <div>
             <h1>Home</h1>
             <p>{j.time}</p>
+            <Link href='/home'>Home Page</Link>
+            <Link href='/friends'>Friends Page</Link>
+            <Link href='/login'>Login Page</Link>
+            <Link href='/profile'>Profile Page</Link>
         </div>
     );
 };

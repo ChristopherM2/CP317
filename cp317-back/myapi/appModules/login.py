@@ -85,9 +85,10 @@ def signupreqs(request, app):
                 'email': email,
                 'followers': [],
                 'following': [],
-                'group': ''})
-            #remove duplicate
+                'group': None})
+            # remove duplicate
             duplicate_user = users_ref.where('email', '==', email).get()
+            # it always does it twice i hate this
             if len(duplicate_user) > 1:
                 print("Deleting duplicate user")
                 users_ref.document(duplicate_user[1].id).delete()

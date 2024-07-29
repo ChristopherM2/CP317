@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework.response import Response
 import firebase_admin
 from firebase_admin import credentials
@@ -89,3 +91,12 @@ def getGroup(request, app):
     else:
         group = db.collection('groups').where('name', '==', name).get()
         return Response({'message': group.to_dict()}, status=200)
+
+
+def sendMessage(request, app):
+    db = firestore.client(app)
+    group = db.collection('groups').document(request.data['name'])
+    message = request.data['message']
+    group.update({'messages': group.get('messages').append(
+        {'message': message, 'time': datetime.time, 'sender': request.data['token']})})
+    return Response({'message': "Message sent"}, status=200)

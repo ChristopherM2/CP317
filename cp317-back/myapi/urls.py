@@ -16,7 +16,8 @@ urlpatterns = [
     path('newGroup/', views.newGroup, name="newGroup"),
     path('addUserToGroup/', views.addUserToGroup, name="addUserToGroup"),
     path('removeUserFromGroup/', views.removeUserFromGroup, name="removeUserFromGroup"),
-    path('getGroup/', views.getGroup, name="getGroup")
+    path('getGroup/', views.getGroup, name="getGroup"),
+    path('sendmessage/', views.sendMessage, name="sendMessage")
 
 
 ]

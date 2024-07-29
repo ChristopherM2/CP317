@@ -49,9 +49,8 @@ def friends(request):  # TODO implement
             return Response({'message': "No longer following"}, status=200)
         except Exception as e:
             return Response({
-                                'message': "Invalid request, missing fields  or some other error happened:((((" + traceback.format_exc()},
-                            status=418)
-
+                'message': "Invalid request, missing fields  or some other error happened:((((" + traceback.format_exc()},
+                status=418)
 
     else:
         return Response({'message': "Please use POST or DELETE methods"}, status=405)

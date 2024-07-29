@@ -11,7 +11,7 @@ from firebase_admin import firestore
 # Create your views here.
 @api_view(['GET'])
 def hello_world(request):
-    return Response({'message': 'if this works i wont end it all!!'})
+    return Response({'message': 'if this works i wont end it all!!'}, status=200)
 
 
 @api_view(['POST', 'GET'])
@@ -26,12 +26,12 @@ def signup(request):
 
 @api_view(['POST', 'DELETE'])
 def friends(request):
-    return Response({'message': "test"})
+    return Response({'message': "Not yet"}, status=501)
 
 
 @api_view(['GET'])
 def group(request):
-    return Response({'message': 'meow'})
+    return Response({'message': 'Not Yet'}, status=501)
 
 
 @api_view(['GET'])

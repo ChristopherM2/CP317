@@ -16,14 +16,15 @@ def loginreqs(request):
     if request.method == 'POST' or request.method == 'GET':
         try:
             email = request.data['username']
-            password = request.data['password']
+            password = request.data['password'].encode('utf-8')
         except Exception as e:
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)
         user = users_ref.where('email', '==', email).get()
         if not user:
             return Response({'message': "User does not exist"}, status=418)
-        if bcrypt.checkpw(password, user[0].to_dict()['password']):
-            return Response({'message': "Login Successful", 'id': user.id}, status=200)
+        password2 = user[0].to_dict()['password'].encode('utf-8')
+        if bcrypt.checkpw(password, password2):
+            return Response({'message': "Login Successful", 'id': user[0].id}, status=200)
         else:
             return Response({'message': "Login Failed"}, status=401)
 

@@ -36,9 +36,9 @@ def newgroup(request, app):
     db = firestore.client(app)
     name = request.data['name']
     token = request.data['token']
-    if not userExists(token, db):
+    if not userexists(token, db):
         return Response({'message': "User does not exist or you are not authenticated"}, status=498)
-    elif groupExists(name, db):
+    elif groupexists(name, db):
         return Response({'message': "Group already exists"}, status=418)
     else:
         group = db.collection('groups').add(
@@ -53,9 +53,9 @@ def addUusertogroup(request, app):
     name = request.data['name']  # group name to join
     token = request.data['token']  # user to add
 
-    if not userExists(token, db):
+    if not userexists(token, db):
         return Response({'message': "User does not exist or you are not authenticated"}, status=498)
-    elif not groupExists(name, db):
+    elif not groupexists(name, db):
         return Response({'message': "Group does not exist"}, status=418)
     else:
         group = db.collection('groups').where('name', '==', name).get()
@@ -70,9 +70,9 @@ def removeuserfromGroup(request, app):
     name = request.data['name']  # group name to leave
     token = request.data['token']  # user to add
 
-    if not userExists(token, db):
+    if not userexists(token, db):
         return Response({'message': "User does not exist or you are not authenticated"}, status=498)
-    elif not groupExists(name, db):
+    elif not groupexists(name, db):
         return Response({'message': "Group does not exist"}, status=418)
     else:
         group = db.collection('groups').where('name', '==', name).get()
@@ -84,13 +84,13 @@ def removeuserfromGroup(request, app):
 
 def getgroup(request, app):
     db = firestore.client(app)
-    return Response({'message': "Not implemented yet"}, status=501)
+
     name = request.data['name']
-    if not groupExists(name, db):
+    if not groupexists(name, db):
         return Response({'message': "Group does not exist"}, status=418)
     else:
         group = db.collection('groups').where('name', '==', name).get()
-        return Response({'message': group.to_dict()}, status=200)
+        return Response({'message': group}, status=200)
 
 
 def sendmessage(request, app):
@@ -105,37 +105,59 @@ def sendmessage(request, app):
 def addtask(request, app):
     db = firestore.client(app)
 
-    return Response({'message': "TODO"}, status=501)
+    group = db.collection('groups').document(request.data['name'])
+    if not group:
+        return Response({'message': "Group does not exist"}, status=418)
+    task = request.data['task']
+    group.update({'tasks': group.get('tasks').append(
+        {'task': task, 'completed': False, 'time': datetime.time, 'User': request.data['token']})})
+    return Response({'message': "Task added"}, status=200)
 
 
 def gettasks(request, app):
     db = firestore.client(app)
+    name = request.data['name']
+    if groupexists(name, db):
+        group = db.collection('groups').document(name)
+        return Response({'message': group.get('tasks')}, status=200)
+    else:
+        return Response({'message': "Group does not exist"}, status=418)
 
-    return Response({'message': "TODO"}, status=501)
+
+
+
 
 def getgroupmembers(request, app):
     db = firestore.client(app)
+    name = request.data['name']
+    if groupexists(name, db):
+        group = db.collection('groups').document(name)
+        return Response({'message': group.get('members')}, status=200)
+    else:
+        return Response({'message': "Group does not exist"}, status=418)
 
-    return Response({'message': "TODO"}, status=501)
+
 
 def updatemembercompletion(request, app):
-    db = firestore.client(app)
-
     return Response({'message': "TODO"}, status=501)
+
+
+
+
 
 def getmessages(request, app):
     db = firestore.client(app)
+    name = request.data['name']
+    if groupexists(name, db):
+        group = db.collection('groups').document(name)
+        return Response({'message': group.get('messages')}, status=200)
+    else:
+        return Response({'message': "Group does not exist"}, status=418)
 
-    return Response({'message': "TODO"}, status=501)
 
-def completetask(request, app):
-    db = firestore.client(app)
 
-    return Response({'message': "TODO"}, status=501)
 
 def getcompletedtasks(request, app):
     db = firestore.client(app)
 
     return Response({'message': "TODO"}, status=501)
-
-

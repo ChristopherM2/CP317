@@ -16,14 +16,14 @@ Returns:
 """
 
 
-def userExists(email, db): #private helper function frfr
+def userExists(email, db):  # private helper function frfr
     user = db.collection('accountInfo').where('email', '==', email).get()
     if not user:
         return False
     return True
 
 
-def groupExists(group_id, db): #private function frfr
+def groupExists(group_id, db):  # private function frfr
     group = db.collection('groups').document(group_id).get()
     if not group.exists:
         return False
@@ -35,11 +35,12 @@ def newGroup(request, app):
     name = request.data['name']
     token = request.data['token']
     if not userExists(token, db):
-        return Response({'message': "User does not exist or you are not authenticated"}, status=418)
+        return Response({'message': "User does not exist or you are not authenticated"}, status=498)
     elif groupExists(name, db):
         return Response({'message': "Group already exists"}, status=418)
     else:
-        group = db.collection('groups').add({'name': name, 'members': [token]})
+        group = db.collection('groups').add(
+            {'name': name, 'members': [token], 'admin': token, 'messages': [], 'tasks': []})
         user = db.collection('accountInfo').document(token)
         user.set({'groups': group}, merge=True)
         return Response({'message': "Group created", 'name': name}, status=200)
@@ -51,7 +52,7 @@ def addUserToGroup(request, app):
     token = request.data['token']  # user to add
 
     if not userExists(token, db):
-        return Response({'message': "User does not exist or you are not authenticated"}, status=418)
+        return Response({'message': "User does not exist or you are not authenticated"}, status=498)
     elif not groupExists(name, db):
         return Response({'message': "Group does not exist"}, status=418)
     else:
@@ -68,7 +69,7 @@ def removeUserFromGroup(request, app):
     token = request.data['token']  # user to add
 
     if not userExists(token, db):
-        return Response({'message': "User does not exist or you are not authenticated"}, status=418)
+        return Response({'message': "User does not exist or you are not authenticated"}, status=498)
     elif not groupExists(name, db):
         return Response({'message': "Group does not exist"}, status=418)
     else:

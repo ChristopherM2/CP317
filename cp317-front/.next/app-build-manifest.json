@@ -15,6 +15,7 @@
       "static/chunks/main-app.js",
       "static/css/app/login/page.css",
       "static/chunks/app/login/page.js"
+<<<<<<< HEAD
     ],
     "/friends/page": [
       "static/chunks/webpack.js",
@@ -35,6 +36,8 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/_not-found/page.js"
+=======
+>>>>>>> bd0eae2fcbda2ae830ad4608b414ddc047dd9995
     ]
   }
 }

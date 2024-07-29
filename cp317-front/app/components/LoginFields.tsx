@@ -11,7 +11,7 @@ interface UserDetails{
 const LoginFields = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPass] = useState<string>('');
-    const api: string = 'http://127.0.0.1:8000/api/signup/'
+    const api: string = 'http://127.0.0.1:8000/api/login/'
 
     //handle submission
     const handleSubmission = async (event: React.FormEvent) => {

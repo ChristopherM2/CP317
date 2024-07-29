@@ -100,3 +100,15 @@ def sendMessage(request, app):
     group.update({'messages': group.get('messages').append(
         {'message': message, 'time': datetime.time, 'sender': request.data['token']})})
     return Response({'message': "Message sent"}, status=200)
+
+
+def addTask(request, app):
+    db = firestore.client(app)
+
+    return Response({'message': "TODO"}, status=501)
+
+
+def getTasks(request, app):
+    db = firestore.client(app)
+
+    return Response({'message': "TODO"}, status=501)

@@ -81,3 +81,13 @@ def current_time(request):
 @api_view(['POST'])
 def sendMessage(request):
     return sendMessage(request, app)
+
+
+@api_view(['POST'])
+def addTask(request):
+    return addTask(request, app)
+
+
+@api_view(['GET'])
+def getTasks(request):
+    return getTasks(request, app)

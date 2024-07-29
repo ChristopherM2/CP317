@@ -18,21 +18,21 @@ Returns:
 """
 
 
-def userExists(email, db):  # private helper function frfr
+def userexists(email, db):  # private helper function frfr
     user = db.collection('accountInfo').where('email', '==', email).get()
     if not user:
         return False
     return True
 
 
-def groupExists(group_id, db):  # private function frfr
+def groupexists(group_id, db):  # private function frfr
     group = db.collection('groups').document(group_id).get()
     if not group.exists:
         return False
     return True
 
 
-def newGroup(request, app):
+def newgroup(request, app):
     db = firestore.client(app)
     name = request.data['name']
     token = request.data['token']
@@ -48,7 +48,7 @@ def newGroup(request, app):
         return Response({'message': "Group created", 'name': name}, status=200)
 
 
-def addUserToGroup(request, app):
+def addUusertogroup(request, app):
     db = firestore.client(app)
     name = request.data['name']  # group name to join
     token = request.data['token']  # user to add
@@ -65,7 +65,7 @@ def addUserToGroup(request, app):
         return Response({'message': "User added to group", 'name': name}, status=200)
 
 
-def removeUserFromGroup(request, app):
+def removeuserfromGroup(request, app):
     db = firestore.client(app)
     name = request.data['name']  # group name to leave
     token = request.data['token']  # user to add
@@ -82,7 +82,7 @@ def removeUserFromGroup(request, app):
         return Response({'message': "User removed from group", 'name': name}, status=200)
 
 
-def getGroup(request, app):
+def getgroup(request, app):
     db = firestore.client(app)
     return Response({'message': "Not implemented yet"}, status=501)
     name = request.data['name']
@@ -93,7 +93,7 @@ def getGroup(request, app):
         return Response({'message': group.to_dict()}, status=200)
 
 
-def sendMessage(request, app):
+def sendmessage(request, app):
     db = firestore.client(app)
     group = db.collection('groups').document(request.data['name'])
     message = request.data['message']
@@ -102,13 +102,40 @@ def sendMessage(request, app):
     return Response({'message': "Message sent"}, status=200)
 
 
-def addTask(request, app):
+def addtask(request, app):
     db = firestore.client(app)
 
     return Response({'message': "TODO"}, status=501)
 
 
-def getTasks(request, app):
+def gettasks(request, app):
     db = firestore.client(app)
 
     return Response({'message': "TODO"}, status=501)
+
+def getgroupmembers(request, app):
+    db = firestore.client(app)
+
+    return Response({'message': "TODO"}, status=501)
+
+def updatemembercompletion(request, app):
+    db = firestore.client(app)
+
+    return Response({'message': "TODO"}, status=501)
+
+def getmessages(request, app):
+    db = firestore.client(app)
+
+    return Response({'message': "TODO"}, status=501)
+
+def completetask(request, app):
+    db = firestore.client(app)
+
+    return Response({'message': "TODO"}, status=501)
+
+def getcompletedtasks(request, app):
+    db = firestore.client(app)
+
+    return Response({'message': "TODO"}, status=501)
+
+

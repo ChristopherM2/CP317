@@ -54,22 +54,22 @@ def friends(request):
 
 @api_view(['GET'])
 def new_group(request):
-    return newGroup(request, app)
+    return newgroup(request, app)
 
 
 @api_view(['POST'])
 def add_user_to_group(request):
-    return addUserToGroup(request, app)
+    return addUusertogroup(request, app)
 
 
 @api_view(['DELETE'])
 def remove_user_from_group(request):
-    return removeUserFromGroup(request, app)
+    return removeuserfromGroup(request, app)
 
 
 @api_view(['GET'])
 def get_group(request):
-    return getGroup(request, app)
+    return getgroup(request, app)
 
 
 @api_view(['GET'])
@@ -80,34 +80,34 @@ def current_time(request):
 
 @api_view(['POST'])
 def sendMessage(request):
-    return sendMessage(request, app)
+    return sendmessage(request, app)
 
 
 @api_view(['POST'])
 def addTask(request):
-    return addTask(request, app)
+    return addtask(request, app)
 
 
 @api_view(['GET'])
 def getTasks(request):
-    return getTasks(request, app)
+    return gettasks(request, app)
 
 
 def getMessages(request):
-    return Response({'message': 'not implemented yet', 'status': 501})
+    return getmessages(request, app)
 
 
 def completeTask(request):
-    return Response({'message': 'not implemented yet', 'status': 501})
+    return completetask(request, app)
 
 
 def getCompletedTasks(request):
-    return Response({'message': 'not implemented yet', 'status': 501})
+    return getcompletedtasks(request, app)
 
 
 def getGroupMembers(request):
-    return Response({'message': 'not implemented yet', 'status': 501})
+    return getgroupmembers(request, app)
 
 
 def updateMemberCompletion(request):
-    return Response({'message': 'not implemented yet', 'status': 501})
+    return updatemembercompletion(request, app)

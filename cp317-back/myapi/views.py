@@ -26,7 +26,6 @@ cred = credentials.Certificate("serviceAccountKey.json")
 app = firebase_admin.initialize_app(cred)
 
 
-
 # Create your views here.
 @api_view(['GET'])
 def hello_world(request):
@@ -77,3 +76,8 @@ def get_group(request):
 def current_time(request):
     now = dateformat.format(timezone.now(), 'Y-m-d H:i:s')
     return Response({'time': str(now)})
+
+
+@api_view(['POST'])
+def sendMessage(request):
+    return sendMessage(request, app)

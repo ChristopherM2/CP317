@@ -81,9 +81,16 @@ def signupreqs(request, app):
             duplicate_user = users_ref.where('email', '==', email).get()
             if len(duplicate_user) > 1:
                 users_ref.document(duplicate_user[1].id).delete()
-            account = db.collection('accountInfo').document(user_ref[0].id).set({
+            account = db.collection('accountInfo').document(duplicate_user[0].id).set({
+                'email': email,
                 'followers': [],
                 'following': [],
-                'group': ''})
+                'group': None})
+            # remove duplicate
+            duplicate_user = users_ref.where('email', '==', email).get()
+            # it always does it twice i hate this
+            if len(duplicate_user) > 1:
+                print("Deleting duplicate user")
+                users_ref.document(duplicate_user[1].id).delete()
 
             return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201)

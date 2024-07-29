@@ -3,8 +3,6 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-
-
 """
 -------------------------------------------------------
 Returns User information from the database
@@ -20,12 +18,10 @@ Returns:
 
 def getuser(request, app):
     db = firestore.client(app)
-
     users_ref = db.collection('accountInfo')
-    meow = db.collection('meow')
 
     user = users_ref.document(request.data['token']).get()
     if user.exists:
         return Response({'message': user.to_dict()}, status=200)
     else:
-        return Response({'message': "User does not exist"}, status=418)
+        return Response({'message': "User does not exist"}, status=498)

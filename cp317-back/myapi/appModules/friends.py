@@ -29,7 +29,7 @@ def friends(request, app):  # TODO implement
             if friend:
                 friend = friend.reference
             else:
-                return Response({'message': "User does not exist"}, status=418)
+                return Response({'message': "User does not exist"}, status=498)
             user.update({
                 'following': user.get('following').append(friend)
             })

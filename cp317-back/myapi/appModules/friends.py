@@ -14,7 +14,7 @@ def friends(request):  # TODO implement
     if request.method == 'POST':
         try:
             users_ref = db.collection('accountInfo')
-            user_id = request.data['user_id']
+            user_id = request.data['token']
             friend_email = request.data['friend_email']
             user = db.collection('accountInfo').document(user_id)
             friend = db.collection('accountInfo').where('email', '==', friend_email).get()[0]
@@ -36,7 +36,7 @@ def friends(request):  # TODO implement
         users_ref = db.collection('accountInfo')
         try:
             users_ref = db.collection('accountInfo')
-            user_id = request.data['user_id']
+            user_id = request.data['token']
             friend_id = request.data['friend_id']
             user = users_ref.document(user_id)
             friend = users_ref.document(friend_id)

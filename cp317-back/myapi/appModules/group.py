@@ -96,21 +96,43 @@ def addusertogroup(request, app):  # Verified to work
             print(f"Error updating group: {e} :((((")
 
 
-def removeuserfromGroup(request, app):  # TODO Verify it works
+def removeuserfromGroup(request, app):  # 97% sure it works
     db = firestore.client(app)
     name = request.data['name']  # group name to leave
     token = request.data['token']  # user to add
 
     if not userexists(token, app):
-        return Response({'message': "User does not exist or you are not authenticated"}, status=498)
+        print("return Response({'message': 'User does not exist or you are not authenticated'}, status=498)")
     elif not groupexists(name, app):
-        return Response({'message': "Group does not exist"}, status=418)
+        print("return Response({'message': 'Group does not exist'}, status=418)")
     else:
-        group = db.collection('groups').where('name', '==', name).get()
-        user = db.collection('accountInfo').document(token)
-        user.set({'groups': None}, merge=True)
-        group.update({'members': group.get('members').remove(token)})
-        return Response({'message': "User removed from group", 'name': name}, status=200)
+        group_ref = db.collection('groups').document(name)
+        user_ref = db.collection('accountInfo').document(token)
+
+        try:
+            group_doc = group_ref.get()
+            if group_doc.exists:
+                group_data = group_doc.to_dict()
+                currentMembers = group_data.get('members', [])
+                if group_data.get('admin') == token:
+                    return Response({'message': 'Admin cannot leave the group'}, status=403)
+                # Remove the user token from the members list if it exists
+                if token in currentMembers:
+                    currentMembers.remove(token)
+
+                    # Update the user's groups to None or remove the group name
+                    user_ref.set({'groups': None}, merge=True)
+
+                    # Update the group's members
+                    group_ref.update({'members': currentMembers})
+
+                    return Response({'message': 'User removed from the group successfully'}, status=200)
+                else:
+                    return Response({'message': 'User not in the group'}, status=403)
+            else:
+                return Response({'message': 'Group does not exist'}, status=418)
+        except Exception as e:
+            return Response({'message': 'Error updating group: {e}'}, status=500)
 
 
 def getgroup(request, app):  # TODO Verify it works
@@ -203,39 +225,6 @@ if __name__ == '__main__':  # edit this method to test the functions
     cred = credentials.Certificate("serviceAccountKey.json")
     app = firebase_admin.initialize_app(cred)
     db = firestore.client(app)
-    name = 'test'  # group name to join
-    token = 'CMCe5O1Ury6UEC3qzWCJ'  # user to add
+    name = 'test' # group name to leave
+    token = 'gCLN89XTX7d6JrB0XyMp'  # user to add
 
-    if not userexists(token, app):
-        print(498)
-    elif not groupexists(name, app):
-        print(4180)
-    elif userinGroup(token, app):
-        print(403)
-    else:
-        group_ref = db.collection('groups').document(name)
-        user_ref = db.collection('accountInfo').document(token)
-
-        try:
-            group_doc = group_ref.get()
-            if group_doc.exists:
-                group_data = group_doc.to_dict()
-                currentMembers = group_data.get('members', [])
-
-                # Ensure token is not already in currentMembers to avoid duplicates
-                if token not in currentMembers:
-                    currentMembers.append(token)
-
-                    # Update the user's group
-                    user_ref.set({'group': name}, merge=True)
-
-                    # Update the group's members
-                    group_ref.update({'members': currentMembers})
-
-                    print(200)
-                else:
-                    print(403)  # User already in group
-            else:
-                print(418)  # Group does not exist
-        except Exception as e:
-            print(f"Error updating group: {e} :((((")

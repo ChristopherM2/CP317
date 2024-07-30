@@ -18,6 +18,7 @@ Returns:
 """
 meow = firebaseConnection()
 
+
 def loginreqs(request, app):
     db = firestore.client(app)
     if request.method == 'POST' or request.method == 'GET':

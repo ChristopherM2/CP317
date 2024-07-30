@@ -4,7 +4,7 @@ from rest_framework.response import Response
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from databaseConnection import firebaseConnection
+from databaseConnection import FirebaseConnection
 
 """
 -------------------------------------------------------
@@ -17,25 +17,35 @@ Returns:
     http response
 -------------------------------------------------------
 """
-meow = firebaseConnection()
+meow = FirebaseConnection()
 
 
-def userexists(token, app):  # private helper function frfr //works
-    db = firestore.client(app)
+class group:
+    groupID = ''
+    groupName = ''
 
-    user = meow.get_data('accountInfo', token)
-    if not user:
-        return False
-    return True
+    def __init__(self, groupID, groupName, description, totalContrs=0):
+        self.groupID = groupID
+        self.groupName = groupName
+        self.description = description
+        self.totalContrs = totalContrs
+        pass
 
+    def userexists(token, app):  # private helper function frfr //works
+        db = firestore.client(app)
 
-def groupexists(token, app):  # private function frfr //works
-    db = firestore.client(app)
-    group = meow.get_data('groups', token)
-    print(group.exists)
-    if not group.exists:
-        return False
-    return True
+        user = meow.get_data('accountInfo', token)
+        if not user:
+            return False
+        return True
+
+    def groupexists(token, app):  # private function frfr //works
+        db = firestore.client(app)
+        group = meow.get_data('groups', token)
+        print(group.exists)
+        if not group.exists:
+            return False
+        return True
 
 
 def newgroup(request, app):  # verified to work
@@ -203,7 +213,6 @@ def getcompletedtasks(request, app):  # TODO Verify it works
 
 
 def userinGroup(token, app):
-
     user = meow.get_data('accountInfo', token)
     if not user:
         return False

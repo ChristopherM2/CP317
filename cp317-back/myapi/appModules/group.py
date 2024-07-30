@@ -62,11 +62,11 @@ def addusertogroup(request, app):  # Verified to work
     token = request.data['token']  # user to add
 
     if not userexists(token, app):
-        print(498)
+        return Response({'message': "User does not exist or you are not authenticated"}, status=498)
     elif not groupexists(name, app):
-        print(4180)
+        return Response({'message': "Group does not exist"}, status=418)
     elif userinGroup(token, app):
-        print(403)
+        return Response({'message': "Your in a group already please leave"}, status=403)
     else:
         group_ref = db.collection('groups').document(name)
         user_ref = db.collection('accountInfo').document(token)
@@ -87,11 +87,11 @@ def addusertogroup(request, app):  # Verified to work
                     # Update the group's members
                     group_ref.update({'members': currentMembers})
 
-                    print(200)
+                    return Response({'message': "User added to group", 'name': name}, status=200)
                 else:
-                    print(403)  # User already in group
+                    return Response({'message': "Error", 'name': name}, status=400)
             else:
-                print(418)  # Group does not exist
+                return Response({'message': "Error", 'name': name}, status=400)
         except Exception as e:
             print(f"Error updating group: {e} :((((")
 

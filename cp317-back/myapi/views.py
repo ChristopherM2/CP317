@@ -97,8 +97,11 @@ def getMessages(request):
     return getmessages(request, app)
 
 
-def completeTask(request):
-    return completetask(request, app)
+
+
+
+def completetask(request):
+    return updatemembercompletion(request, app)
 
 
 def getCompletedTasks(request):

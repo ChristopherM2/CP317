@@ -48,7 +48,7 @@ def newgroup(request, app):
         return Response({'message': "Group created", 'name': name}, status=200)
 
 
-def addUusertogroup(request, app):
+def addusertogroup(request, app):
     db = firestore.client(app)
     name = request.data['name']  # group name to join
     token = request.data['token']  # user to add

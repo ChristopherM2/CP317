@@ -34,6 +34,7 @@ def groupexists(group_id, db):  # private function frfr
 
 def newgroup(request, app):
     db = firestore.client(app)
+
     name = request.data['name']
     token = request.data['token']
     if not userexists(token, db):

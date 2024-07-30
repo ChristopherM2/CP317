@@ -18,21 +18,23 @@ Returns:
 """
 
 
-def userexists(email, db):  # private helper function frfr
-    user = db.collection('accountInfo').where('email', '==', email).get()
+def userexists(token, app):  # private helper function frfr
+    db = firestore.client(app)
+    user = db.collection('accountInfo').document(token).get()
     if not user:
         return False
     return True
 
 
-def groupexists(group_id, db):  # private function frfr
+def groupexists(group_id, app):  # private function frfr
+    db = firestore.client(app)
     group = db.collection('groups').document(group_id).get()
     if not group.exists:
         return False
     return True
 
 
-def newgroup(request, app):
+def newgroup(request, app): #verified to work
     db = firestore.client(app)
 
     name = request.data['name']
@@ -49,7 +51,7 @@ def newgroup(request, app):
         return Response({'message': "Group created", 'name': name}, status=200)
 
 
-def addusertogroup(request, app):
+def addusertogroup(request, app): #TODO Verify it works
     db = firestore.client(app)
     name = request.data['name']  # group name to join
     token = request.data['token']  # user to add
@@ -66,7 +68,7 @@ def addusertogroup(request, app):
         return Response({'message': "User added to group", 'name': name}, status=200)
 
 
-def removeuserfromGroup(request, app):
+def removeuserfromGroup(request, app):#TODO Verify it works
     db = firestore.client(app)
     name = request.data['name']  # group name to leave
     token = request.data['token']  # user to add
@@ -83,7 +85,7 @@ def removeuserfromGroup(request, app):
         return Response({'message': "User removed from group", 'name': name}, status=200)
 
 
-def getgroup(request, app):
+def getgroup(request, app): #TODO Verify it works
     db = firestore.client(app)
 
     name = request.data['name']
@@ -94,7 +96,7 @@ def getgroup(request, app):
         return Response({'message': group}, status=200)
 
 
-def sendmessage(request, app):
+def sendmessage(request, app):#TODO Verify it works
     db = firestore.client(app)
     group = db.collection('groups').document(request.data['name'])
     message = request.data['message']
@@ -103,7 +105,7 @@ def sendmessage(request, app):
     return Response({'message': "Message sent"}, status=200)
 
 
-def addtask(request, app):
+def addtask(request, app):#TODO Verify it works
     db = firestore.client(app)
 
     group = db.collection('groups').document(request.data['name'])
@@ -115,7 +117,7 @@ def addtask(request, app):
     return Response({'message': "Task added"}, status=200)
 
 
-def gettasks(request, app):
+def gettasks(request, app):#TODO Verify it works
     db = firestore.client(app)
     name = request.data['name']
     if groupexists(name, db):
@@ -125,10 +127,7 @@ def gettasks(request, app):
         return Response({'message': "Group does not exist"}, status=418)
 
 
-
-
-
-def getgroupmembers(request, app):
+def getgroupmembers(request, app):#TODO Verify it works
     db = firestore.client(app)
     name = request.data['name']
     if groupexists(name, db):
@@ -138,15 +137,11 @@ def getgroupmembers(request, app):
         return Response({'message': "Group does not exist"}, status=418)
 
 
-
-def updatemembercompletion(request, app):
+def updatemembercompletion(request, app):#TODO Verify it works
     return Response({'message': "TODO"}, status=501)
 
 
-
-
-
-def getmessages(request, app):
+def getmessages(request, app):#TODO Verify it works
     db = firestore.client(app)
     name = request.data['name']
     if groupexists(name, db):
@@ -156,9 +151,28 @@ def getmessages(request, app):
         return Response({'message': "Group does not exist"}, status=418)
 
 
-
-
-def getcompletedtasks(request, app):
+def getcompletedtasks(request, app):#TODO Verify it works
     db = firestore.client(app)
 
     return Response({'message': "TODO"}, status=501)
+
+
+if __name__ == '__main__':#edit this method to test the functions
+    # copy and paste the code from the function you want to test
+    # replace name and token etc with test data since we cant replicate http requests or atleast not easily yk
+    cred = credentials.Certificate("serviceAccountKey.json")
+    app = firebase_admin.initialize_app(cred)
+    db = firestore.client(app)
+
+    name = 'test'
+    token = 'CMCe5O1Ury6UEC3qzWCJ'
+    if not userexists(token, app):
+        print('498')
+    elif groupexists(name, app):
+        print(418)
+    else:
+        group = db.collection('groups').add(
+            {'name': name, 'members': [token], 'admin': token, 'messages': [], 'tasks': []})
+        user = db.collection('accountInfo').document(token)
+        user.set({'groups': group}, merge=True)
+        print(200)

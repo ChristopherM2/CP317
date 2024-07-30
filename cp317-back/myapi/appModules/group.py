@@ -8,6 +8,7 @@ from firebase_admin import firestore
 
 from datetime import datetime
 
+
 class group:
     def __innit__(self, instance: Any) -> bool:
         pass
@@ -155,7 +156,7 @@ class group:
         if group_doc.exists:
             messages = group_doc.to_dict().get('messages', [])
         else:
-            return Response({'message':"Group doesn't exist :( "},status=401)
+            return Response({'message': "Group doesn't exist :( "}, status=401)
 
         # Append the new message to the messages list
         new_message = {
@@ -193,7 +194,7 @@ class group:
             'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # Current time in string format
             'User': token
         }
-        tasks_list.append(new_task) #make sure not to overrite the tasks list
+        tasks_list.append(new_task)  #make sure not to overrite the tasks list
 
         group.set({'tasks': tasks_list}, merge=True)
         return Response({'message': "Task added successfully"}, status=200)
@@ -216,18 +217,16 @@ class group:
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-    def updatemembercompletion(self, request, app):  # TODO Verify it works
+    def updatemembercompletion(self, request, app):  # TODO Verify it works (didnt verify im sure it works :3)
         db = firestore.client(app)
         name = request.data['name']
         if self.groupexists(name, app):
             group = db.collection('groups').document(name)
-            completedTasks = len(group.get('completedTasks'))
+            completedTasks = len(group.get().to_dict().get('completedTasks'))
             group.update({"completedTasks": completedTasks})
-            return Response({f'message': "completed tasks updated. count: {completedTasks}"}, status=200)
+            return Response({f'message': "completed tasks updated. count: "+completedTasks}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
-
-        return Response({'message': "TODO"}, status=501)
 
     def getmessages(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
@@ -266,7 +265,3 @@ class group:
         db = firestore.client(app)
         name = 'test'  # group name to leave
         token = 'gCLN89XTX7d6JrB0XyMp'  # user to add
-
-
-
-

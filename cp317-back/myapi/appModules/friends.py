@@ -23,7 +23,7 @@ class friend:
     """
 
 
-    def friends(request, app):  # TODO implement
+    def friends(self,request, app):  # TODO implement
         db = firestore.client(app)
         if request.method == 'POST':
             try:

@@ -192,6 +192,18 @@ class group:
 
 
     def updatemembercompletion(self, request, app):  # TODO Verify it works
+        db = firestore.client(app)
+        name = request.data['name']
+        if self.groupexists(name, app):
+            group = db.collection('groups').document(name)
+            completedTasks = len(group.get('completedTasks'))
+            group.update({"completedTasks":completedTasks})
+            return Response({f'message':"completed tasks updated. count: {completedTasks}"},status = 200)
+        else:
+            return Response({'message': "Group does not exist"}, status=418)
+
+
+
         return Response({'message': "TODO"}, status=501)
 
 
@@ -207,8 +219,12 @@ class group:
 
     def getcompletedtasks(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
-
-        return Response({'message': "TODO"}, status=501)
+        name = request.data['name']
+        if self.groupexists(name, app):
+            group = db.collection('groups').document(name)
+            return Response({'message': group.get('completedTasks')}, status=200)
+        else:
+            return Response({'message': "Group does not exist"}, status=418)
 
 
     def userinGroup(self, token, app):

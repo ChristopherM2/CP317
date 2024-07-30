@@ -26,10 +26,11 @@ def userexists(token, app):  # private helper function frfr
     return True
 
 
-def groupexists(group_id, app):  # private function frfr
+def groupexists(name, app):  # private function frfr
     db = firestore.client(app)
-    group = db.collection('groups').document(group_id).get()
-    if not group.exists:
+    group = db.collection('groups').where('name', '==', name).get()
+    print(group)
+    if not group:
         return False
     return True
 

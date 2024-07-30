@@ -6,7 +6,6 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 
-
 class friend:
     def __init__(self) -> None:
         pass

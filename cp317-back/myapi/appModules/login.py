@@ -4,6 +4,7 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import bcrypt
+from databaseConnection import firebaseConnection
 
 """
 -------------------------------------------------------
@@ -15,19 +16,17 @@ Returns:
     http response
 -------------------------------------------------------
 """
-
+meow = firebaseConnection()
 
 def loginreqs(request, app):
     db = firestore.client(app)
-    print(request.data.get('password'))
-    users_ref = db.collection('creds')
     if request.method == 'POST' or request.method == 'GET':
         try:
             email = request.data['email']
             password = request.data['password'].encode('utf-8')
         except Exception as e:
             return Response({'message': "Invalid request, missing fields :(((("}, status=418)
-        user = users_ref.where('email', '==', email).get()
+        user = meow.find_data('creds', 'email', email)
         if not user:
             return Response({'message': "User does not exist"}, status=401)
         password2 = user[0].to_dict()['password'].encode('utf-8')
@@ -62,7 +61,7 @@ def signupreqs(request, app):
             return Response({'message': "Missing username or password"}, status=400)
 
         password = password.encode('utf-8')
-        user = users_ref.where('email', '==', email).get()
+        user = meow.find_data('creds', 'email', email)
 
         if user:
             print(user[0].to_dict())
@@ -75,22 +74,22 @@ def signupreqs(request, app):
                 'password': hashed.decode('utf-8'),  # Store password as string
 
             }
-            user_ref = users_ref.add(new_user)
+            user_ref = meow.add_data('creds', new_user)
 
             # Check for duplicates
-            duplicate_user = users_ref.where('email', '==', email).get()
+            duplicate_user = meow.find_data('creds', 'email', email)
             if len(duplicate_user) > 1:
-                users_ref.document(duplicate_user[1].id).delete()
+                meow.delete_document('creds', duplicate_user[1].id)
             account = db.collection('accountInfo').document(duplicate_user[0].id).set({
                 'email': email,
                 'followers': [],
                 'following': [],
                 'group': None})
             # remove duplicate
-            duplicate_user = users_ref.where('email', '==', email).get()
+            duplicate_user = meow.find_data('accountInfo', 'email', email)
             # it always does it twice I hate this
             if len(duplicate_user) > 1:
                 print("Deleting duplicate user")
-                users_ref.document(duplicate_user[1].id).delete()
+                meow.delete_document('accountInfo', duplicate_user[1].id)
 
             return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201)

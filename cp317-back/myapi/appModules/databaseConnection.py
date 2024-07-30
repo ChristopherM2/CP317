@@ -4,7 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 
-class firebaseConnection:
+class FirebaseConnection:
 
     def __init__(self):
         cred = credentials.Certificate("serviceAccountKey.json")

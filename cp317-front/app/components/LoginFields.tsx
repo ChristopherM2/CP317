@@ -2,6 +2,7 @@
 import React from 'react'
 import styles from './styles/loginFields.module.css'
 import { useState, useEffect, ReactEventHandler } from "react";
+import Link from 'next/link';
 
 interface UserDetails{
     email: string;
@@ -13,12 +14,14 @@ interface FieldProps {
     headerText: string;
     buttonText: string;
     buttonColor: string;
+    signupText?: string;
 }
 
 const LoginFields : React.FC<FieldProps> = ({api,
                                              headerText = "Login Page",
                                              buttonText = "Login",
-                                             buttonColor = 'orange'
+                                             buttonColor = 'orange',
+                                             signupText = "" 
                                             }) => {
     const [email, setEmail] = useState<string>('');
     const [password, setPass] = useState<string>('');
@@ -69,6 +72,11 @@ const LoginFields : React.FC<FieldProps> = ({api,
                 <button type='submit' className= {styles.loginButton} style={{ backgroundColor: buttonColor }}>
                             {buttonText}
                 </button>
+
+                <div className={styles.linksign}>
+                    <Link href='/signup' >{signupText}</Link>
+                </div>
+                
 
 
             </form>

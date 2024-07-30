@@ -2,117 +2,72 @@
 
 .container {
     display: flex;
-    /* Use Flexbox layout */
     flex-direction: column;
-    /* Stack children vertically */
     align-items: center;
-    /* Center horizontally */
     justify-content: center;
-    /* Center vertically */
     height: 100vh;
-    /* Full viewport height */
     width: 100vw;
-    /* Full viewport width */
     background-color: #f4f4f4;
-    /* Light background color */
 }
 
 .box {
     display: flex;
-    /* Use Flexbox layout for the box */
     flex-direction: column;
-    /* Stack children vertically */
     align-items: center;
-    /* Center horizontally */
     justify-content: center;
-    /* Center vertically */
     padding: 20px;
-    /* Padding inside the box */
     border-radius: 8px;
-    /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Subtle shadow */
     background-color: #fff;
-    /* White background for the box */
-    width: 90%;
-    /* Width of the box */
+    width: 40%;
     max-width: 500px;
-    /* Maximum width of the box */
 }
 
 .header {
     margin-bottom: 20px;
-    /* Space below the header */
     font-size: 24px;
-    /* Font size for the header */
     color: #333;
-    /* Dark gray text color */
 }
 
 .emailInput,
 .passInput {
     width: 100%;
-        /* Full width for inputs */
-        
-        /* Light border */
-        border-radius: 4px;
-        /* Rounded corners */
-        font-size: 16px;
-        /* Font size for inputs */
-
-        margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 16px; 
+    margin-bottom: 10px;
 }
 
 
 .label {
     display: block;
-    /* Block display for labels */
     margin-bottom: 5px;
-    /* Space below the label */
     font-size: 16px;
-    /* Font size for labels */
     color: #555;
-    /* Medium gray text color */
 }
 
 .input {
     width: 100%;
-    /* Full width for inputs */
     padding: 10px;
-    /* Padding inside inputs */
     box-sizing: border-box;
-    /* Include padding in width */
     border: 1px solid #ddd;
-    /* Light border */
     border-radius: 4px;
-    /* Rounded corners */
     font-size: 16px;
-    /* Font size for inputs */
 }
 
 .loginButton {
     width: 100%;
-    /* Full width for button */
     padding: 10px;
-    /* Padding inside button */
     background-color: orange;
-    /* Blue background color */
     color: #fff;
-    /* White text color */
     border: none;
-    /* Remove border */
-    border-radius: 4px;
-    /* Rounded corners */
+    border-radius: 6px;
     cursor: pointer;
-    /* Pointer cursor on hover */
     font-size: 16px;
-    /* Font size for button */
     transition: background-color 0.3s;
-    /* Smooth color transition */
-    
 }
 
-.button:hover {
-    background-color: #005bb5;
-    /* Darker blue on hover */
+.linksign {
+    margin-top: 10px;
+    text-align: center;
+    color: black;
 }

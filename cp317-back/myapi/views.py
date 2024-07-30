@@ -3,9 +3,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .appModules.login import loginreqs
 from .appModules.login import signupreqs
-from .appModules.friends import friends
+from .appModules.friends import *
 from .appModules.user import getuser
 from .appModules.group import *
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore

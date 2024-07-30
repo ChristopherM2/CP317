@@ -6,7 +6,6 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 
-
 class friend:
     def __init__(self) -> None:
         pass
@@ -21,7 +20,6 @@ class friend:
         Http response with a message and status code (200 OK or 418 I'm a teapot (error) or 405 Method Not Allowed)
     -------------------------------------------------------
     """
-
 
     def friends(request, app):  # TODO implement
         db = firestore.client(app)

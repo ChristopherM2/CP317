@@ -1,10 +1,10 @@
 from django.utils import dateformat, timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .appModules.login import loginreqs
-from .appModules.login import signupreqs
+from .appModules.login import login
+
 from .appModules.friends import *
-from .appModules.user import getuser
+from .appModules.user import *
 from .appModules.group import *
 
 import firebase_admin
@@ -35,17 +35,17 @@ def hello_world(request):
 
 @api_view(['GET'])
 def get_user(request):
-    return getuser(request, app)
+    return user.getuser(request, app)
 
 
 @api_view(['POST', 'GET'])
 def login(request):
-    return loginreqs(request, app)
+    return login.loginreqs(request, app)
 
 
 @api_view(['GET', 'POST'])
 def signup(request):
-    return signupreqs(request, app)
+    return login.signupreqs(request, app)
 
 
 @api_view(['POST', 'DELETE'])
@@ -55,22 +55,22 @@ def friends(request):
 
 @api_view(['GET'])
 def new_group(request):
-    return newgroup(request, app)
+    return group.newgroup(request, app)
 
 
 @api_view(['POST'])
 def add_user_to_group(request):
-    return addUusertogroup(request, app)
+    return group.addUusertogroup(request, app)
 
 
 @api_view(['DELETE'])
 def remove_user_from_group(request):
-    return removeuserfromGroup(request, app)
+    return group.removeuserfromGroup(request, app)
 
 
 @api_view(['GET'])
 def get_group(request):
-    return getgroup(request, app)
+    return group.getgroup(request, app)
 
 
 @api_view(['GET'])
@@ -81,37 +81,37 @@ def current_time(request):
 
 @api_view(['POST'])
 def sendMessage(request):
-    return sendmessage(request, app)
+    return group.sendmessage(request, app)
 
 
 @api_view(['POST'])
 def addTask(request):
-    return addtask(request, app)
+    return group.addtask(request, app)
 
 
 @api_view(['GET'])
 def getTasks(request):
-    return gettasks(request, app)
+    return group.gettasks(request, app)
 
 
 def getMessages(request):
-    return getmessages(request, app)
+    return group.getmessages(request, app)
 
 
 
 
 
 def completetask(request):
-    return updatemembercompletion(request, app)
+    return group.updatemembercompletion(request, app)
 
 
 def getCompletedTasks(request):
-    return getcompletedtasks(request, app)
+    return group.getcompletedtasks(request, app)
 
 
 def getGroupMembers(request):
-    return getgroupmembers(request, app)
+    return group.getgroupmembers(request, app)
 
 
 def updateMemberCompletion(request):
-    return updatemembercompletion(request, app)
+    return group.updatemembercompletion(request, app)

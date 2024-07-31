@@ -13,22 +13,22 @@ urlpatterns = [
     path('signup/', views.signup, name="signup"),
     path('time/', views.current_time, name="timywimey"),
     path('getuser/', views.get_user, name="get_user"),
-    path('newGroup/', views.newgroup, name="newGroup"),
-    path('addUserToGroup/', views.addusertogroup, name="addUserToGroup"),
-    path('removeUserFromGroup/', views.removeuserfromGroup, name="removeUserFromGroup"),
-    path('getGroup/', views.getgroup, name="getGroup"),
-    path('sendmessage/', views.sendmessage, name="sendMessage"),
-    path('addTask/', views.addtask, name="addTask"),
-    path('getTasks/', views.gettasks, name="getTasks"),
-    path('getMessages/', views.getmessages, name="getMessages"),
+    path('newGroup/', views.new_group, name="newGroup"),
+    path('addUserToGroup/', views.add_user_to_group, name="addUserToGroup"),
+    path('removeUserFromGroup/', views.remove_user_from_group, name="removeUserFromGroup"),
+    path('getGroup/', views.get_group, name="getGroup"),
+    path('sendmessage/', views.sendMessage, name="sendMessage"),
+    path('addTask/', views.addTask, name="addTask"),
+    path('getTasks/', views.getTasks, name="getTasks"),
+    path('getMessages/', views.getMessages, name="getMessages"),
 
     path('completeTask/', views.completetask, name="completeTask"),
 
-    path('getCompletedTasks/', views.getcompletedtasks, name="getCompletedTasks"),
+    path('getCompletedTasks/', views.getCompletedTasks, name="getCompletedTasks"),
 
-    path('getGroupMembers/', views.getgroupmembers, name="getGroupMembers"),
+    path('getGroupMembers/', views.getGroupMembers, name="getGroupMembers"),
 
-    path('updateMemberCompletion/', views.updatemembercompletion, name="updateMemberCompletion"),
+    path('updateMemberCompletion/', views.updateMemberCompletion, name="updateMemberCompletion"),
 
 
 

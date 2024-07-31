@@ -7,7 +7,7 @@ import bcrypt
 
 
 
-class login:
+class Login:
     def __init__(self) -> None:
         pass
 

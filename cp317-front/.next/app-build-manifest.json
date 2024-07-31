@@ -22,15 +22,10 @@
       "static/css/app/signup/page.css",
       "static/chunks/app/signup/page.js"
     ],
-    "/friends/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/friends/page.js"
-    ],
-    "/profile/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/profile/page.js"
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

@@ -6,9 +6,11 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+
 class group:
     def __innit__(self, instance: Any) -> bool:
         pass
+
     """
     -------------------------------------------------------
     Create a group using HTTP request add user to group or remove user from group etc
@@ -21,7 +23,6 @@ class group:
     -------------------------------------------------------
     """
 
-
     def userexists(self, token, app):  # private helper function frfr //works
         db = firestore.client(app)
         user = db.collection('accountInfo').document(token).get()
@@ -30,7 +31,6 @@ class group:
             return False
         return True
 
-
     def groupexists(self, token, app):  # private function frfr //works
         db = firestore.client(app)
         group = db.collection('groups').document(token).get()
@@ -38,7 +38,6 @@ class group:
         if not group.exists:
             return False
         return True
-
 
     def newgroup(self, request, app):  # verified to work
         db = firestore.client(app)
@@ -58,7 +57,6 @@ class group:
             user = db.collection('accountInfo').document(token)
             user.set({'groups': name}, merge=True)
             return Response({'message': "Group already exists"}, status=200)
-
 
     def addusertogroup(self, request, app):  # Verified to work
         db = firestore.client(app)
@@ -99,7 +97,6 @@ class group:
             except Exception as e:
                 print(f"Error updating group: {e} :((((")
 
-
     def removeuserfromGroup(self, request, app):  # 97% sure it works
         db = firestore.client(app)
         name = request.data['name']  # group name to leave
@@ -138,7 +135,6 @@ class group:
             except Exception as e:
                 return Response({'message': 'Error updating group: {e}'}, status=500)
 
-
     def getgroup(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
 
@@ -149,7 +145,6 @@ class group:
             group = db.collection('groups').where('name', '==', name).get()
             return Response({'message': group}, status=200)
 
-
     def sendmessage(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
         group = db.collection('groups').document(request.data['name'])
@@ -157,7 +152,6 @@ class group:
         group.update({'messages': group.get('messages').append(
             {'message': message, 'time': datetime.time, 'sender': request.data['token']})})
         return Response({'message': "Message sent"}, status=200)
-
 
     def addtask(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
@@ -170,7 +164,6 @@ class group:
             {'task': task, 'completed': False, 'time': datetime.time, 'User': request.data['token']})})
         return Response({'message': "Task added"}, status=200)
 
-
     def gettasks(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
         name = request.data['name']
@@ -179,7 +172,6 @@ class group:
             return Response({'message': group.get('tasks')}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
-
 
     def getgroupmembers(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
@@ -190,22 +182,18 @@ class group:
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-
     def updatemembercompletion(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
         name = request.data['name']
         if self.groupexists(name, app):
             group = db.collection('groups').document(name)
             completedTasks = len(group.get('completedTasks'))
-            group.update({"completedTasks":completedTasks})
-            return Response({f'message':"completed tasks updated. count: {completedTasks}"},status = 200)
+            group.update({"completedTasks": completedTasks})
+            return Response({f'message': "completed tasks updated. count: {completedTasks}"}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-
-
         return Response({'message': "TODO"}, status=501)
-
 
     def getmessages(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
@@ -216,7 +204,6 @@ class group:
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-
     def getcompletedtasks(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
         name = request.data['name']
@@ -225,7 +212,6 @@ class group:
             return Response({'message': group.get('completedTasks')}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
-
 
     def userinGroup(self, token, app):
         db = firestore.client(app)
@@ -238,13 +224,11 @@ class group:
         except Exception as e:
             return False
 
-
     if __name__ == '__main__':  # edit this method to test the functions
         # copy and paste the code from the function you want to test
         # replace name and token etc with test data since we cant replicate http requests or atleast not easily yk
         cred = credentials.Certificate("serviceAccountKey.json")
         app = firebase_admin.initialize_app(cred)
         db = firestore.client(app)
-        name = 'test' # group name to leave
+        name = 'test'  # group name to leave
         token = 'gCLN89XTX7d6JrB0XyMp'  # user to add
-

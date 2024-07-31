@@ -1,6 +1,14 @@
 {
+<<<<<<< HEAD
   "/login/page": "app/login/page.js",
   "/settings/page": "app/settings/page.js",
   "/home/page": "app/home/page.js",
   "/profile/page": "app/profile/page.js"
+=======
+  "/home/page": "app/home/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/signup/page": "app/signup/page.js",
+  "/login/page": "app/login/page.js",
+  "/friends/page": "app/friends/page.js"
+>>>>>>> d54c749e7c784670be596024f799908ed2070fd9
 }

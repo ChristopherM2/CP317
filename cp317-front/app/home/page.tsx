@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { useContext, useState, useEffect } from 'react';
 import AuthContext from '../components/AuthContext';
+import NavBar from '../components/NavBar';
 //component to export
 
 interface HelloWorldResponse{
@@ -37,9 +38,15 @@ const HelloWorld = () => {
         <div>
 
             {Context?.isAuthenticated ? (
-                <p>
+                <div>
+                    <h1>Home!</h1>
+                    <p>
                     meowwww ur logged in, {Context?.user?.id}!
-                </p>
+                    </p>
+                    <NavBar/>
+
+                </div>
+                
             )
             :
             (

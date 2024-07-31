@@ -30,9 +30,9 @@ class FirebaseConnection:
         except:
             return None
 
-    def get_data(self, database, collection, document) -> dict:
+    def get_data(self, collection, document) -> dict:
         try:
-            return database.collection(collection).document(document).get().to_dict()
+            return self.db.collection(collection).document(document).get().to_dict()
         except:
             return None
 

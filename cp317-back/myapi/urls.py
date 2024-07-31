@@ -30,6 +30,14 @@ urlpatterns = [
 
     path('updateMemberCompletion/', views.updateMemberCompletion, name="updateMemberCompletion"),
 
+    path('updateImage/', views.updateImage, name="updateImage"),
+    path('updateUsername/', views.updateUsername, name="updateUsername"),
+    path('updateEmail/', views.updateEmail, name="updateEmail"),
+    path('updateDarkmode/', views.updateDarkmode, name="updateDarkmode"),
+    path('updateTracking/', views.updateTracking, name="updateTracking"),
+    path('updatePassword/', views.updatePassword, name="updatePassword"),
+
+
 
 
 

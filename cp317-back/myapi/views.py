@@ -11,6 +11,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+from .appModules.settings import *
+
 """
 -------------------------------------------------------
 Each method is a view that returns a response to the client, 
@@ -94,25 +96,53 @@ def addTask(request):
 def getTasks(request):
     return group.gettasks(None,request, app)
 
-
+@api_view(['GET'])
 def getMessages(request):
     return group.getmessages(None,request, app)
 
 
 
 
-
+@api_view(['GET'])
 def completetask(request):
     return group.updatemembercompletion(None,request, app)
 
-
+@api_view(['GET'])
 def getCompletedTasks(request):
     return group.getcompletedtasks(None,request, app)
 
-
+@api_view(['GET'])
 def getGroupMembers(request):
     return group.getgroupmembers(None,request, app)
 
-
+@api_view(['GET'])
 def updateMemberCompletion(request):
     return group.updatemembercompletion(None,request, app)
+
+@api_view(['GET'])
+def updateImage(request):
+    return Settings.update_image(None, request)
+
+@api_view(['GET'])
+def updateDarkmode(request):
+    return Settings.update_darkmode(None, request)
+
+@api_view(['GET'])
+def updateUsername(request):
+    return Settings.update_username(None, request)
+
+@api_view(['GET'])
+def updateTracking(request):
+    return Settings.update_tracking(None, request)
+
+@api_view(['GET'])
+def updatePassword(request):
+    return Settings.update_password(None, request)
+
+@api_view(['GET'])
+def updateEmail(request):
+    return Settings.update_email(None, request)
+
+@api_view(['GET'])
+def getSettings(request):
+    return Settings.get_settings(None, request)

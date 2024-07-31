@@ -11,7 +11,7 @@ from bcrypt import hashpw, gensalt, checkpw
 
 meow = FirebaseConnection()
 default_settings = {
-    'image': 'https://e1.pxfuel.com/desktop-wallpaper/828/909/desktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg',
+    'image': 'https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb',
     'darkmode': False,
     'username': 'username',
     'tracking': False
@@ -52,14 +52,13 @@ class Settings:
             user_id = request.GET.get('token')
             email = request.GET.get('email')
 
-
             meow.update_db('users', user_id, {'email': email})
 
             return Response({'message': 'Email updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_image(self, request): #TODO allow for image upload not just urls
+    def update_image(self, request):  #TODO allow for image upload not just urls
         """
         Update the image of the user
         """

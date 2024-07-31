@@ -1,3 +1,4 @@
+
 .navBar {
     position: fixed;
     /* Fixes the navbar to the bottom of the view */
@@ -42,6 +43,25 @@
     position: relative;
     
 }
+
+@media (min-width: 1550px) {
+    .navBar img {
+        width: 150%;
+    }
+}/* 1550 = 1, 1850 = 2, 2150 = 3  */
+
+@media (min-width: 1850px) {
+    .navBar img {
+        width: 175%;
+    }
+}
+
+@media (min-width: 2150px) {
+    .navBar img {
+        width: 200%;
+    }
+}
+
 
 /*make them render correctly on top of each other :3 */
 

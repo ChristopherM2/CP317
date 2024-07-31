@@ -30,7 +30,7 @@
     transition: transform 0.3s ease;
     /* Smooth scaling effect on hover */
     margin-bottom: -10px;
-    margin-left: -10px;
+    margin-left: -15%;
     
 }
 
@@ -47,18 +47,21 @@
 @media (min-width: 1550px) {
     .navBar img {
         width: 150%;
+        margin-left: -20%;
     }
 }/* 1550 = 1, 1850 = 2, 2150 = 3  */
 
 @media (min-width: 1850px) {
     .navBar img {
         width: 175%;
+        margin-left: -25%;
     }
 }
 
 @media (min-width: 2150px) {
     .navBar img {
         width: 200%;
+        margin-left: -30%;
     }
 }
 

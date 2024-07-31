@@ -28,3 +28,5 @@ class user:
             return Response({'message': user.to_dict()}, status=200)
         else:
             return Response({'message': "User does not exist"}, status=498)
+        
+    

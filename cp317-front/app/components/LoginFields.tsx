@@ -18,13 +18,15 @@ interface FieldProps {
     buttonText: string;
     buttonColor: string;
     signupText?: string;
+    isLoggingin?:boolean;
 }
 
 const LoginFields : React.FC<FieldProps> = ({api,
                                              headerText = "Login Page",
                                              buttonText = "Login",
                                              buttonColor = 'orange',
-                                             signupText = "" 
+                                             signupText = "" ,
+                                             isLoggingin = false,
                                             }) => {
     
     const router = useRouter();
@@ -54,8 +56,13 @@ const LoginFields : React.FC<FieldProps> = ({api,
                 const data = await res.json();
                 console.log('Success:', data);
                 const id = data.id;
-                Context?.login({email, password, id});
-                router.push('/home');
+                if(isLoggingin){
+                    Context?.login({email, password, id});
+                    router.push('/home');
+                }else {
+                    router.push('/login');
+                }
+               
                 
                 
             }

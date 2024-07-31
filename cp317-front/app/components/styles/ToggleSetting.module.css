@@ -1,0 +1,56 @@
+.toggleSetting {
+    display: flex;
+    justify-content: space-between;
+    /* Distributes space between label and checkbox */
+    align-items: center;
+    /* Aligns the label and checkbox vertically centered */
+    width: 100%;
+    /* Ensures the full width of the container is used */
+}
+
+.toggleSetting p {
+    margin: 10px 10px 10px 10px;
+    /* Removes default margin */
+    font-size: 1rem;
+    /* Adjust as needed */
+    flex-grow: 1;
+    /* Makes the label occupy the available space */
+}
+
+.in[type="checkbox"] {
+    margin: 0;
+    /* Removes default margin */
+    flex-shrink: 0;
+    /* Prevents the checkbox from shrinking */
+}
+
+@media (min-width: 1550px) {
+    .toggleSetting p {
+        font-size: 1.25rem;
+    }
+    .in{
+        transform: scale(1.25);
+    }
+}
+
+/* 1550 = 1, 1850 = 2, 2150 = 3  */
+
+@media (min-width: 1850px) {
+    .toggleSetting p {
+        font-size: 1.5rem;
+    }
+    .in {
+        transform: scale(1.5);
+    }
+
+    
+}
+
+@media (min-width: 2150px) {
+    .toggleSetting p {
+        font-size: 1.75rem;
+    }
+    .in {
+        transform: scale(1.75);
+    }
+}

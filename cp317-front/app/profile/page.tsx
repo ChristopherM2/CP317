@@ -1,38 +1,40 @@
-"use client"; // Add this at the top of your file
+'use client'
+import React from 'react'
+import { useContext } from 'react'
+import styles from '../components/styles/Profile.module.css'
+import ToggleSetting from '../components/ToggleSetting'
+import AuthContext from '../components/AuthContext'
+import Link from 'next/link'
+import NavBar from '../components/NavBar'
 
-import { useState, useEffect, useContext } from "react";
-import AuthContext from "../components/AuthContext";
-import NavBar from "../components/NavBar";
-
-//component to export
-
-
-const Profile = () => {
-    const Context = useContext(AuthContext)
-    return (
-        
-        <div>
-            {Context?.isAuthenticated ? (
-                <div>
-                    <h1>ProfilePage</h1>
-                    <p>
-                        meowwww ur logged in, {Context?.user?.id}!
-                    </p>
-                    <NavBar/>
-
+const Settings = () => {
+    const Context = useContext(AuthContext);
+  return (
+    <div>
+        {Context?.isAuthenticated ? (
+            <div className={styles.background}>
+                <NavBar/>
+                <div className={styles.border}>
+                <div className={styles.box}>
+                    <ul className={styles.list}>
+                        
+                    </ul>
                 </div>
-                
-            )
-            :
-            (
+            </div>
+            </div>
+            
+             
+        ):(
+            <div className={styles.login}>
+                <h1 >You are not logged in</h1>
+                <Link href = '/login'>login</Link>
+            </div>
+            
+        )
+        }
+     
+    </div>
+  )
+}
 
-
-
-            <h1>ProfilePage</h1>
-            )
-            }
-        </div>
-    );
-};
-
-export default Profile;
+export default Settings

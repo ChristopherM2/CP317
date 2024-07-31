@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 {
   "/home/page": "app/home/page.js",
   "/login/page": "app/login/page.js",
   "/friends/page": "app/friends/page.js",
   "/profile/page": "app/profile/page.js"
 }
+=======
+{}
+>>>>>>> 0f8ac0ae94640967acb245041102e656fc850272

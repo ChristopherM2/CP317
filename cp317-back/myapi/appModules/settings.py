@@ -141,7 +141,7 @@ class Settings:
 
             hashed = hashpw(password.encode('utf-8'), gensalt())
 
-            meow.update_db('creds', user_id, {'password': hashed})
+            db.collection('creds').document(user_id).set({'password': hashed}, merge=True)
 
             return Response({'message': 'Password updated'}, status=200)
         except Exception as e:

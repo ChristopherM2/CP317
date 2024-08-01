@@ -136,15 +136,21 @@ class Settings:
         Update the password of the user
         """
         try:
+
             db = firestore.client(app)
+
             user_id = request.data['token']
+
             email = db.collection('accountInfo').document(user_id).get().to_dict().get('email')
+
             password = request.data['password']
+            password = password.encode('utf-8')
 
             hashed = hashpw(password, gensalt())
 
-            db.collection('creds').document(user_id).set({'password': hashed.decode('utf-8')}, merge=True)
+            db.collection('creds').document(user_id).set({'password': hashed.decode()}, merge=True)
 
             return Response({'message': 'Password updated'}, status=200)
         except Exception as e:
+            print(e)
             return Response({'message': str(e)}, status=500)

@@ -7,10 +7,10 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 from datetime import datetime
-
-
+from .databaseConnection import FirebaseConnection
+meow = FirebaseConnection()
 class group:
-    def __innit__(self, instance: Any) -> bool:
+    def __init__(self, instance: Any):
         pass
 
     """
@@ -137,6 +137,37 @@ class group:
             except Exception as e:
                 return Response({'message': 'Error updating group: {e}'}, status=500)
 
+    def completeTask(self, request, app):
+        try:
+            db = firestore.client(app)
+            name = request.data['name']
+            token = request.data['token']
+            task = request.data['task']
+
+            if not self.userexists(token, app):
+                return Response({'message': "User does not exist or you are not authenticated"}, status=498)
+            elif not self.groupexists(name, app):
+                return Response({'message': "Group does not exist"}, status=418)
+
+            group = db.collection('groups').document(name)
+            group_doc = group.get()
+            if group_doc.exists:
+                tasks_list = group_doc.to_dict().get('tasks', [])
+                if tasks_list is None:
+                    tasks_list = []
+            else:
+                tasks_list = []
+
+            # Find the task in the tasks list
+            for t in tasks_list:
+                if t.get('task') == task:
+                    t['completed'] = True
+                    break
+
+            group.set({'tasks': tasks_list}, merge=True)
+            return Response({'message': "Task completed successfully"}, status=200)
+        except Exception as e:
+            return Response({'message': str(e)}, status=500)
     def getgroup(self, request, app):  # This shit works
         db = firestore.client(app)
 
@@ -160,9 +191,11 @@ class group:
 
         # Append the new message to the messages list
         new_message = {
-            'message': 'message',
+            'message': request.data['message'],
             'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # Current time in string format
-            'sender': request.data['token']
+            'sender': meow.get_data('AccountInfo',request.data['token']).get('settings').get('username'),
+            'pfp': meow.get_data('AccountInfo',request.data['token']).get('settings').get('image'),
+
         }
         messages.append(new_message)
 

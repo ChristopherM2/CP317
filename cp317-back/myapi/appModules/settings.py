@@ -24,8 +24,10 @@ class Settings:
 
         pass
 
-    def default_settings(self, token):
-        meow.update_db('users', token, default_settings)
+    def default_settings(self, token,app) -> Any:
+        db = firestore.client(app)
+        db.collection('accountInfo').document(token).set({'settings': default_settings}, merge=True)
+
         return default_settings
 
     def get_settings(self, request):
@@ -35,10 +37,10 @@ class Settings:
         try:
             if 'token' not in request.GET:
                 return Response({'message': 'No user id provided'}, status=400)
-            if not meow.get_data('users', request.GET.get('token')):
+            if not meow.get_data('accountInfo', request.GET.get('token')):
                 return Response({'message': 'User not found'}, status=404)
             user_id = request.GET.get('token')
-            user_settings = meow.get_data('users', user_id).get('settings')
+            user_settings = meow.get_data('accountInfo', user_id).get('settings')
 
             return Response(user_settings, status=200)
         except Exception as e:
@@ -65,9 +67,9 @@ class Settings:
         try:
             user_id = request.GET.get('token')
             image = request.GET.get('image')
-            setting = meow.get_data('users', user_id).get('settings')
+            setting = meow.get_data('accountInfo', user_id).get('settings')
             setting['image'] = image
-            meow.update_db('users', user_id, {'setting': setting})
+            meow.update_db('accountInfo', user_id, {'setting': setting})
 
             return Response({'message': 'Image updated'}, status=200)
         except Exception as e:
@@ -80,9 +82,9 @@ class Settings:
         try:
             user_id = request.GET.get('token')
             darkmode = request.GET.get('darkmode')
-            setting = meow.get_data('users', user_id).get('settings')
+            setting = meow.get_data('accountInfo', user_id).get('settings')
             setting['darkmode'] = darkmode
-            meow.update_db('users', user_id, {'setting': setting})
+            meow.update_db('accountInfo', user_id, {'setting': setting})
             return Response({'message': 'Darkmode updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
@@ -97,7 +99,7 @@ class Settings:
 
             settings = meow.get_data('users', user_id).get('settings')
             settings['username'] = username
-            meow.update_db('users', user_id, {'settings': settings})
+            meow.update_db('accountInfo', user_id, {'settings': settings})
             return Response({'message': 'Username updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
@@ -110,9 +112,9 @@ class Settings:
             user_id = request.GET.get('token')
             tracking = request.GET.get('tracking')
 
-            settings = meow.get_data('users', user_id).get('settings')
+            settings = meow.get_data('accountInfo', user_id).get('settings')
             settings['tracking'] = tracking
-            meow.update_db('users', user_id, {'settings': settings})
+            meow.update_db('accountInfo', user_id, {'settings': settings})
             return Response({'message': 'Tracking updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)

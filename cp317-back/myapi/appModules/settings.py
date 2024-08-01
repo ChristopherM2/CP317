@@ -52,7 +52,7 @@ class Settings:
             user_id = request.GET.get('token')
             email = request.GET.get('email')
 
-            meow.update_db('users', user_id, {'email': email})
+            meow.update_db('creds', user_id, {'email': email})
 
             return Response({'message': 'Email updated'}, status=200)
         except Exception as e:
@@ -127,7 +127,7 @@ class Settings:
 
             hashed = hashpw(password.encode('utf-8'), gensalt())
 
-            meow.update_db('users', user_id, {'password': hashed})
+            meow.update_db('creds', user_id, {'password': hashed})
             return Response({'message': 'Password updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)

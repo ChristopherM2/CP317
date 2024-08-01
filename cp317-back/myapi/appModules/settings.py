@@ -35,6 +35,7 @@ class Settings:
         Get the settings for the user returns http response
         """
         try:
+            db = firestore.client(app)
             if 'token' not in request.GET:
                 return Response({'message': 'No user id provided'}, status=400)
             if not meow.get_data('accountInfo', request.GET['token']):
@@ -53,8 +54,9 @@ class Settings:
         try:
             user_id = request.data['token']
             email = request.data['email']
-
-            meow.update_db('creds', user_id, {'email': email})
+            db = firestore.client(app)
+            db.collection('creds').document(user_id).set({'email': email}, merge=True)
+            db.collection('accountInfo').document(user_id).set({'email': email}, merge=True)
 
             return Response({'message': 'Email updated'}, status=200)
         except Exception as e:
@@ -65,11 +67,12 @@ class Settings:
         Update the image of the user
         """
         try:
+            db = firestore.client(app)
             user_id = request.data['token']
             image = request.data['image']
-            setting = meow.get_data('accountInfo', user_id).get('settings')
+            setting = db.collection('accountInfo').document(user_id).get().to_dict().get('settings')
             setting['image'] = image
-            meow.update_db('accountInfo', user_id, {'setting': setting})
+            db.collection('accountInfo').document(user_id).set({'settings': setting}, merge=True)
 
             return Response({'message': 'Image updated'}, status=200)
         except Exception as e:
@@ -80,11 +83,12 @@ class Settings:
         Update the darkmode of the user
         """
         try:
+            db = firestore.client(app)
             user_id = request.data['token']
             darkmode = request.data['darkmode']
-            setting = meow.get_data('accountInfo', user_id).get('settings')
+            setting = db.collection('accountInfo').document(user_id).get().to_dict().get('settings')
             setting['darkmode'] = darkmode
-            meow.update_db('accountInfo', user_id, {'setting': setting})
+            db.collection('accountInfo').document(user_id).set({'settings': setting}, merge=True)
             return Response({'message': 'Darkmode updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
@@ -95,7 +99,7 @@ class Settings:
         """
 
         try:
-            print(request.data)
+
             db= firestore.client(app)
 
             user_id = request.data['token']
@@ -115,12 +119,13 @@ class Settings:
         Update the tracking of the user
         """
         try:
+            db = firestore.client(app)
             user_id = request.data['token']
             tracking = request.data['tracking']
 
-            settings = meow.get_data('accountInfo', user_id).get('settings')
+            settings = db.collection('accountInfo').document(user_id).get().to_dict().get('settings')
             settings['tracking'] = tracking
-            meow.update_db('accountInfo', user_id, {'settings': settings})
+            db.collection('accountInfo').document(user_id).set({'settings': settings}, merge=True)
             return Response({'message': 'Tracking updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
@@ -130,12 +135,14 @@ class Settings:
         Update the password of the user
         """
         try:
+            db = firestore.client(app)
             user_id = request.data['token']
             password = request.data['password']
 
             hashed = hashpw(password.encode('utf-8'), gensalt())
 
             meow.update_db('creds', user_id, {'password': hashed})
+
             return Response({'message': 'Password updated'}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)

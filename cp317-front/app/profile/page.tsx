@@ -1,14 +1,49 @@
 'use client'
-import React from 'react'
-import { useContext } from 'react'
+import React, { useState } from 'react'
+import { useContext, useEffect } from 'react'
 import styles from '../components/styles/Profile.module.css'
 import ToggleSetting from '../components/ToggleSetting'
 import AuthContext from '../components/AuthContext'
 import Link from 'next/link'
 import NavBar from '../components/NavBar'
 
+
 const Profile = () => {
     const Context = useContext(AuthContext);
+    const [Name, setName] = useState<string>('PlaceholderName');
+    const [Email, setEmail] = useState<string>('PlaceholderEmail');
+    const [Contributions, setContributions] = useState<string>('0');
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            if (!Context?.user?.id) return; // return when not logged in
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/getuser/`,
+                                             { method: 'POST',
+                                              headers: {
+                                                'Content-Type': 'application/json'
+                                              },
+                                              body: JSON.stringify(`token:${Context.user.id}`)
+                                            });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json(); // data should have .name, .email, .contributions
+
+                setName(data.name);
+                setEmail(data.email);
+                setContributions(data.contributions || '0');
+            } catch (error) {
+                console.error('Failed to fetch user details:', error);
+            }
+        };
+
+        fetchUserDetails();
+    }, [Context?.user?.id]);
+
   return (
     <div className={styles.background}>
         {Context?.isAuthenticated ? (
@@ -23,13 +58,13 @@ const Profile = () => {
                         </div>
                         <ul className={styles.list}>
                             <li>
-                                Display Name: {}
+                                Display Name: {Name}
                             </li>
                             <li>
-                                Email: {}
+                                Email: {Email}
                             </li>
                             <li>
-                                Total Contributions Made: {}
+                                Total Contributions Made: {Contributions}
                             </li>
                         </ul>
                     </div>

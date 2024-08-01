@@ -7,7 +7,7 @@ import AuthContext from '../components/AuthContext'
 import Link from 'next/link'
 import NavBar from '../components/NavBar'
 
-const Settings = () => {
+const Profile = () => {
     const Context = useContext(AuthContext);
   return (
     <div>
@@ -15,12 +15,25 @@ const Settings = () => {
             <div className={styles.background}>
                 <NavBar/>
                 <div className={styles.border}>
-                <div className={styles.box}>
-                    <ul className={styles.list}>
-                        
-                    </ul>
+                    <div className={styles.box}>
+                        <h2 className={styles.header}>Profile</h2>
+                        <div className={styles.profileTop}>
+                            <img src="images/Nav-profile.png" alt="your pfp" className={styles.pfp}/>
+                            <Link href='/settings'><button className={styles.profileButton}>Edit Profile</button></Link>
+                        </div>
+                        <ul className={styles.list}>
+                            <li>
+                                Display Name: {}
+                            </li>
+                            <li>
+                                Email: {}
+                            </li>
+                            <li>
+                                Total Contributions Made: {}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
             </div>
             
              
@@ -37,4 +50,4 @@ const Settings = () => {
   )
 }
 
-export default Settings
+export default Profile

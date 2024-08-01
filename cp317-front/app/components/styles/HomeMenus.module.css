@@ -4,12 +4,11 @@ body.disable-scroll {
 }
 
 .Menu {
-    position: fixed;
     top: 0px;
     left: 65px;
     display: flex;
     align-items: center;
-    z-index: 1; /* Ensure it appears on top of other elements */
+    z-index: 900; /* Ensure it appears on top of other elements */
 }
 
 .Menu img {
@@ -27,6 +26,10 @@ body.disable-scroll {
     align-items: center;
     padding: 10px;
     z-index: 1000; /* Ensure it appears on top of other elements */
+    transition: transform 0.3s ease;
+}
+.floatingButton:hover{
+    transform: scale(1.05);
 }
 
 .floatingButton img {

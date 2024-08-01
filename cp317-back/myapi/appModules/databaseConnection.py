@@ -8,8 +8,8 @@ class FirebaseConnection:
 
     def __init__(self):
         cred = credentials.Certificate("serviceAccountKey.json")
-        app = firebase_admin.initialize_app(cred)
-        db = firestore.client(self.app)
+        #app = firebase_admin.initialize_app(cred)
+        #db = firestore.client(self.app)
 
     def getapp(self) -> firebase_admin:
         return self.app

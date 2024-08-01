@@ -28,15 +28,6 @@ const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             } 
-            console.log("fetchyy");
-            
-
-            const data = await response.json(); // data should have .name, .email, .contributions
-            console.log(data)
-            const {message} = data;
-            // setName(message.settings?.username);
-            // setEmail(message.email);
-            // setContributions(message.count || '0');
             } catch (error) {
                 console.error('Failed to fetch user details:', error);
             }

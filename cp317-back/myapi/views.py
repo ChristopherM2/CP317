@@ -114,28 +114,28 @@ def updateMemberCompletion(request):
 
 @api_view(['GET', 'POST'])
 def updateImage(request):
-    return Settings.update_image(None, request)
+    return Settings.update_image(None, request,app)
 
 @api_view(['GET', 'POST'])
 def updateDarkmode(request):
-    return Settings.update_darkmode(None, request)
+    return Settings.update_darkmode(None, request,app)
 
 @api_view(['GET', 'POST'])
 def updateUsername(request):
-    return Settings.update_username(None, request)
+    return Settings.update_username(None, request,app)
 
 @api_view(['GET', 'POST'])
 def updateTracking(request):
-    return Settings.update_tracking(None, request)
+    return Settings.update_tracking(None, request,app)
 
 @api_view(['GET', 'POST'])
 def updatePassword(request):
-    return Settings.update_password(None, request)
+    return Settings.update_password(None, request,app)
 
 @api_view(['GET', 'POST'])
 def updateEmail(request):
-    return Settings.update_email(None, request)
+    return Settings.update_email(None, request,app)
 
 @api_view(['GET', 'POST'])
 def getSettings(request):
-    return Settings.get_settings(None, request)
+    return Settings.get_settings(None, request,app)

@@ -30,7 +30,7 @@ class Settings:
 
         return default_settings
 
-    def get_settings(self, request):
+    def get_settings(self, request,app):
         """
         Get the settings for the user returns http response
         """
@@ -39,20 +39,20 @@ class Settings:
                 return Response({'message': 'No user id provided'}, status=400)
             if not meow.get_data('accountInfo', request.GET['token']):
                 return Response({'message': 'User not found'}, status=404)
-            user_id = request.GET['token']
+            user_id = request.data['token']
             user_settings = meow.get_data('accountInfo', user_id).get('settings')
 
             return Response(user_settings, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_email(self, request):
+    def update_email(self, request,app):
         """
         Update the email of the user
         """
         try:
-            user_id = request.GET['token']
-            email = request.GET['email']
+            user_id = request.data['token']
+            email = request.data['email']
 
             meow.update_db('creds', user_id, {'email': email})
 
@@ -60,13 +60,13 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_image(self, request):  #TODO allow for image upload not just urls
+    def update_image(self, request,app):  #TODO allow for image upload not just urls
         """
         Update the image of the user
         """
         try:
-            user_id = request.GET['token']
-            image = request.GET['image']
+            user_id = request.data['token']
+            image = request.data['image']
             setting = meow.get_data('accountInfo', user_id).get('settings')
             setting['image'] = image
             meow.update_db('accountInfo', user_id, {'setting': setting})
@@ -75,13 +75,13 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_darkmode(self, request):
+    def update_darkmode(self, request,app):
         """
         Update the darkmode of the user
         """
         try:
-            user_id = request.GET['token']
-            darkmode = request.GET['darkmode']
+            user_id = request.data['token']
+            darkmode = request.data['darkmode']
             setting = meow.get_data('accountInfo', user_id).get('settings')
             setting['darkmode'] = darkmode
             meow.update_db('accountInfo', user_id, {'setting': setting})
@@ -89,28 +89,34 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_username(self, request):
+    def update_username(self, request,app):
         """
         Update the username of the user
         """
-        try:
-            user_id = request.GET['token']
-            username = request.GET['username']
 
-            settings = meow.get_data('users', user_id).get('settings')
+        try:
+            print(request.data)
+            db= firestore.client(app)
+
+            user_id = request.data['token']
+
+            username = request.data['username']
+
+            settings = db.collection('accountInfo').document(user_id).get().to_dict().get('settings')
             settings['username'] = username
-            meow.update_db('accountInfo', user_id, {'settings': settings})
+            db.collection('accountInfo').document(user_id).set({'settings': settings}, merge=True)
             return Response({'message': 'Username updated'}, status=200)
         except Exception as e:
+            print(e)
             return Response({'message': str(e)}, status=500)
 
-    def update_tracking(self, request):
+    def update_tracking(self, request,app):
         """
         Update the tracking of the user
         """
         try:
-            user_id = request.GET['token']
-            tracking = request.GET['tracking']
+            user_id = request.data['token']
+            tracking = request.data['tracking']
 
             settings = meow.get_data('accountInfo', user_id).get('settings')
             settings['tracking'] = tracking
@@ -119,13 +125,13 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_password(self, request):
+    def update_password(self, request,app):
         """
         Update the password of the user
         """
         try:
-            user_id = request.GET['token']
-            password = request.GET['password']
+            user_id = request.data['token']
+            password = request.data['password']
 
             hashed = hashpw(password.encode('utf-8'), gensalt())
 

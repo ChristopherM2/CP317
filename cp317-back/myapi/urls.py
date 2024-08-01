@@ -30,7 +30,7 @@ urlpatterns = [
 
     path('updateGroupCompletion/', views.updateMemberCompletion, name="updateMemberCompletion"), #param name, increases task by one
 
-    path('updateImage/', views.updateImage, name="updateImage"), #param token, image url
+    path('updateImage/', views.updateImage, name="updateImage"), #param token, image (as a url)
     path('updateUsername/', views.updateUsername, name="updateUsername"), #param token, username
     path('updateEmail/', views.updateEmail, name="updateEmail"), #param token, email
     path('updateDarkmode/', views.updateDarkmode, name="updateDarkmode"), #param token, darkmode

@@ -1,7 +1,7 @@
 {
   "/home/page": "app/home/page.js",
   "/settings/page": "app/settings/page.js",
-  "/friends/page": "app/friends/page.js",
   "/group/page": "app/group/page.js",
-  "/profile/page": "app/profile/page.js"
+  "/profile/page": "app/profile/page.js",
+  "/chat/page": "app/chat/page.js"
 }

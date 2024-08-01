@@ -3,9 +3,11 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
+
 class user:
     def __init__(self) -> None:
         pass
+
     """
     -------------------------------------------------------
     Returns User information from the database
@@ -18,15 +20,12 @@ class user:
     -------------------------------------------------------
     """
 
-
     def getuser(self, request, app):
         db = firestore.client(app)
         users_ref = db.collection('accountInfo')
-
-        user = users_ref.document(request.data['token']).get()
+        token = request.data['token']
+        user = users_ref.document(token).get()
         if user.exists:
             return Response({'message': user.to_dict()}, status=200)
         else:
             return Response({'message': "User does not exist"}, status=498)
-        
-    

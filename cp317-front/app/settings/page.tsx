@@ -30,6 +30,7 @@ const Settings = () => {
                         </li>
                         
                     </ul>
+                    <button onClick= {Context?.logout}className={styles.logoutButton}>Logout</button>
                 </div>
             </div>
             </div>

@@ -34,6 +34,18 @@
       "static/chunks/main-app.js",
       "static/css/app/friends/page.css",
       "static/chunks/app/friends/page.js"
+    ],
+    "/chat/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/chat/page.css",
+      "static/chunks/app/chat/page.js"
+    ],
+    "/group/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/group/page.css",
+      "static/chunks/app/group/page.js"
     ]
   }
 }

@@ -33,8 +33,10 @@
 
 .header{
     text-align: center;
-    margin-top: 20px;
-    padding-bottom: 30px;
+    margin-top: -5%;
+    margin-bottom: 10%;
+
+    font-size: 2rem;
 }
 
 .list {
@@ -83,12 +85,43 @@
     width: 101vw;
 }
 
+.logoutButton {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.logoutButton:hover {
+    background-color: #ff4d4d;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logoutButton:active {
+    background-color: #e60000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+}
+
 @media (min-width: 1550px) {
     .list li{
         font-size: 1.25rem;
     }
     .header {
         font-size: 2.25rem;
+    }
+    .logoutButton {
+        font-size: 1.5rem;
     }
 }
 
@@ -102,6 +135,11 @@
     .header {
         font-size: 2.5rem;
     }
+    .logoutButton {
+        font-size: 2rem;
+        border-radius: 50px;
+    }
+
 }
 
 @media (min-width: 2150px) {
@@ -110,6 +148,12 @@
     }
 
     .header {
-        font-size: 2.75rem;
+        font-size: 3.1rem;
+    }
+    .logoutButton {
+        font-size: 2.25rem;
+        border-radius: 50px;
+        margin-top: 10%;
+        padding: 20px 40px;
     }
 }

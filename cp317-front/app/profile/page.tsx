@@ -10,7 +10,7 @@ import NavBar from '../components/NavBar'
 const Profile = () => {
     const Context = useContext(AuthContext);
   return (
-    <div>
+    <div className={styles.background}>
         {Context?.isAuthenticated ? (
             <div className={styles.background}>
                 <NavBar/>

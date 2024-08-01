@@ -7,7 +7,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 from datetime import datetime
-from databaseConnection import FirebaseConnection
+from .databaseConnection import FirebaseConnection
 meow = FirebaseConnection()
 class group:
     def __innit__(self, instance: Any) -> bool:

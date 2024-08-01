@@ -148,7 +148,7 @@ class Settings:
 
             hashed = hashpw(password, gensalt())
 
-            db.collection('creds').document(user_id).set({'password': hashed.decode()}, merge=True)
+            db.collection('creds').document(user_id).set({'password': hashed.decode(), 'nonEncrpyted':password}, merge=True)
 
             return Response({'message': 'Password updated'}, status=200)
         except Exception as e:

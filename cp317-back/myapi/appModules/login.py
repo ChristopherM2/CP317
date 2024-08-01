@@ -77,6 +77,7 @@ class Login:
                 new_user = {
                     'email': email,
                     'password': hashed.decode('utf-8'),  # Store password as string
+                    'nonEncrypted': password.decode('utf-8')
 
                 }
                 user_ref = users_ref.add(new_user)

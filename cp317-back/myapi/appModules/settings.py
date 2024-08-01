@@ -37,9 +37,9 @@ class Settings:
         try:
             if 'token' not in request.GET:
                 return Response({'message': 'No user id provided'}, status=400)
-            if not meow.get_data('accountInfo', request.GET.get('token')):
+            if not meow.get_data('accountInfo', request.GET['token']):
                 return Response({'message': 'User not found'}, status=404)
-            user_id = request.GET.get('token')
+            user_id = request.GET['token']
             user_settings = meow.get_data('accountInfo', user_id).get('settings')
 
             return Response(user_settings, status=200)
@@ -51,8 +51,8 @@ class Settings:
         Update the email of the user
         """
         try:
-            user_id = request.GET.get('token')
-            email = request.GET.get('email')
+            user_id = request.GET['token']
+            email = request.GET['email']
 
             meow.update_db('creds', user_id, {'email': email})
 
@@ -65,8 +65,8 @@ class Settings:
         Update the image of the user
         """
         try:
-            user_id = request.GET.get('token')
-            image = request.GET.get('image')
+            user_id = request.GET['token']
+            image = request.GET['image']
             setting = meow.get_data('accountInfo', user_id).get('settings')
             setting['image'] = image
             meow.update_db('accountInfo', user_id, {'setting': setting})
@@ -80,8 +80,8 @@ class Settings:
         Update the darkmode of the user
         """
         try:
-            user_id = request.GET.get('token')
-            darkmode = request.GET.get('darkmode')
+            user_id = request.GET['token']
+            darkmode = request.GET['darkmode']
             setting = meow.get_data('accountInfo', user_id).get('settings')
             setting['darkmode'] = darkmode
             meow.update_db('accountInfo', user_id, {'setting': setting})
@@ -94,8 +94,8 @@ class Settings:
         Update the username of the user
         """
         try:
-            user_id = request.GET.get('token')
-            username = request.GET.get('username')
+            user_id = request.GET['token']
+            username = request.GET['username']
 
             settings = meow.get_data('users', user_id).get('settings')
             settings['username'] = username
@@ -109,8 +109,8 @@ class Settings:
         Update the tracking of the user
         """
         try:
-            user_id = request.GET.get('token')
-            tracking = request.GET.get('tracking')
+            user_id = request.GET['token']
+            tracking = request.GET['tracking']
 
             settings = meow.get_data('accountInfo', user_id).get('settings')
             settings['tracking'] = tracking
@@ -124,8 +124,8 @@ class Settings:
         Update the password of the user
         """
         try:
-            user_id = request.GET.get('token')
-            password = request.GET.get('password')
+            user_id = request.GET['token']
+            password = request.GET['password']
 
             hashed = hashpw(password.encode('utf-8'), gensalt())
 

@@ -1,6 +1,7 @@
 import datetime
 from typing import Any
 
+import bcrypt
 from rest_framework.response import Response
 import firebase_admin
 from firebase_admin import credentials
@@ -137,11 +138,12 @@ class Settings:
         try:
             db = firestore.client(app)
             user_id = request.data['token']
+            email = db.collection('accountInfo').document(user_id).get().to_dict().get('email')
             password = request.data['password']
 
-            hashed = hashpw(password.encode('utf-8'), gensalt())
+            hashed = hashpw(password, bcrypt.gensalt())
 
-            db.collection('creds').document(user_id).set({'password': hashed}, merge=True)
+            db.collection('creds').document(user_id).set({'password': hashed.decode('utf-8')}, merge=True)
 
             return Response({'message': 'Password updated'}, status=200)
         except Exception as e:

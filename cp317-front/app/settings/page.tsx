@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { useContext, useState } from 'react'
+import { useContext, useState,useCallback,useEffect } from 'react'
 import styles from '../components/styles/Settings.module.css'
 import ToggleSetting from '../components/ToggleSetting'
 import AuthContext from '../components/AuthContext'
@@ -14,23 +14,26 @@ const Settings = () => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupContent, setPopupContent] = useState({
         placeholder: '',
-        api: '',
-        runApi: () => {},
+        api: ''
     });
+    //const runRef = useRef<() => void>(() => {});
+
  // onClose: () => void; placeholder: string; api: string; runApi: () => void;
-    const handleClick = (placeholder: string, api: string, runApi: () => void) => 
+    const handleClick = (placeholder: string, api: string) => 
     (event: React.MouseEvent<HTMLLIElement>) =>{
         event.preventDefault()
-        setPopupContent({ placeholder, api, runApi });
+        setPopupContent({ placeholder, api});
         setIsPopupVisible(true);
     }
     const handleClosePopup = () => {
         setIsPopupVisible(false);
     }
-    const run = async() =>{
-        const { api } = popupContent;
-        console.log('this api was run:', api)
-    }
+
+    const run = useCallback(async () => {
+        const {api} = popupContent;
+        console.log('this api was run:', api);
+        
+    }, [popupContent]);
 
 
 
@@ -44,16 +47,16 @@ const Settings = () => {
                 <div className={styles.box}>
                     <h2 className={styles.header}>Settings</h2>
                     <ul className={styles.list}>
-                        <li className={styles.change} onClick={handleClick('Icon', 'apiForChangeIcon', run)}>
+                        <li className={styles.change} onClick={handleClick('Icon', 'apiForChangeIcon')}>
                             Change Icon
                         </li>
-                        <li className={styles.change} onClick={handleClick('Display Name', 'apiForChangeName', run)}>
+                        <li className={styles.change} onClick={handleClick('Display Name', 'apiForChangeName')}>
                             Change Display Name
                         </li>
-                        <li className={styles.change} onClick={handleClick('Email', 'apiForChangeEmail', run)}>
+                        <li className={styles.change} onClick={handleClick('Email', 'HUH WHAT')}>
                             Change Email
                         </li>
-                        <li className={styles.change} onClick={handleClick('Password', 'apiForChangePassword', run)}>
+                        <li className={styles.change} onClick={handleClick('Password', 'apiForChangePassword')}>
                             Change Password
                         </li>
                         <li>
@@ -71,7 +74,6 @@ const Settings = () => {
                         onClose={handleClosePopup}
                         placeholder={popupContent.placeholder}
                         api={popupContent.api}
-                        runApi={popupContent.runApi}
                     />}
             
             </div>

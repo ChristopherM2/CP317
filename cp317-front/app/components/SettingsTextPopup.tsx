@@ -6,10 +6,12 @@ interface PopupProps {
     onClose: () => void;
     placeholder: string;
     api: string;
-    runApi: () => void;
 }
 
-const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api, runApi }) => {
+const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) => {
+    const run = async () => {
+        console.log('this api was run:', api);
+    }
    
 
     return (
@@ -18,7 +20,7 @@ const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api, ru
                 <h3 className={styles.title}>Change {placeholder}</h3>
                 <input type="text" placeholder={'Enter new' + placeholder} />
                 <button onClick={onClose} className={styles.closeButton} >×</button>
-                <button onClick={runApi}>Change</button>
+                <button onClick={run}>Change</button>
             </div>
         </div>
     )

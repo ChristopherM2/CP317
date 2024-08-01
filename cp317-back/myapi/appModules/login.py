@@ -5,13 +5,13 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import bcrypt
 
+from .settings import Settings
 
 
 class Login:
     def __init__(self) -> None:
         pass
 
-    
     """
     -------------------------------------------------------
     Login a user and return a response including the user token
@@ -22,8 +22,6 @@ class Login:
         http response
     -------------------------------------------------------
     """
-
-
 
     def loginreqs(self, request, app):
         db = firestore.client(app)
@@ -44,7 +42,6 @@ class Login:
             else:
                 return Response({'message': "Login Failed"}, status=401)
 
-
     """
     -------------------------------------------------------
     Adds a new user to the database and returns a response including the user token
@@ -55,7 +52,6 @@ class Login:
         http response
     -------------------------------------------------------
     """
-
 
     def signupreqs(self, request, app):
         db = firestore.client(app)
@@ -100,5 +96,5 @@ class Login:
                 if len(duplicate_user) > 1:
                     print("Deleting duplicate user")
                     users_ref.document(duplicate_user[1].id).delete()
-
+                Settings().default_settings(user_ref[1].id,app)
                 return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201)

@@ -24,8 +24,10 @@ class Settings:
 
         pass
 
-    def default_settings(self, token):
-        meow.update_db('accountInfo', token, default_settings)
+    def default_settings(self, token,app) -> Any:
+        db = firestore.client(app)
+        db.collection('accountInfo').document(token).set({'settings': default_settings}, merge=True)
+
         return default_settings
 
     def get_settings(self, request):

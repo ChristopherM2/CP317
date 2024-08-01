@@ -1,17 +1,10 @@
 from django.utils import dateformat, timezone
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .appModules.login import *
 
-from .appModules.friends import *
-from .appModules.user import *
 from .appModules.group import *
-
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-
+from .appModules.login import *
 from .appModules.settings import *
+from .appModules.user import *
 
 """
 -------------------------------------------------------

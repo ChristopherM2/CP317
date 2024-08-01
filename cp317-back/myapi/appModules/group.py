@@ -10,7 +10,7 @@ from datetime import datetime
 from .databaseConnection import FirebaseConnection
 meow = FirebaseConnection()
 class group:
-    def __innit__(self, instance: Any) -> bool:
+    def __init__(self, instance: Any):
         pass
 
     """

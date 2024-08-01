@@ -141,7 +141,7 @@ class Settings:
             email = db.collection('accountInfo').document(user_id).get().to_dict().get('email')
             password = request.data['password']
 
-            hashed = hashpw(password, bcrypt.gensalt())
+            hashed = hashpw(password, gensalt())
 
             db.collection('creds').document(user_id).set({'password': hashed.decode('utf-8')}, merge=True)
 

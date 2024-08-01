@@ -29,12 +29,6 @@ const Settings = () => {
         setIsPopupVisible(false);
     }
 
-    const run = useCallback(async () => {
-        const {api} = popupContent;
-        console.log('this api was run:', api);
-        
-    }, [popupContent]);
-
 
 
 
@@ -50,13 +44,13 @@ const Settings = () => {
                         <li className={styles.change} onClick={handleClick('Icon', 'apiForChangeIcon')}>
                             Change Icon
                         </li>
-                        <li className={styles.change} onClick={handleClick('Display Name', 'apiForChangeName')}>
+                        <li className={styles.change} onClick={handleClick('Display Name', 'http://127.0.0.1:8000/api/updateUsername/')}>
                             Change Display Name
                         </li>
-                        <li className={styles.change} onClick={handleClick('Email', 'HUH WHAT')}>
+                        <li className={styles.change} onClick={handleClick('Email', 'http://127.0.0.1:8000/api/updateEmail/')}>
                             Change Email
                         </li>
-                        <li className={styles.change} onClick={handleClick('Password', 'apiForChangePassword')}>
+                        <li className={styles.change} onClick={handleClick('Password', 'http://127.0.0.1:8000/api/updatePassword/')}>
                             Change Password
                         </li>
                         <li>

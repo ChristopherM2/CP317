@@ -24,7 +24,7 @@ const Profile = () => {
                                               headers: {
                                                 'Content-Type': 'application/json'
                                               },
-                                              body: JSON.stringify(`token:${Context.user.id}`)
+                                              body: JSON.stringify({ token: Context.user.id })
                                             });
 
                 if (!response.ok) {

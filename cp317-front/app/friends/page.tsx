@@ -32,8 +32,8 @@ const Friends = () => {
                 //console.log(data)
                 const {message} = data;
                 console.log(message);
-                //setFollowers(message.followers)
-                //setFollowing(message.following)
+                setFollowers(message.followers)
+                setFollowing(message.following)
 
             } catch (error) {
                 console.error('Failed to fetch user details:', error);

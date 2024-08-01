@@ -21,8 +21,7 @@ class friend:
     -------------------------------------------------------
     """
 
-
-    def friends(self,request, app):  # TODO implement
+    def friends(self, request, app):  # TODO implement
         db = firestore.client(app)
         if request.method == 'POST':
             try:
@@ -36,10 +35,12 @@ class friend:
                 else:
                     return Response({'message': "User does not exist"}, status=498)
                 user.update({
-                    'following': user.get('following').append(friend.get('settings').get('username'))
+                    'following': user.get().to_dict().get('following').append(
+                        {'name': friend.get('settings').get('username'), 'pfp': friend.get('settings').get('image')})
                 })
                 friend.update({
-                    'followers': friend.get('followers').append(user.get('settings').get('username'))
+                    'followers': friend.get().to_dict().get('followers').append(
+                        {'name': user.get('settings').get('username'), 'pfp': user.get('settings').get('image')})
                 })
             except Exception as e:
                 return Response({'message': "Invalid request, missing fields :(((("}, status=418)

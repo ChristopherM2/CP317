@@ -25,7 +25,7 @@ body.disable-scroll {
     display: flex;
     align-items: center;
     padding: 10px;
-    z-index: 1000; /* Ensure it appears on top of other elements */
+    z-index: 50; /* Ensure it appears on top of other elements */
     transition: transform 0.3s ease;
 }
 .floatingButton:hover{
@@ -48,7 +48,6 @@ body.disable-scroll {
     top: 40%;
     left: 36%;
     display: flex;
-    align-items: center;
     padding: 10px;
     z-index: 100; /* Ensure it appears on top of other elements */
     transition: transform 0.3s ease;
@@ -89,7 +88,7 @@ body.disable-scroll {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(180, 143, 62, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,18 +96,88 @@ body.disable-scroll {
 }
   
 .popupContent {
-    background-color: white;
-    padding: 20px;
+    background-color: rgb(152, 130, 63);
+    padding: 100px;
     border-radius: 10px;
+    border: 30px solid #452e0b; /* Add a border */
     position: relative;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     z-index: 1000;
 }
-  
+
+.popupList {
+    margin-top: 20px;
+}
+
+.wordItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Ensures space between text and delete button */
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+
+.popupList label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    flex-grow: 1; /* Ensures the label takes up remaining space */
+}
+
+.popupList input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.deleteButton {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
 .closeButton {
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 20px;
     cursor: pointer;
+}
+
+.deleteButton {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.deleteButton:hover {
+    color: darkred;
+}
+
+.clockButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    z-index: 1000; /* Ensure it appears on top of other elements */
+    transition: transform 0.3s ease;
+}
+.clockButton:hover{
+    transform: scale(1.05);
+}
+
+.clockButton img {
+    width: 125%; /* Adjust size as needed */
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.clockButton img:hover {
+    transform: scale(1.1); /* Enlarge button slightly on hover */
 }

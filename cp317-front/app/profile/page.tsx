@@ -32,10 +32,11 @@ const Profile = () => {
                 }
 
                 const data = await response.json(); // data should have .name, .email, .contributions
-
-                setName(data.name);
-                setEmail(data.email);
-                setContributions(data.contributions || '0');
+                //console.log(data)
+                const {message} = data;
+                setName(message.settings?.username);
+                setEmail(message.email);
+                setContributions(message.contributions || '0');
             } catch (error) {
                 console.error('Failed to fetch user details:', error);
             }

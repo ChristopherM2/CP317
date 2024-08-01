@@ -105,7 +105,7 @@ def getMessages(request):
 
 @api_view(['GET'])
 def completetask(request):
-    return group.updatemembercompletion(None,request, app)
+    return group.completeTask(None,request, app)
 
 @api_view(['GET'])
 def getCompletedTasks(request):

@@ -89,7 +89,8 @@ class Login:
                     'email': email,
                     'followers': [],
                     'following': [],
-                    'group': None})
+                    'group': None,
+                    'count': 0})
                 # remove duplicate
                 duplicate_user = users_ref.where('email', '==', email).get()
                 # it always does it twice I hate this

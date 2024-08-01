@@ -253,10 +253,15 @@ class group:
     def updatemembercompletion(self, request, app):  # TODO Verify it works (didnt verify im sure it works :3)
         db = firestore.client(app)
         name = request.data['name']
+        token = request.data['token']
         if self.groupexists(name, app):
+            curr = db.collection('accountInfo').document(token).get('count')
+            db.collection('accountInfo').document(token).set({'count': curr + 1}, merge=True)
             group = db.collection('groups').document(name)
-            completedTasks = len(group.get().to_dict().get('completedTasks'))
-            group.update({"completedTasks": completedTasks})
+            completedTasks = group.get('completedTasks')
+            completedTasks += 1
+            group.set({'completedTasks': completedTasks}, merge=True)
+
             return Response({f'message': "completed tasks updated. count: "+completedTasks}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)

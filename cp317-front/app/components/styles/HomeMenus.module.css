@@ -1,0 +1,41 @@
+/* Global Styles */
+body.disable-scroll {
+    overflow: hidden;
+}
+
+.Menu {
+    position: fixed;
+    top: 0px;
+    left: 65px;
+    display: flex;
+    align-items: center;
+    z-index: 1; /* Ensure it appears on top of other elements */
+}
+
+.Menu img {
+    width: 100%; /* Adjust size as needed */
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.floatingButton {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    z-index: 1000; /* Ensure it appears on top of other elements */
+}
+
+.floatingButton img {
+    width: 125%; /* Adjust size as needed */
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.floatingButton img:hover {
+    transform: scale(1.1); /* Enlarge button slightly on hover */
+}

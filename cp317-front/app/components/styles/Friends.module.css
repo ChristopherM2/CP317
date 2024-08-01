@@ -1,0 +1,91 @@
+.background {
+    background-color: #f5f5e1;
+    height: 100vh;
+    width: 101vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    margin-top: -1%;
+    margin-left: -1%;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+    height: 90vh;
+    gap: 2%;
+}
+
+.border {
+    background-color: #fff8e7;
+    width: 48%;
+    height: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 10%;
+    font-size: 2rem;
+}
+
+.list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #f5f5e1;
+    width: 80%;
+    text-align: center;
+}
+
+.list li:last-child {
+    border-bottom: none;
+}
+
+
+@media (min-width: 1550px) {
+    .list li {
+        font-size: 1.25rem;
+    }
+
+    .header {
+        font-size: 2.25rem;
+    }
+}
+
+@media (min-width: 1850px) {
+    .list li {
+        font-size: 1.5rem;
+    }
+
+    .header {
+        font-size: 2.5rem;
+    }
+}
+
+@media (min-width: 2150px) {
+    .list li {
+        font-size: 1.75rem;
+    }
+
+    .header {
+        font-size: 3.1rem;
+    }
+}

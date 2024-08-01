@@ -1,0 +1,29 @@
+.card {
+    border: 2px solid orange;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    max-width: 300px;
+    transition: background-color 0.3s;
+}
+
+.image {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border: 2px solid #000000;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: #f5f3e7;
+}
+.card:hover {
+    background-color: orange;
+}
+
+.text {
+    color: rgb(20, 20, 19);
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+}

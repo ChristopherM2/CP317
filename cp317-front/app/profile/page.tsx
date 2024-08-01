@@ -54,7 +54,7 @@ const Profile = () => {
                     <div className={styles.box}>
                         <h2 className={styles.header}>Profile</h2>
                         <div className={styles.profileTop}>
-                            <img src="images/Nav-profile.png" alt="your pfp" className={styles.pfp}/>
+                            <img src="https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb" alt="your pfp" className={styles.pfp}/>
                             <Link href='/settings'><button className={styles.profileButton}>Edit Profile</button></Link>
                         </div>
                         <ul className={styles.list}>

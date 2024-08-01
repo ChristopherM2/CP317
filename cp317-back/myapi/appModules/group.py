@@ -194,6 +194,7 @@ class group:
             'message': request.data['message'],
             'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # Current time in string format
             'sender': meow.get_data('AccountInfo',request.data['token']).get('settings').get('username'),
+            'pfp': meow.get_data('AccountInfo',request.data['token']).get('settings').get('image'),
 
         }
         messages.append(new_message)

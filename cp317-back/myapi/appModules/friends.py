@@ -36,10 +36,10 @@ class friend:
                 else:
                     return Response({'message': "User does not exist"}, status=498)
                 user.update({
-                    'following': user.get('following').append(friend.get('settings').get('username'))
+                    'following': user.get('following').append(friend)
                 })
                 friend.update({
-                    'followers': friend.get('followers').append(user.get('settings').get('username'))
+                    'followers': friend.get('followers').append(user)
                 })
             except Exception as e:
                 return Response({'message': "Invalid request, missing fields :(((("}, status=418)

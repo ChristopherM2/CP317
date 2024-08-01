@@ -44,13 +44,13 @@ const Settings = () => {
                         <li className={styles.change} onClick={handleClick('Icon', 'apiForChangeIcon')}>
                             Change Icon
                         </li>
-                        <li className={styles.change} onClick={handleClick('Display Name', 'http://127.0.0.1:8000/api/updateUsername/')}>
+                        <li className={styles.change} onClick={handleClick('username', 'http://127.0.0.1:8000/api/updateUsername/')}>
                             Change Display Name
                         </li>
-                        <li className={styles.change} onClick={handleClick('Email', 'http://127.0.0.1:8000/api/updateEmail/')}>
+                        <li className={styles.change} onClick={handleClick('email', 'http://127.0.0.1:8000/api/updateEmail/')}>
                             Change Email
                         </li>
-                        <li className={styles.change} onClick={handleClick('Password', 'http://127.0.0.1:8000/api/updatePassword/')}>
+                        <li className={styles.change} onClick={handleClick('password', 'http://127.0.0.1:8000/api/updatePassword/')}>
                             Change Password
                         </li>
                         <li>

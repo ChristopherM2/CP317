@@ -1,6 +1,7 @@
 'use client';
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './styles/SettingsTextPopup.module.css'
+import AuthContext from './AuthContext';
 
 interface PopupProps {
     onClose: () => void;
@@ -9,8 +10,36 @@ interface PopupProps {
 }
 
 const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) => {
+    const Context = useContext(AuthContext)
+    const [input, setInput] = useState<string>('');
     const run = async () => {
-        console.log('this api was run:', api);
+        console.log("run with " +  api);
+        if (!Context?.user?.id) return;
+        console.log('' + JSON.stringify({ token: Context?.user?.id, [placeholder]:input}));
+        try {
+            const response = await fetch(api,
+                                            { method: 'POST',
+                                            headers: {
+                                            'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify({ token: Context?.user?.id, [placeholder]:input})
+                                        });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            } 
+            console.log("fetchyy");
+            
+
+            const data = await response.json(); // data should have .name, .email, .contributions
+            console.log(data)
+            const {message} = data;
+            // setName(message.settings?.username);
+            // setEmail(message.email);
+            // setContributions(message.count || '0');
+            } catch (error) {
+                console.error('Failed to fetch user details:', error);
+            }
     }
    
 
@@ -18,7 +47,7 @@ const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) 
         <div className={styles.popupOverlay}>
             <div className={styles.popupContent}>
                 <h3 className={styles.title}>Change {placeholder}</h3>
-                <input type="text" placeholder={'Enter new' + placeholder} />
+                <input type="text" placeholder={'Enter new ' + placeholder} onChange={(e) => setInput(e.target.value)} />
                 <button onClick={onClose} className={styles.closeButton} >×</button>
                 <button onClick={run}>Change</button>
             </div>

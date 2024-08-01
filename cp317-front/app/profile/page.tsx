@@ -36,7 +36,7 @@ const Profile = () => {
                 const {message} = data;
                 setName(message.settings?.username);
                 setEmail(message.email);
-                setContributions(message.contributions || '0');
+                setContributions(message.count || '0');
             } catch (error) {
                 console.error('Failed to fetch user details:', error);
             }

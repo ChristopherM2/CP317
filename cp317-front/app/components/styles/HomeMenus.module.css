@@ -28,6 +28,7 @@ body.disable-scroll {
     z-index: 50; /* Ensure it appears on top of other elements */
     transition: transform 0.3s ease;
 }
+
 .floatingButton:hover{
     transform: scale(1.05);
 }
@@ -159,10 +160,9 @@ body.disable-scroll {
 
 .clockButton {
     position: fixed;
-    top: 20px;
-    right: 20px;
+    top: 300px;
+    left: 350px; /* girl i have no idea, i know this is gonna look weird on other monitors SOS 😭 */
     display: flex;
-    align-items: center;
     padding: 10px;
     z-index: 1000; /* Ensure it appears on top of other elements */
     transition: transform 0.3s ease;
@@ -180,4 +180,22 @@ body.disable-scroll {
 
 .clockButton img:hover {
     transform: scale(1.1); /* Enlarge button slightly on hover */
+}
+
+.timerDisplay {
+    font-size: 2em;
+    text-align: center;
+    margin: 20px 0;
+}
+  
+  .timerControls {
+    display: flex;
+    justify-content: space-around;
+}
+  
+  .startButton,
+  .stopButton,
+  .resetButton {
+    padding: 5px 10px;
+    cursor: pointer;
 }

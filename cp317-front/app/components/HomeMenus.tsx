@@ -12,10 +12,15 @@ const HomeMenu = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (isRunning) {
+    if (isRunning && timer > 0) {
       timerRef.current = setInterval(() => {
-        setTimer(prev => prev - 1); // hiii set the increment of the timer heree!!!
+        setTimer(prev => prev - 1);
       }, 1000);
+    } else if (timer === 0) { // set some alarm here or something lol
+      setIsRunning(false);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
     } else {
       if (timerRef.current) {
         clearInterval(timerRef.current);
@@ -26,7 +31,7 @@ const HomeMenu = () => {
         clearInterval(timerRef.current);
       }
     };
-  }, [isRunning]);
+  }, [isRunning, timer]);
 
   const handleButtonClick = () => {
     setIsPopupOpen(true);
@@ -70,7 +75,12 @@ const HomeMenu = () => {
 
   const handleResetTimer = () => {
     setIsRunning(false);
-    setTimer(0);
+    setTimer(1500); // remember to change this number to match the duration!
+  };
+
+  const handleBreakTimer = () => {
+    setIsRunning(false);
+    setTimer(300); // 5 min break
   };
 
   const formatTime = (seconds: number) => {
@@ -134,12 +144,13 @@ const HomeMenu = () => {
                 <span className={styles.closeButton} onClick={handleClosePopup2}>
                   &times;
                 </span>
-                <p>Timer</p>
+                <p>Pomodoro Timer, use the Break button for a 5 minutes break after each session</p>
                 <div className={styles.timerDisplay}>{formatTime(timer)}</div>
                 <div className={styles.timerControls}>
                   <button onClick={handleStartTimer} className={styles.startButton}>Start</button>
                   <button onClick={handleStopTimer} className={styles.stopButton}>Stop</button>
                   <button onClick={handleResetTimer} className={styles.resetButton}>Reset</button>
+                  <button onClick={handleBreakTimer} className={styles.breakButton}>Break</button>
                 </div>
               </div>
             </div>

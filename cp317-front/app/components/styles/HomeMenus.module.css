@@ -164,7 +164,7 @@ body.disable-scroll {
     left: 350px; /* girl i have no idea, i know this is gonna look weird on other monitors SOS 😭 */
     display: flex;
     padding: 10px;
-    z-index: 1000; /* Ensure it appears on top of other elements */
+    z-index: 50; /* Ensure it appears on top of other elements */
     transition: transform 0.3s ease;
 }
 .clockButton:hover{

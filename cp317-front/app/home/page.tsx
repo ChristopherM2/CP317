@@ -41,11 +41,10 @@ const HelloWorld = () => {
 
             {Context?.isAuthenticated ? (
                 <div>
-                    <h1>Home!</h1>
+                    {/* <h1>Home!</h1>
                     <p>
                     meowwww ur logged in, {Context?.user?.id}!
-                    </p>
-                    
+                    </p>     */}
                     
                     <HomeMenu/>
                     <NavBar/>

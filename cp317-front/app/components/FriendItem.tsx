@@ -1,3 +1,7 @@
+/*
+Simple component, just represents a userItem to render in friends tab
+*/
+
 import React from 'react';
 import styles from './styles/FriendItem.module.css';
 

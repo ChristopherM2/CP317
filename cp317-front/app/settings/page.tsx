@@ -1,3 +1,7 @@
+/*
+/settings page
+*/
+
 'use client'
 import React from 'react'
 import { useContext, useState,useCallback,useEffect } from 'react'
@@ -7,11 +11,13 @@ import AuthContext from '../components/AuthContext'
 import Link from 'next/link'
 import NavBar from '../components/NavBar'
 import SettingsTextPopup from '../components/SettingsTextPopup'
+import ChangeIconPopup from '../components/ChangeIconPopup'
 
 
 const Settings = () => {
     const Context = useContext(AuthContext);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [isPopupVisibleIcon, setIsPopupIconVisible] = useState(false);
     const [popupContent, setPopupContent] = useState({
         placeholder: '',
         api: ''
@@ -23,10 +29,17 @@ const Settings = () => {
     (event: React.MouseEvent<HTMLLIElement>) =>{
         event.preventDefault()
         setPopupContent({ placeholder, api});
-        setIsPopupVisible(true);
+
+        if(placeholder == 'Icon'){
+            setIsPopupIconVisible(true);
+        } else {
+            setIsPopupVisible(true);
+            }
     }
+       
     const handleClosePopup = () => {
         setIsPopupVisible(false);
+        setIsPopupIconVisible(false);
     }
 
 
@@ -65,6 +78,12 @@ const Settings = () => {
                 </div>
             </div>
             {isPopupVisible && <SettingsTextPopup 
+                        onClose={handleClosePopup}
+                        placeholder={popupContent.placeholder}
+                        api={popupContent.api}
+                    />}
+
+            {isPopupVisibleIcon && <ChangeIconPopup 
                         onClose={handleClosePopup}
                         placeholder={popupContent.placeholder}
                         api={popupContent.api}

@@ -1,3 +1,8 @@
+/*
+ /home page
+ houses group progress, and group functionality
+*/
+
 'use client';// Add this at the top of your file
 import Link from 'next/link'
 import { useContext, useState, useEffect } from 'react';
@@ -17,7 +22,7 @@ const HelloWorld = () => {
     const [data, setData] = useState<HelloWorldResponse>({time:'loading..'});
     
 
-    useEffect(() => {
+    useEffect(() => { // this was a test, please remove before final
         const fetchData = async () => {
        
             const response = await fetch("http://127.0.0.1:8000/api/time/");

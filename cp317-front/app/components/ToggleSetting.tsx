@@ -1,3 +1,7 @@
+/*
+Settings page has toggle based settings, and this is the item component for them
+*/
+
 'use client';
 import React, { useState } from 'react'
 import styles from './styles/ToggleSetting.module.css'

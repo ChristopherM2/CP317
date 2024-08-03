@@ -1,4 +1,9 @@
-"use client"; // Add this at the top of your file
+/*
+ /friends file
+ shows all of users followers and following, havent added functionality to follow people yet tho : (
+*/
+
+"use client"; 
 
 import { useContext, useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
@@ -11,11 +16,11 @@ const Friends = () => {
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
 
-    useEffect(() => {
+    useEffect(() => { // run on load
         const fetchUserDetails = async () => {
             if (!Context?.user?.id) return; // return when not logged in
 
-            try {
+            try { // fetch user's details
                 const response = await fetch(`http://127.0.0.1:8000/api/getuser/`,
                                              { method: 'POST',
                                               headers: {
@@ -31,9 +36,9 @@ const Friends = () => {
                 const data = await response.json(); // data should have .name, .email, .contributions
                 //console.log(data)
                 const {message} = data;
-                console.log(message);
-                setFollowers(message.followers)
-                setFollowing(message.following)
+                //console.log(message);
+                setFollowers(message.followers) // sets the array with followers
+                setFollowing(message.following) // sets the array with following
 
             } catch (error) {
                 console.error('Failed to fetch user details:', error);

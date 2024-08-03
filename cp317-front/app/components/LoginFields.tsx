@@ -1,3 +1,7 @@
+/*
+Handles both user signup and login
+*/
+
 'use client';
 import React from 'react'
 import styles from './styles/loginFields.module.css'
@@ -7,12 +11,12 @@ import AuthContext from './AuthContext';
 import { useRouter } from 'next/navigation';
 
 
-interface UserDetails{
+interface UserDetails{ // user details needed for login/signup
     email: string;
     password: string;
 }
 
-interface FieldProps {
+interface FieldProps { // decides if its the signup/login fields
     api: string;
     headerText: string;
     buttonText: string;
@@ -35,12 +39,12 @@ const LoginFields : React.FC<FieldProps> = ({api,
     const Context = useContext(AuthContext);
     
 
-    //handle submission
+    //handle submission of the text fields
     const handleSubmission = async (event: React.FormEvent) => {
         event.preventDefault();
         const userDetails: UserDetails = {email, password};
         
-        try{
+        try{ // post login details to backend
             const res = await fetch(api,
                                 {   method : 'POST',
                                     headers: {
@@ -54,19 +58,17 @@ const LoginFields : React.FC<FieldProps> = ({api,
 
             } else { // login happens here
                 const data = await res.json();
-                console.log('Success:', data);
+                //console.log('Success:', data);
                 const id = data.id;
-                if(isLoggingin){
-                    Context?.login({email, password, id});
+
+                if(isLoggingin){ // login
+                    Context?.login({email, password, id}); // sets context to login the user
                     router.push('/home');
-                }else {
+                }else { // signup
                     router.push('/login');
                 }
                
-                
-                
             }
-            
 
         }catch(error){
             console.log('error posting login details: ', error);

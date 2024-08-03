@@ -1,3 +1,7 @@
+/*     
+Navbar component, has the 5 important links: Profile, Chat, Home/Group, Friends, Settings
+*/
+
 import React from 'react'
 import Link from 'next/link'
 import styles from './styles/NavBar.module.css'

@@ -1,12 +1,11 @@
 import React, {useState} from 'react'
 import styles from './styles/ChatBox.module.css'
 
-
+// unfinished class, document on completion !
 
 
 const ChatBox = () => {
-
-    const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
   const handleSend = () => {

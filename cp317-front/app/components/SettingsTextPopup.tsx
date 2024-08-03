@@ -1,9 +1,12 @@
+/*
+Settings popups to change user details, except icon
+*/
 'use client';
 import React, { useContext, useState } from 'react'
 import styles from './styles/SettingsTextPopup.module.css'
 import AuthContext from './AuthContext';
 
-interface PopupProps {
+interface PopupProps { // decides which user detail is being changed
     onClose: () => void;
     placeholder: string;
     api: string;
@@ -13,10 +16,10 @@ const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) 
     const Context = useContext(AuthContext)
     const [input, setInput] = useState<string>('');
     const run = async () => {
-        console.log("run with " +  api);
+        //console.log("run with " +  api);
         if (!Context?.user?.id) return;
-        console.log('' + JSON.stringify({ token: Context?.user?.id, [placeholder]:input}));
-        try {
+        
+        try { // post user details & change request to backend
             const response = await fetch(api,
                                             { method: 'POST',
                                             headers: {

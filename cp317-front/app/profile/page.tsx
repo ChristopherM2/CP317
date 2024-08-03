@@ -1,3 +1,6 @@
+/*
+ /profile page 
+*/
 'use client'
 import React, { useState } from 'react'
 import { useContext, useEffect } from 'react'

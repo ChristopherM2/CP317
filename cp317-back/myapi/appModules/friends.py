@@ -27,16 +27,16 @@ class friend:
             try:
                 users_ref = db.collection('accountInfo')
                 user_id = request.data['token']
-                friend_email = request.data['username']
+                friend_email = request.data['email']
                 user = db.collection('accountInfo').document(user_id)
-                friend = db.collection('accountInfo').where('settings.username', '==', friend_email).get()[0].id
+                friend = db.collection('accountInfo').where('email', '==', friend_email).get()[0].id
                 if not friend:
                     return Response({'message': "User does not exist"}, status=498)
                 user.update({
-                    'following': user.get('following').to_dict().get('following').append({'username': friend_email, 'pfp': db.collection('accountInfo').document(friend).get().to_dict().get('settings').get('image') })
+                    'following': user.get('following').to_dict().get('following').append({'email': friend_email, 'pfp': db.collection('accountInfo').document(friend).get().to_dict().get('settings').get('image') })
                 })
                 db.collection('accountInfo').document(friend).update({
-                    'followers': db.collection('accountInfo').document(friend).get('followers').to_dict().get('followers').append({'username': user.get('settings').get('username'), 'pfp': user.get('settings').get('image')})
+                    'followers': db.collection('accountInfo').document(friend).get('followers').to_dict().get('followers').append({'username': user.get('email'), 'pfp': user.get('settings').get('image')})
                 })
 
             except Exception as e:
@@ -48,14 +48,14 @@ class friend:
             try:
                 users_ref = db.collection('accountInfo')
                 user_id = request.data['token']
-                friend_id = request.data['friend_id']
+                friend_id = request.data['email']
                 user = users_ref.document(user_id)
                 friend = users_ref.document(friend_id)
                 user.update({
-                    'following': user.get('following').to_dict().get('following').remove({'username': friend.get('settings').get('username'), 'pfp': friend.get('settings').get('image')})
+                    'following': user.get('following').to_dict().get('following').remove({'email': friend.get('email'), 'pfp': friend.get('settings').get('image')})
                 })
                 friend.update({
-                    'followers': friend.get('followers').to_dict().get('followers').remove({'username': user.get('settings').get('username'), 'pfp': user.get('settings').get('image')})
+                    'followers': friend.get('followers').to_dict().get('followers').remove({'email': user.get('email'), 'pfp': user.get('settings').get('image')})
                 })
 
                 return Response({'message': "No longer following"}, status=200)

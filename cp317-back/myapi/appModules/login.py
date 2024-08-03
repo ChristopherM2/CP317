@@ -8,6 +8,12 @@ import bcrypt
 from .settings import Settings
 
 
+def random_token():
+    import random
+    import string
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+
 class Login:
     def __init__(self) -> None:
         pass
@@ -87,6 +93,7 @@ class Login:
                 if len(duplicate_user) > 1:
                     users_ref.document(duplicate_user[1].id).delete()
                 account = db.collection('accountInfo').document(duplicate_user[0].id).set({
+                    'publicToken': random_token(),
                     'email': email,
                     'followers': [],
                     'following': [],

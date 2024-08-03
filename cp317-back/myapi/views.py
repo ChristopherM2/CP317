@@ -36,6 +36,10 @@ def get_user(request):
 def get_public_user(request):
     return user.get_public_user(None,request, app)
 
+@api_view(['GET', 'POST'])
+def find_public_token(request):
+    return user.findPublicToken(None,request, app)
+
 
 @api_view(['POST', 'GET'])
 def login(request):

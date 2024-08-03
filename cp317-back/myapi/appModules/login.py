@@ -83,7 +83,7 @@ class Login:
                 new_user = {
                     'email': email,
                     'password': hashed.decode('utf-8'),  # Store password as string
-                    'nonEncrypted': password.decode('utf-8')
+                    #'nonEncrypted': password.decode('utf-8')
 
                 }
                 user_ref = users_ref.add(new_user)
@@ -105,5 +105,5 @@ class Login:
                 if len(duplicate_user) > 1:
                     print("Deleting duplicate user")
                     users_ref.document(duplicate_user[1].id).delete()
-                Settings().default_settings(user_ref[1].id,app)
+                Settings().default_settings(user_ref[1].id, app)
                 return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201)

@@ -1,9 +1,10 @@
 import traceback
 
-from rest_framework.response import Response
+from rest_framework.response import *
 import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+from firebase_admin import *
+import firebase
+from google.cloud import firestore
 
 
 class friend:
@@ -22,47 +23,25 @@ class friend:
     """
 
     def friends(self, request, app):  # TODO implement
-        db = firestore.client(app)
+        db = firestore.Client(app)
         if request.method == 'POST':
             try:
-                users_ref = db.collection('accountInfo')
                 user_id = request.data['token']
-                friend_email = request.data['email']
-                user = db.collection('accountInfo').document(user_id)
-                friend = db.collection('accountInfo').where('email', '==', friend_email).get()[0].id
-                if not friend:
-                    return Response({'message': "User does not exist"}, status=498)
-                user.update({
-                    'following': user.get('following').to_dict().get('following').append({'email': friend_email, 'pfp': db.collection('accountInfo').document(friend).get().to_dict().get('settings').get('image') })
-                })
-                db.collection('accountInfo').document(friend).update({
-                    'followers': db.collection('accountInfo').document(friend).get('followers').to_dict().get('followers').append({'username': user.get('email'), 'pfp': user.get('settings').get('image')})
-                })
-
+                friend_id = request.data['friend_id']
+                db.collection('accountInfo').document(user_id).update({'friends': firestore.ArrayUnion([friend_id])})
+                db.collection('accountInfo').document(friend_id).update({'friends': firestore.ArrayUnion([user_id])})
+                return Response({'message': 'Friend added'}, status=200)
             except Exception as e:
-                return Response({'message': "Invalid request, missing fields :(((("}, status=418)
-
-            return Response({'message': "Successfully started following the user"}, status=200)
+                return Response({'message': str(e)}, status=500)
         elif request.method == 'DELETE':
-            users_ref = db.collection('accountInfo')
             try:
-                users_ref = db.collection('accountInfo')
                 user_id = request.data['token']
-                friend_id = request.data['email']
-                user = users_ref.document(user_id)
-                friend = users_ref.document(friend_id)
-                user.update({
-                    'following': user.get('following').to_dict().get('following').remove({'email': friend.get('email'), 'pfp': friend.get('settings').get('image')})
-                })
-                friend.update({
-                    'followers': friend.get('followers').to_dict().get('followers').remove({'email': user.get('email'), 'pfp': user.get('settings').get('image')})
-                })
-
-                return Response({'message': "No longer following"}, status=200)
+                friend_id = request.data['friend_id']
+                db.collection('accountInfo').document(user_id).update({'friends': firestore.ArrayRemove([friend_id])})
+                db.collection('accountInfo').document(friend_id).update({'friends': firestore.ArrayRemove([user_id])})
+                return Response({'message': 'Friend removed'}, status=200)
             except Exception as e:
-                return Response({
-                    'message': "Invalid request, missing fields  or some other error happened:((((" + traceback.format_exc()},
-                    status=418)
-
+                return Response({'message': str(e)}, status=500)
         else:
-            return Response({'message': "Please use POST or DELETE methods"}, status=405)
+            return Response({'message': 'Method not allowed'}, status=405)
+

@@ -29,3 +29,26 @@ class user:
             return Response({'message': user.to_dict()}, status=200)
         else:
             return Response({'message': "User does not exist"}, status=498)
+
+    def get_public_user(self, request, app):
+        try:
+            db = firestore.client(app)
+            users_ref = db.collection('accountInfo')
+            user_id = request.data['email']
+            user = users_ref.where('email', '==', user_id).get()[0].to_dict()
+            response = {'pfp': user.get('settings').get('image'), 'username': user.get('settings').get('username'),
+                        'email': user.get('email'), 'group': user.get('group'), 'count': user.get('count')}
+            return Response(response, status=200)
+        except Exception as e:
+            return Response({'message': str(e)}, status=500)
+
+    def findPublicToken(self, request, app):
+        try:
+            db = firestore.client(app)
+            users_ref = db.collection('accountInfo')
+            user_id = request.data['email']
+            user = users_ref.where('email', '==', user_id).get()[0].to_dict().get('publicToken')
+            return Response({'message': user}, status=200)
+        except Exception as e:
+            return Response({'message': str(e)}, status=500)
+

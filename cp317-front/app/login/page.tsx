@@ -2,7 +2,6 @@
  /login page
  user can enter details to login, uses loginfields 
 */
-
 import LoginFields from '../components/LoginFields'
 import Link from 'next/link';
 

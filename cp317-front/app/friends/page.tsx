@@ -36,7 +36,7 @@ const Friends = () => {
                 const data = await response.json(); // data should have .name, .email, .contributions
                 //console.log(data)
                 const {message} = data;
-                //console.log(message);
+                console.log(message);
                 setFollowers(message.followers) // sets the array with followers
                 setFollowing(message.following) // sets the array with following
 

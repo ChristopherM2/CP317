@@ -3,7 +3,7 @@ Settings popups to change user icon
 */
 
 'use client';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styles from './styles/SettingsIconPopup.module.css'
 import AuthContext from './AuthContext';
 
@@ -20,7 +20,31 @@ const ChangeIconPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) =>
     const [input, setInput] = useState<string>('');
 
     //get user's current image 
-    // usecontext, in progress :3
+    useEffect(() =>{
+        const getPfp = async() =>{
+            if (!Context?.user?.id) return; 
+
+            try{ // fetch user image
+                const response = await fetch(`http://127.0.0.1:8000/api/getuser/`,
+                                                { method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify({ token: Context.user.id })
+                                                });
+
+                if(response.ok){ // set user image
+                    const data =  await response.json();
+                    const {message} = data;
+                    setImage(message.settings.image);
+                }
+            }catch (error) {
+                console.error('Failed to fetch user details:', error);
+            }
+        }
+        getPfp();
+        
+    }, [Context?.user?.id])
 
     
     // function runs on click of 'set image', uploads image link to database
@@ -40,7 +64,7 @@ const ChangeIconPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) =>
             <div className={styles.popupContent}>
                 <h3 className={styles.title}>Change Your Icon</h3>
                 <button onClick={onClose} className={styles.closeButton} >×</button>
-                <img className = {styles.pfp} src={imageLink || "https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb"} alt="" />
+                <img className = {styles.pfp} src={imageLink || ""} alt="" />
                 <button className={styles.bottomButtons} onClick={uploadImage}>Upload Image</button>
                 <button className={styles.bottomButtons}  onClick={run}>Set Image</button>
             </div>

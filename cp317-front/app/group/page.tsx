@@ -15,9 +15,9 @@ const Group = () => {
         <div>
             {Context?.isAuthenticated ? (
                 <div>
-                    <h1>GroupPage</h1>
+                    <h1>Group Page</h1>
                     <p>
-                        meowwww ur logged in, {Context?.user?.id}!
+                        
                     </p>
                     <NavBar/>
 

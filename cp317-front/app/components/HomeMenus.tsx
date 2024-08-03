@@ -9,6 +9,7 @@ const HomeMenu = () => {
   const [newWord, setNewWord] = useState<string>('');
   const [timer, setTimer] = useState<number>(1500); // hiii set the timer duration here!! (25 min = 1500)
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [exp, setExp] = useState<number>(0); // Initialize exp state variable
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -63,6 +64,12 @@ const HomeMenu = () => {
 
   const handleDeleteWord = (index: number) => {
     setWords(words.filter((_, i) => i !== index));
+    setExp(exp - 5); // Decrease exp by 5 when a word is deleted
+  };
+
+  const handleCheckboxChange = (index: number) => {
+    setExp(exp + 20); // Increase exp by 20 when a checkbox is marked
+    setWords(words.filter((_, i) => i !== index));
   };
 
   const handleStartTimer = () => {
@@ -94,6 +101,7 @@ const HomeMenu = () => {
       <div className={styles.homeMenu}>
         <img src="images/BackgroundLvl1Animated.gif" alt="Lvl 1 Home Menu" className={styles.Menu} />
       </div>
+      <div className={styles.expDisplay}>EXP: {exp} / 100</div> {/* Display the exp variable */}
       <Link href='/group'>
         <div className={styles.homeMenu}>
           <img src="/images/Nav-group.png" alt="Group button in Home Menu" className={styles.floatingButton} />
@@ -121,7 +129,7 @@ const HomeMenu = () => {
                 {words.map((word, index) => (
                   <li key={index} className={styles.wordItem}>
                     <label>
-                      <input type="checkbox" />
+                      <input type="checkbox" onChange={() => handleCheckboxChange(index)}/> 
                       {word}
                     </label>
                     <button onClick={() => handleDeleteWord(index)} className={styles.deleteButton}>

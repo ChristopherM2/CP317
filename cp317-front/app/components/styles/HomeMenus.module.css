@@ -18,6 +18,17 @@ body.disable-scroll {
     object-fit: cover;
 }
 
+.expDisplay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .floatingButton {
     position: fixed;
     top: 20px;

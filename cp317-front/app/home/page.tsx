@@ -27,7 +27,7 @@ const HelloWorld = () => {
 
     useEffect(() => { // this was a test, please remove before final
         if(!Context?.user?.id){
-            router.push('/login');
+            //router.push('/login');
             return;
         }
     }, []);

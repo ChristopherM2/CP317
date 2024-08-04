@@ -68,43 +68,26 @@ class group:
 
     def addUserToGroup(self, request, app):  # Verified to work
         db = firestore.client(app)
-        name = request.data['name']  # group name to join
         token = request.data['token']  # user to add
-        user = db.collection('accountInfo').document(token).get()
-        if user is not None:
-            user = user.to_dict()
-        if user is None:
+        name = request.data['name']
+        if db.collection('accountInfo').document(token).get() is None:
             return Response({'message': "User does not exist or you are not authenticated"}, status=498)
-        elif user.get('group') is not None:
+
+        elif not db.collection('groups').document(name).get().exists:
+            return Response({'message': "Group does not exist"}, status=418)
+        elif db.collection('accountInfo').document(token).get().to_dict().get('group') is not None:
             return Response({'message': "User is already in a group"}, status=403)
-
-        group_ref = db.collection('group').document(name)
-        user_ref = db.collection('accountInfo').document(token)
-
-        try:
-            group_doc = group_ref.get()
-            if group_doc.exists:
-                group_data = group_doc.to_dict()
-                currentMembers = group_data.get('members', [])
-
-                # Ensure token is not already in currentMembers to avoid duplicates
-                if token not in currentMembers:
-                    currentMembers.append(token)
-
-                    # Update the user's group
-                    user_ref.set({'group': name}, merge=True)
-
-                    # Update the group's members
-                    group_ref.update({'members': currentMembers})
-
-                    return Response({'message': "User added to group", 'name': name}, status=200)
-                else:
-                    return Response({'message': "Error", 'name': name}, status=400)
-            else:
-                print(f"Group does not exist")
-                return Response({'message': "Error", 'name': name}, status=401)
-        except Exception as e:
-            print(f"Error updating group: {e} :((((")
+        elif db.collection('groups').document(name).get().exists:
+            group = db.collection('groups').document(name)
+            group_data = group.get().to_dict()
+            currentMembers = group_data.get('members', [])
+            if token in currentMembers:
+                return Response({'message': "User already in group"}, status=403)
+            currentMembers.append(token)
+            group.set({'members': currentMembers}, merge=True)
+            user = db.collection('accountInfo').document(token)
+            user.set({'group': name}, merge=True)
+            return Response({'message': "User added to group"}, status=200)
 
     "Given a user token, remove the user from the group"
 

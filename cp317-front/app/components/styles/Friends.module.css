@@ -101,3 +101,21 @@
         border-radius: 20px;
     }
 }
+
+.findUserBlock{
+    width: 10%;
+    height: 10%;
+    position: absolute;
+    text-align: center;
+    top: 4.5%;
+
+}
+.findButton {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}

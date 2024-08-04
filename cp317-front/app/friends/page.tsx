@@ -10,11 +10,14 @@ import NavBar from "../components/NavBar";
 import AuthContext from "../components/AuthContext";
 import FriendItem from "../components/FriendItem";
 import styles from "../components/styles/Friends.module.css"
+import FollowBlock from "../components/FollowBlock"
 
 const Friends = () => {
     const Context = useContext(AuthContext);
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
+
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     useEffect(() => { // run on load
         const fetchUserDetails = async () => {
@@ -36,7 +39,7 @@ const Friends = () => {
                 const data = await response.json(); // data should have .name, .email, .contributions
                 //console.log(data)
                 const {message} = data;
-                console.log(message);
+                //console.log(message);
                 setFollowers(message.followers) // sets the array with followers
                 setFollowing(message.following) // sets the array with following
 
@@ -48,12 +51,31 @@ const Friends = () => {
         fetchUserDetails();
     }, [Context?.user?.id]);
 
+    const handleClick = () => {
+        setIsPopupVisible(true);
+    }
+
+    const handleClosePopup = () => {
+        setIsPopupVisible(false);
+    }
+
+
+
+
+
+
 
     return (
         <div>
             {Context?.isAuthenticated ? (
-                <div className={styles.background}>
+                <div>
+                    <div className={styles.background}>
                     <NavBar />
+
+                    <div className={styles.findUserBlock}>
+                        <button className={styles.findButton} onClick={handleClick}>Find a user</button>
+                    </div>
+
                     <div className={styles.container}>
                         <div className={styles.border}>
                             <h2 className={styles.header}>Following</h2>
@@ -81,6 +103,16 @@ const Friends = () => {
                         </div>
                     </div>
                 </div>
+
+                    {isPopupVisible && <FollowBlock onClose={handleClosePopup}/>}
+                </div>
+                
+
+                
+
+
+            
+
             ) : (
                 <h1>FriendsPage</h1>
             )}

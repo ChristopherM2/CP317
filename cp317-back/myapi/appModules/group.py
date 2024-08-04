@@ -213,12 +213,12 @@ class group:
     "Given a group name, return the group members"
 
     def getGroupMembers(self, request, app):
-        db = firestore.client(app)
-        name = request.data['name']
-        if db.collection('group').document(name).get().exists:
-            group = db.collection('group').document(name).get().to_dict()
+        try:
+            db = firestore.client(app)
+            name = request.data['name']
+            group = db.collection('groups').document(name).get().to_dict()
             return Response({'message': group.get('members')}, status=200)
-        else:
+        except Exception as e:
             return Response({'message': "Group does not exist"}, status=418)
 
     "Given a group name, update the member completion count and the group completed tasks count"

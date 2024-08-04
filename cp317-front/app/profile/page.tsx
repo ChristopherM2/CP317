@@ -16,7 +16,8 @@ const Profile = () => {
     const [Name, setName] = useState<string>('PlaceholderName');
     const [Email, setEmail] = useState<string>('PlaceholderEmail');
     const [Contributions, setContributions] = useState<string>('0');
-    const [ImageLink, setImageLink] = useState<string>('')
+    const [ImageLink, setImageLink] = useState<string>('');
+    const [GroupName, setGroupName] = useState<string>('');
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -43,6 +44,7 @@ const Profile = () => {
                 setContributions(message.count || '0');
                // console.log(message.settings.image);
                 setImageLink(message.settings.image);
+                setGroupName(message.settings.group || 'null');
             } catch (error) {
                 console.error('Failed to fetch user details:', error);
             }
@@ -69,6 +71,9 @@ const Profile = () => {
                             </li>
                             <li>
                                 Email: {Email}
+                            </li>
+                            <li>
+                                Group: {GroupName}
                             </li>
                             <li>
                                 Total Contributions Made: {Contributions}

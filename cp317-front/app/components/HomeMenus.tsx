@@ -4,37 +4,69 @@ import styles from './styles/HomeMenus.module.css'
 import TaskBoardPopup from './TaskBoardPopup'; // Import the new popup component
 import { ExpContext } from './ExpContext';
 import ClockPopup from './ClockPopup';
-
+import AuthContext from './AuthContext';
+import JoinGroupPopup from './JoinGroupPopup'
+import CreateGroupPopup from './CreateGroupPopup'
 
 const HomeMenu = () => {
+  const [GroupName, setGroupName] = useState<string|null>(null);
+  const Context = useContext(AuthContext);
+
   const { exp } = useContext(ExpContext) || { exp: 0 };
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isPopupOpen2, setIsPopupOpen2] = useState(false);
 
-  const handleButtonClick = () => {
-    setIsPopupOpen(true);
+  const [isBoardPopup, setBoardPopup] = useState<boolean>(false);
+  const [isClockPopup, setClockPopup] = useState<boolean>(false);
+  const [isCreatePopup, setCreatePopup] = useState<boolean>(false);
+  const [isJoinPopup, setJoinPopup] = useState<boolean>(false);
+  
+
+  //close popups
+  const handleClosePopups = () => {
+    setBoardPopup(false);
+    setClockPopup(false);
+    setCreatePopup(false);
+    setJoinPopup(false);
   };
 
-  const handleButtonClick2 = () => {
-    setIsPopupOpen2(true);
-  };
+  //fetch to find if user is in a group,
+  useEffect(() => {
+    const isInGroup = async() =>{
+      if (!Context?.user?.id) return; // return when not logged in
+      try {
+          const response = await fetch(`http://127.0.0.1:8000/api/getuser/`,
+                                        { method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ token: Context.user.id })
+                                      });
 
-  const handleClosePopup = () => {
-    setIsPopupOpen(false);
-  };
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
 
-  const handleClosePopup2 = () => {
-    setIsPopupOpen2(false);
-  };
+          const data = await response.json(); 
+          const {message} = data;
+          setGroupName(message.settings.group || null); // set group name
+      } catch (error) {
+          console.error('Failed to fetch user details:', error);
+      }
+    }
+    isInGroup();
+  }
+  ,[Context?.user?.id]);
 
 
+/*
   const formatTime = (seconds: number) => {
     const getMinutes = `0${Math.floor(seconds / 60)}`.slice(-2);
     const getSeconds = `0${seconds % 60}`.slice(-2);
     return `${getMinutes}:${getSeconds}`;
   };
-
-  return (
+*/
+   if(GroupName){ // if in a group, return group visuals
+    return (
+   
     <div className={styles.homeMenu}>
       <div className={styles.homeMenu}>
         <img src="images/BackgroundLvl1Animated.gif" alt="Lvl 1 Home Menu" className={styles.Menu} />
@@ -46,18 +78,45 @@ const HomeMenu = () => {
         </div>
       </Link>
       <div className={styles.boardButton}>
-        <img src="/images/Board1.png" alt="Button for tasks"  onClick={handleButtonClick} />
+        <img src="/images/Board1.png" alt="Button for tasks"  onClick={() => {setBoardPopup(true)}} />
         
       </div>
       <div className={styles.clockButton}>
-          <img src="/images/Lvl1Clock1.png" alt="Button for Pom Timer"  onClick={handleButtonClick2} />
+          <img src="/images/Lvl1Clock1.png" alt="Button for Pom Timer"  onClick={() => {setClockPopup(true)}} />
       </div>
 
-      <ClockPopup isOpen={isPopupOpen2} onClose={handleClosePopup2} />
-      <TaskBoardPopup isOpen={isPopupOpen} onClose={handleClosePopup} /> 
+      
+      <TaskBoardPopup isOpen={isBoardPopup} onClose={handleClosePopups} /> 
+      <ClockPopup isOpen={isClockPopup} onClose={handleClosePopups} />
       
     </div>
   );
+
+   } else {// else show group join/create buttons
+    return(
+      <div>
+        <div className={styles.homeMenu}>
+          <img src="images/BackgroundLvl1Animated.gif" alt="Lvl 1 Home Menu" className={styles.Menu} />
+        </div>
+
+        <div className={styles.lonely}>
+          <p className={styles.lonelytext}>It looks a little lonely out here...</p>
+          <div className={styles.NoGroupButtons}>
+            <button onClick={() => {setCreatePopup(true)}}>Create a Group</button>
+            <button onClick={() => {setJoinPopup(true)}}>Join a Group</button>
+          </div>
+        </div>
+
+        <div>
+          {isCreatePopup && <CreateGroupPopup/>}
+          {isJoinPopup && <JoinGroupPopup/>}
+        </div>
+        
+      </div>
+      
+    );
+   }
+  
 }
 
 export default HomeMenu

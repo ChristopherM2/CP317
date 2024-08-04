@@ -73,7 +73,7 @@ const Group = () => {
         if (!Context?.user?.id) return
         try{
             const response3 = await fetch(`http://127.0.0.1:8000/api/removeUserFromGroup/`, // get member list
-                                        { method: 'POST',
+                                        { method: 'DELETE',
                                         headers: {
                                           'Content-Type': 'application/json'
                                         },

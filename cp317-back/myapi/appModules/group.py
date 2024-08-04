@@ -60,6 +60,7 @@ class group:
         for group in groups:
             meow = group
             group_list.append(meow.id)
+        print(group_list)
         return Response({'message': group_list}, status=200)
 
     "Given a group name and a user token, add the user to the group"

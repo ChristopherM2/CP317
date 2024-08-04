@@ -20,7 +20,10 @@ class user:
     -------------------------------------------------------
     """
 
-    def getuser(self, request, app):
+    """
+    given a user's token, return all of their information including those not included in the public token
+    """
+    def getUser(self, request, app):
         db = firestore.client(app)
         users_ref = db.collection('accountInfo')
         token = request.data['token']
@@ -30,7 +33,10 @@ class user:
         else:
             return Response({'message': "User does not exist"}, status=498)
 
-    def get_public_user(self, request, app):
+    """
+    given a user's public token, return their public information, such as their username, email, group, and contributions
+    """
+    def getPublicUser(self, request, app):
         try:
             db = firestore.client(app)
             users_ref = db.collection('accountInfo')
@@ -42,6 +48,9 @@ class user:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
+    """
+     Given a user's email, return their public token    
+    """
     def findPublicToken(self, request, app):
         try:
             db = firestore.client(app)

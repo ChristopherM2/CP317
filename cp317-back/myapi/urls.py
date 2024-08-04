@@ -38,5 +38,6 @@ urlpatterns = [
     path('updateDarkmode/', views.updateDarkmode, name="updateDarkmode"), #param token, darkmode
     path('updateTracking/', views.updateTracking, name="updateTracking"), #param token, tracking
     path('updatePassword/', views.updatePassword, name="updatePassword"), #param token, password
+    path('getAvailableGroups/', views.getAvailableGroups, name="getAvailableGroups"), #param token, returns groups
 
 ]

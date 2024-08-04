@@ -7,48 +7,48 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-from .databaseConnection import *
 from bcrypt import hashpw, gensalt, checkpw
 
-meow = FirebaseConnection()
-default_settings = {
-    'image': 'https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb',
-    'darkmode': False,
-    'username': 'username',
-    'tracking': False
-}
+
+
 
 
 class Settings:
-
+    default_settings = {
+        'image': 'https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb',
+        'darkmode': False,
+        'username': 'username',
+        'tracking': False
+    }
     def __init__(self):
 
         pass
 
-    def default_settings(self, token,app) -> Any:
+    def defaultSettings(self, token,app) -> Any:
+        """ Sets the default settings for the user
+        Called when a new user is created
+        """
+
         db = firestore.client(app)
-        db.collection('accountInfo').document(token).set({'settings': default_settings}, merge=True)
+        self.default_settings.update({'username': db.collection('accountInfo').document(token).get().to_dict().get('email')})
+        db.collection('accountInfo').document(token).set({'settings': self.default_settings}, merge=True)
 
-        return default_settings
+        return
 
-    def get_settings(self, request,app):
+    def getSettings(self, request,app):
         """
         Get the settings for the user returns http response
         """
         try:
             db = firestore.client(app)
-            if 'token' not in request.GET:
-                return Response({'message': 'No user id provided'}, status=400)
-            if not meow.get_data('accountInfo', request.GET['token']):
-                return Response({'message': 'User not found'}, status=404)
             user_id = request.data['token']
-            user_settings = meow.get_data('accountInfo', user_id).get('settings')
+            user_settings = db.collection('accountInfo').document(user_id).get().to_dict().get('settings')
 
             return Response(user_settings, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_email(self, request,app):
+    def updateEmail(self, request,app):
         """
         Update the email of the user
         """
@@ -63,7 +63,7 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_image(self, request,app):  #TODO allow for image upload not just urls
+    def updateImage(self, request,app):
         """
         Update the image of the user
         """
@@ -79,7 +79,7 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_darkmode(self, request,app):
+    def updateDarkmode(self, request,app):
         """
         Update the darkmode of the user
         """
@@ -94,7 +94,7 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_username(self, request,app):
+    def updateUsername(self, request,app):
         """
         Update the username of the user
         """
@@ -115,7 +115,7 @@ class Settings:
             print(e)
             return Response({'message': str(e)}, status=500)
 
-    def update_tracking(self, request,app):
+    def updateTracking(self, request,app):
         """
         Update the tracking of the user
         """
@@ -131,7 +131,7 @@ class Settings:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-    def update_password(self, request,app):
+    def updatePassword(self, request,app):
         """
         Update the password of the user
         """

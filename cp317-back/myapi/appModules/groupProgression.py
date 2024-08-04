@@ -8,63 +8,65 @@ from group import group
 class groupProgression:
     def __init__(self) -> None:
         pass
-    
-    def calculateEXP(self,request,app):
+
+    "Calculates the EXP of a group based on the number of completed tasks and updates the group's EXP in the database"
+    "If the EXP is greater than 100, the group's level is increased by 1"
+
+    def calculateEXP(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
-        if group.groupexists(name,app):
+        if group.groupExists(name, app):
             mygroup = db.collection('groups').document(name)
             mygroupdata = mygroup.get().to_dict()
             exp = len(mygroupdata.get('completedTasks')) * 10
             #exp algo should be here
             mygroupdata.update({
-                'EXP':exp
+                'EXP': exp
             })
 
             if exp > 100:
-                self.addLevel(request,app)
+                self.addLevel(request, app)
             if exp < 0:
-                self.removeLevel(request,app)
+                self.removeLevel(request, app)
 
             return Response({'message': "EXP updated"}, status=200)
         else:
 
             return Response({'message': "Group does not exist"}, status=404)
 
-
-
-
-    def addLevel(self,request,app):
+    "adds a level to the group"
+    def addLevel(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
-        if group.groupexists(name,app):
+        if group.groupExists(name, app):
             mygroup = db.collection('groups').document(name)
             mygroupdata = mygroup.get().to_dict()
             level = mygroupdata.get('level')
 
             mygroup.update({
                 'level': level + 1,
-                'EXP':0
-                })
-            return Response({'messageg': "level increased!"}, status=200)
-        
+                'EXP': 0
+            })
+            return Response({'message': "level increased!"}, status=200)
+
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-    def removeLevel(self,request,app):
+    "removes a level from the group"
+    def removeLevel(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
-        if group.groupexists(name,app):
+        if group.groupExists(name, app):
             mygroup = db.collection('groups').document(name)
             mygroupdata = mygroup.get().to_dict()
             level = mygroupdata.get('level')
 
             mygroup.update({
                 'level': level - 1,
-                'EXP':0
-                })
+                'EXP': 0
+            })
 
-            return Response({'messageg': "level increased!"}, status=200)
-        
+            return Response({'message': "level decreased!"}, status=200)
+
         else:
             return Response({'message': "Group does not exist"}, status=418)

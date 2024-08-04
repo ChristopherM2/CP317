@@ -6,7 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 from datetime import datetime
-from .databaseConnection import FirebaseConnection
+
 #from google.cloud import firestore
 
 
@@ -25,34 +25,43 @@ class friend:
     -------------------------------------------------------
     """
 
-    def friends(self, request, app):  # TODO implement
+    """
+    If the request is a POST request, the user will be added to the friend list of the user with the token
+    If the request is a DELETE request, the user will be removed from the friend list of the user with the token
+    
+    The respective friend will also be updated with the user's public token in their followers list
+    """
+
+    def friends(self, request, app):
         try:
             db = firestore.client(app)
         except Exception as e:
             print(traceback.format_exc())
             return Response({'message': str(e)}, status=502)
+
         if request.method == 'POST':
             try:
                 user_id = request.data['token']
                 userPublicToken = db.collection('accountInfo').document(user_id).get().to_dict()['publicToken']
-                firendToken = request.data['friendPublicToken']
-                db.collection('accountInfo').document(user_id).update({'following': firestore.ArrayUnion([firendToken])})
-                friend = db.collection('accountInfo').where('publicToken', '==', firendToken).get()[0].id
-                db.collection('accountInfo').document(friend).update({'followers': firestore.ArrayUnion([userPublicToken])})
+                friendToken = request.data['friendPublicToken']
+                db.collection('accountInfo').document(user_id).update({'following': firestore.ArrayUnion([friendToken])})
+                friendID = db.collection('accountInfo').where('publicToken', '==', friendToken).get()[0].id
+                db.collection('accountInfo').document(friendID).update({'followers': firestore.ArrayUnion([userPublicToken])})
 
 
                 return Response({'message': 'Friend added'}, status=200)
             except Exception as e:
                 return Response({'message': str(e)}, status=500)
+        # http uses DELETE to remove a friend
         elif request.method == 'DELETE':
             try:
                 user_id = request.data['token']
                 userPublicToken = db.collection('accountInfo').document(user_id).get().to_dict()['publicToken']
-                firendToken = request.data['friendPublicToken']
+                friendToken = request.data['friendPublicToken']
                 db.collection('accountInfo').document(user_id).update(
-                    {'following': firestore.ArrayRemove([firendToken])})
-                friend = db.collection('accountInfo').where('publicToken', '==', firendToken).get()[0].id
-                db.collection('accountInfo').document(friend).update(
+                    {'following': firestore.ArrayRemove([friendToken])})
+                friendID = db.collection('accountInfo').where('publicToken', '==', friendToken).get()[0].id
+                db.collection('accountInfo').document(friendID).update(
                     {'followers': firestore.ArrayRemove([userPublicToken])})
 
 

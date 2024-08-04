@@ -22,7 +22,10 @@ const HomeMenu = () => {
 
   //fetch to find if user is in a group,
   useEffect(() => {
-    const isInGroup = async() =>{
+    isInGroup();
+  },[Context?.user?.id]);
+
+  const isInGroup = async() =>{
       if (!Context?.user?.id) return; // return when not logged in
       try {
           const response = await fetch(`http://127.0.0.1:8000/api/getuser/`,
@@ -39,14 +42,18 @@ const HomeMenu = () => {
 
           const data = await response.json(); 
           const {message} = data;
-          setGroupName(message.settings.group || null); // set group name
+          console.log("group name:" + message.group);
+          setGroupName(message.group || null); // set group name
       } catch (error) {
           console.error('Failed to fetch user details:', error);
       }
-    }
+  }
+
+  const createAndJoin = () =>{
+    setCreatePopup(false)
     isInGroup();
   }
-  ,[Context?.user?.id]);
+
 
 
 /*
@@ -100,7 +107,7 @@ const HomeMenu = () => {
         </div>
 
         <div>
-          {isCreatePopup && <CreateGroupPopup onClose={() => setCreatePopup(false)}/>}
+          {isCreatePopup && <CreateGroupPopup onClose={createAndJoin}/>}
           {isJoinPopup && <JoinGroupPopup onClose= {() => setJoinPopup(false)}/>}
         </div>
         

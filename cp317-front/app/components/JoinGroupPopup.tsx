@@ -11,6 +11,7 @@ const JoinGroupPopup: React.FC<PopupProps>= ({onClose}) => {
     const [Input, setInput] = useState<string>('');
     const [NameIssue, setNameIssue] = useState<string>('');
     const [AvailGroups, setAvailGroups] = useState<[]>([])
+    const [ListOutGroup, setListOutGroup] = useState<boolean>(false);
 
 
     useEffect(() => {
@@ -61,12 +62,15 @@ const JoinGroupPopup: React.FC<PopupProps>= ({onClose}) => {
         <div className={styles.popupContent}>
             <h3 className={styles.title}>Join a Group</h3>
             <input type="text" placeholder={'Enter a Group name'} onChange={(e) => setInput(e.target.value)} />
-            <button onClick={onClose} className={styles.closeButton} >×</button>
-            <button onClick={joinGroup}>Create</button>
+            <div className={styles.buttonContainer}>
+                <button onClick={onClose} className={styles.closeButton} >×</button>
+                <button onClick={joinGroup}>Join</button>
+                <button onClick={() => setListOutGroup(!ListOutGroup)} className={styles.listButton}>Available Groups</button>
+            </div>
             <p>{NameIssue}</p>
             <div className={styles.list}>
                 <ul>
-                    
+                    {ListOutGroup && AvailGroups.map((name, index, key) => (<li key={index}>{index+1}. {name}</li>))}
                 </ul>
             </div>
         </div>

@@ -28,10 +28,12 @@ const CreateGroupPopup:React.FC<PopupProps>  = ({onClose}) => {
 
             const data = await response.json();
             const {message} = data;
-            if (message == "Group already exists") setNameIssue("Name is not unique, try another one");
+            onClose();
+
 
         }catch(Error){
             console.log(Error);
+            setNameIssue("Name is not unique, try another name");
         }
     }
 

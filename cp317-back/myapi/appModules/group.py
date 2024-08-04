@@ -70,6 +70,7 @@ class group:
         db = firestore.client(app)
         token = request.data['token']  # user to add
         name = request.data['name']
+        publicToken = db.collection('accountInfo').document(token).get().to_dict().get('publicToken')
         if db.collection('accountInfo').document(token).get() is None:
             return Response({'message': "User does not exist or you are not authenticated"}, status=498)
 
@@ -83,7 +84,7 @@ class group:
             currentMembers = group_data.get('members', [])
             if token in currentMembers:
                 return Response({'message': "User already in group"}, status=403)
-            currentMembers.append(token)
+            currentMembers.append(publicToken)
             group.set({'members': currentMembers}, merge=True)
             user = db.collection('accountInfo').document(token)
             user.set({'group': name}, merge=True)
@@ -95,6 +96,7 @@ class group:
         db = firestore.client(app)
         token = request.data['token']
         user = db.collection('accountInfo').document(token)
+        publicToken = user.get().to_dict().get('publicToken')
         name = user.get().to_dict().get('group')
         if name is None:
             return Response({'message': "User is not in a group"}, status=403)
@@ -103,7 +105,7 @@ class group:
         currentMembers = group_data.get('members', [])
         if token not in currentMembers:
             return Response({'message': "User not in group"}, status=403)
-        currentMembers.remove(token)
+        currentMembers.remove(publicToken)
         group.set({'members': currentMembers}, merge=True)
 
         user.set({'group': None}, merge=True)
@@ -213,6 +215,7 @@ class group:
     "Given a group name, return the group members"
 
     def getGroupMembers(self, request, app):
+        print(request.data)
         try:
             db = firestore.client(app)
             name = request.data['name']

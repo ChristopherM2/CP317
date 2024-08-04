@@ -158,3 +158,31 @@
     }
 }
 
+/* for home */
+.loginButton {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loginButton:hover {
+    background-color: #ff4d4d;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.loginButton:active {
+    background-color: #e60000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+}
+

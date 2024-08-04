@@ -11,7 +11,7 @@ import NavBar from '../components/NavBar';
 import HomeMenu from '../components/HomeMenus';
 import { ExpProvider } from '../components/ExpContext';
 import {useRouter} from 'next/navigation';
-
+import styles from '../components/styles/Settings.module.css'
 //component to export
 
 interface HelloWorldResponse{
@@ -56,32 +56,10 @@ const HelloWorld = () => {
             )
             :
             (
-                <div>
-                    <h1>You are not logged in</h1>
-                    <p>{data.time}</p>
-                    <ul>
-                        <li> 
-                            <Link href='/home'>Home Page</Link>
-                        </li>
-
-                        <li>
-                            <Link href='/friends'>Friends Page</Link>
-                        </li>
-                            
-                        <li>
-                            <Link href='/login'>Login Page</Link>
-                        </li>
-
-                        <li>
-                            <Link href='/profile'>Profile Page</Link>
-                        </li>
-
-                        <li>
-                            <Link href='/signup'>Signup Page</Link>
-                        </li>
-                        
-                    </ul>
-                 </div>
+                <div className={styles.login}>
+                    <h1>Login to continue!</h1>
+                    <button className={styles.loginButton}> login</button>
+                </div>
             )
         
         

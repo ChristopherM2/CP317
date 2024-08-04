@@ -45,13 +45,13 @@ body.disable-scroll {
 }
 
 .floatingButton img {
-    width: 125%; /* Adjust size as needed */
+    width: 125%;
     height: 10%;
     transition: transform 0.3s ease;
 }
 
 .floatingButton img:hover {
-    transform: scale(1.1); /* Enlarge button slightly on hover */
+    transform: scale(1.1); 
 }
 
 .boardButton {
@@ -59,7 +59,7 @@ body.disable-scroll {
     margin-left: 36%;
     display: flex;
     padding: 10px;
-    z-index: 100; /* Ensure it appears on top of other elements */
+    z-index: 100; 
     transition: transform 0.3s ease;
     width: 25vw;
     height: 35vh;
@@ -68,7 +68,6 @@ body.disable-scroll {
 .boardButton img {
     width: 100%;
     height: 100%;
-    /* Ensure image fills the button */
     transition: transform 0.3s ease;
 }
 
@@ -90,7 +89,6 @@ body.disable-scroll {
 .clockButton img {
     width: 100%;
     height: 100%;
-    /* Ensure image fills the button */
     transition: transform 0.3s ease;
 }
 
@@ -100,7 +98,6 @@ body.disable-scroll {
 
 
 /* this stuff is for people who arent in groups */
-/* Add these styles to your styles.css file or the corresponding CSS module */
 
 .lonely {
     display: flex;
@@ -108,43 +105,30 @@ body.disable-scroll {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    /* Full height of the viewport */
     text-align: center;
-    /* Center align text */
 }
 
 .NoGroupButtons {
     display: flex;
     flex-direction: column;
-    /* Stack buttons vertically */
     gap: 10px;
-    /* Space between buttons */
 }
 
 .NoGroupButtons button {
     background-color: green;
     border-radius: 8px;
-    /* Initial green color */
     color: white;
-    /* Text color */
     border: none;
-    /* Remove border */
     padding: 10px 20px;
-    /* Padding for buttons */
     font-size: 16px;
-    /* Font size */
     cursor: pointer;
-    /* Pointer cursor on hover */
     transition: background-color 0.3s ease, transform 0.3s ease;
-    /* Smooth transition for hover effects */
 }
 
 .NoGroupButtons button:hover {
     background-color: darkgreen;
-    /* Darker green on hover */
 }
 
 .NoGroupButtons button:active {
     transform: scale(0.98);
-    /* Slightly scale down on click */
 }

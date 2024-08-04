@@ -15,7 +15,7 @@
     background-color: rgb(152, 130, 63);
     padding: 100px;
     border-radius: 10px;
-    border: 30px solid #452e0b; /* Add a border */
+    border: 30px solid #452e0b; 
     position: relative;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     z-index: 1000;

@@ -4,34 +4,22 @@ body.disable-scroll {
 
 .navBar {
     position: fixed;
-    /* Fixes the navbar to the bottom of the view */
     bottom: 0;
     left: 0;
     width: 100vw;
     display: flex;
-    /* Aligns items horizontally */
     justify-content: space-around;
-    /* Distributes space evenly between items */
-    /* Optional: Add a background color */
-    /* Optional: Add padding for better spacing */
-    /* Optional: Add shadow for better visibility */
     align-items: flex-end;
     padding: 0;
-        /* Remove padding if not needed */
-        margin: 0;
-        /* Remove margin to avoid extra space */
+    margin: 0;
     
 }
 
 .navBar img {
     position: relative;
     width: 125%;
-    /* Adjust width of images as needed */
-    /* Adjust height of images as needed */
     object-fit: contain;
-    /* Ensures images are scaled properly */
     transition: transform 0.3s ease;
-    /* Smooth scaling effect on hover */
     margin-bottom: -10px;
     margin-left: -11.5%;
     
@@ -39,7 +27,6 @@ body.disable-scroll {
 
 .navBar img:hover {
     transform: scale(1.05);
-    /* Enlarge images slightly on hover */
 }
 
 .navContainer{

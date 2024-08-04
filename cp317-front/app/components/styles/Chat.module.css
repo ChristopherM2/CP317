@@ -1,15 +1,11 @@
-/* Ensure the navbar sticks to the top of the screen */
 .navBar {
     position: fixed;
-    /* Fixed position to always stay in place */
     top: 0;
     width: 100%;
     z-index: 1000;
-    /* Ensures it stays above other content */
     
 }
 
-/* Background image positioned absolutely */
 .bg {
     position: absolute;
     top: 0;
@@ -21,5 +17,4 @@
     align-items: top;
     background-color: #e3e0d5;
 
-    /* Light grey background */
 }

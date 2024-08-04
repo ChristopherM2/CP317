@@ -50,7 +50,8 @@ const HomeMenu = () => {
   }
 
   const createAndJoin = () =>{
-    setCreatePopup(false)
+    setCreatePopup(false);
+    setJoinPopup(false);
     isInGroup();
   }
 
@@ -108,7 +109,7 @@ const HomeMenu = () => {
 
         <div>
           {isCreatePopup && <CreateGroupPopup onClose={createAndJoin}/>}
-          {isJoinPopup && <JoinGroupPopup onClose= {() => setJoinPopup(false)}/>}
+          {isJoinPopup && <JoinGroupPopup onClose= {createAndJoin}/>}
         </div>
         
       </div>

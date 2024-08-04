@@ -51,6 +51,7 @@ const JoinGroupPopup: React.FC<PopupProps>= ({onClose}) => {
             const data = await response.json();
             const {message} = data;
             console.log("joined group")
+            onClose();
 
         }catch(Error){
             setNameIssue("That group doesnt exist, try another one");

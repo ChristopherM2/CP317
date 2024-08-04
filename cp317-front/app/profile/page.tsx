@@ -44,7 +44,7 @@ const Profile = () => {
                 setContributions(message.count || '0');
                // console.log(message.settings.image);
                 setImageLink(message.settings.image);
-                setGroupName(message.settings.group || 'null');
+                setGroupName(message.group || 'null');
             } catch (error) {
                 console.error('Failed to fetch user details:', error);
             }

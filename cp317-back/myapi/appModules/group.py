@@ -47,7 +47,7 @@ class group:
 
                 user = db.collection('accountInfo').document(token)
                 user.set({'groups': name}, merge=True)
-                return Response({'message': "Group already exists"}, status=200)
+                return Response({'message': "Created :3"}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 

@@ -38,6 +38,8 @@ class group:
             user = db.collection('accountInfo').document(token).get().to_dict()
             if user.get('group') is not None:
                 return Response({'message': "User is already in a group"}, status=403)
+            if db.collection('groups').document(name).get().exists:
+                return Response({'message': "Group already exists"}, status=400)
 
 
             else:

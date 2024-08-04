@@ -18,7 +18,7 @@ const FriendItem: React.FC<FriendProps>  = ({ token, hasX = false}) => {
   const Context = useContext(AuthContext);
 
   useEffect(() => {
-    //console.log(JSON.stringify({friendPublicToken:token}))
+    // sets the detail for each follower/folllowing item
     const setDetails = async() => {
         const response = await fetch("http://127.0.0.1:8000/api/getPublicUser/",
                                               { method: 'POST',
@@ -31,7 +31,7 @@ const FriendItem: React.FC<FriendProps>  = ({ token, hasX = false}) => {
 
         const data = await response.json();
         const {message} = data;
-       //s console.log(data);
+       //data being set
         setName(data.username)
         setImageUrl(data.pfp)
     }
@@ -39,7 +39,7 @@ const FriendItem: React.FC<FriendProps>  = ({ token, hasX = false}) => {
     setDetails();
   }, [token])
 
-  const handleClick = async() =>{ // unfollow
+  const handleClick = async() =>{ // unfollow a person 
     if(!Context?.user?.id) return
     try{
       const response = await fetch("http://127.0.0.1:8000/api/friends/",

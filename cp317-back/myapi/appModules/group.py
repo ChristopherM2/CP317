@@ -47,7 +47,7 @@ class group:
                     {'members': [token], 'admin': token, 'messages': [], 'tasks': []})
 
                 user = db.collection('accountInfo').document(token)
-                user.set({'groups': name}, merge=True)
+                user.set({'group': name}, merge=True)
                 return Response({'message': "Created :3"}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
@@ -78,7 +78,7 @@ class group:
         elif user.get('group') is not None:
             return Response({'message': "User is already in a group"}, status=403)
 
-        group_ref = db.collection('groups').document(name)
+        group_ref = db.collection('group').document(name)
         user_ref = db.collection('accountInfo').document(token)
 
         try:
@@ -101,7 +101,8 @@ class group:
                 else:
                     return Response({'message': "Error", 'name': name}, status=400)
             else:
-                return Response({'message': "Error", 'name': name}, status=400)
+                print(f"Group does not exist")
+                return Response({'message': "Error", 'name': name}, status=401)
         except Exception as e:
             print(f"Error updating group: {e} :((((")
 
@@ -117,8 +118,8 @@ class group:
             return Response({'message': "User is not in a group"}, status=403)
 
         else:
-            group = db.collection('groups').where('name', '==', name).get()[0].id
-            group_ref = db.collection('groups').document(group)
+            group = db.collection('group').where('name', '==', name).get()[0].id
+            group_ref = db.collection('group').document(group)
             user_ref = db.collection('accountInfo').document(token)
 
             try:
@@ -133,7 +134,7 @@ class group:
                         currentMembers.remove(token)
 
                         # Update the user's groups to None or remove the group name
-                        user_ref.set({'groups': None}, merge=True)
+                        user_ref.set({'group': None}, merge=True)
 
                         # Update the group's members
                         group_ref.set({'members': currentMembers}, merge=True)

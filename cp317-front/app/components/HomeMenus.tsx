@@ -20,13 +20,7 @@ const HomeMenu = () => {
   const [isJoinPopup, setJoinPopup] = useState<boolean>(false);
   
 
-  //close popups
-  const handleClosePopups = () => {
-    setBoardPopup(false);
-    setClockPopup(false);
-    setCreatePopup(false);
-    setJoinPopup(false);
-  };
+  
 
   //fetch to find if user is in a group,
   useEffect(() => {
@@ -78,16 +72,16 @@ const HomeMenu = () => {
         </div>
       </Link>
       <div className={styles.boardButton}>
-        <img src="/images/Board1.png" alt="Button for tasks"  onClick={() => {setBoardPopup(true)}} />
+        <img src="/images/Board1.png" alt="Button for tasks"  onClick={() => setBoardPopup(true)} />
         
       </div>
       <div className={styles.clockButton}>
-          <img src="/images/Lvl1Clock1.png" alt="Button for Pom Timer"  onClick={() => {setClockPopup(true)}} />
+          <img src="/images/Lvl1Clock1.png" alt="Button for Pom Timer"  onClick={() => setClockPopup(true)} />
       </div>
 
       
-      <TaskBoardPopup isOpen={isBoardPopup} onClose={handleClosePopups} /> 
-      <ClockPopup isOpen={isClockPopup} onClose={handleClosePopups} />
+      <TaskBoardPopup isOpen={isBoardPopup} onClose={() => setBoardPopup(false)} /> 
+      <ClockPopup isOpen={isClockPopup} onClose={() => setClockPopup(false)} />
       
     </div>
   );
@@ -108,8 +102,8 @@ const HomeMenu = () => {
         </div>
 
         <div>
-          {isCreatePopup && <CreateGroupPopup/>}
-          {isJoinPopup && <JoinGroupPopup/>}
+          {isCreatePopup && <CreateGroupPopup onClose={() => setCreatePopup(false)}/>}
+          {isJoinPopup && <JoinGroupPopup onClose= {() => setJoinPopup(false)}/>}
         </div>
         
       </div>

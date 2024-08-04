@@ -1,6 +1,10 @@
 import React from 'react'
 
-const JoinGroupPopup = () => {
+interface PopupProps{
+    onClose: () => void;
+}
+
+const JoinGroupPopup: React.FC<PopupProps>= ({onClose}) => {
   return (
     <div>
       

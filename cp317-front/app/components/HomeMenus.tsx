@@ -20,8 +20,6 @@ const HomeMenu = () => {
   const [isJoinPopup, setJoinPopup] = useState<boolean>(false);
   
 
-  
-
   //fetch to find if user is in a group,
   useEffect(() => {
     const isInGroup = async() =>{

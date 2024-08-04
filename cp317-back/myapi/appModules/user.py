@@ -49,9 +49,6 @@ class user:
             if 'email' in request.data:
                 user_id = request.data['email']
                 user = users_ref.where('email', '==', user_id).get()[0].to_dict().get('publicToken')
-            elif 'username' in request.data:
-                user_id = request.data['username']
-                user = users_ref.where('settings.username', '==', user_id).get()[0].to_dict().get('publicToken')
             else:
                 return Response({'message': 'No email or username provided'}, status=500)
 

@@ -109,6 +109,7 @@ class group:
         group.set({'members': currentMembers}, merge=True)
 
         user.set({'group': None}, merge=True)
+        return Response({'message': "User removed from group"}, status=200)
 
     "Given a group name and a user token, complete a task in the group tasks list"
 

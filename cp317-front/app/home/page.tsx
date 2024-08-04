@@ -10,6 +10,7 @@ import AuthContext from '../components/AuthContext';
 import NavBar from '../components/NavBar';
 import HomeMenu from '../components/HomeMenus';
 import { ExpProvider } from '../components/ExpContext';
+import {useRouter} from 'next/navigation';
 
 //component to export
 
@@ -21,18 +22,14 @@ interface HelloWorldResponse{
 const HelloWorld = () => {
     const Context = useContext(AuthContext);
     const [data, setData] = useState<HelloWorldResponse>({time:'loading..'});
+    const router = useRouter();
     
 
     useEffect(() => { // this was a test, please remove before final
-        const fetchData = async () => {
-       
-            const response = await fetch("http://127.0.0.1:8000/api/time/");
-            const result: HelloWorldResponse = await response.json();
-            setData(result);
+        if(!Context?.user?.id){
+            router.push('/login');
+            return;
         }
-        
-
-        fetchData();
     }, []);
 
     

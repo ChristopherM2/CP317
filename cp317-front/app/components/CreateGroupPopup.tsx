@@ -1,19 +1,35 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import styles from './styles/GroupPopup.module.css'
+import AuthContext from './AuthContext';
 
 interface PopupProps {
     onClose: () =>void;
 }
 
 const CreateGroupPopup:React.FC<PopupProps>  = ({onClose}) => {
+    const Context = useContext(AuthContext);
     const [Input, setInput] = useState<string>('');
     const [NameIssue, setNameIssue] = useState<string>('');
 
 
     const createGroup = async() =>{
-        console.log("make the group ");
+        //console.log(JSON.stringify({ token: Context?.user?.id, name:Input }));
+        if (!Context?.user?.id || Input == '') return;
         try{
-            throw new Error("issue");
+            const response = await fetch(`http://127.0.0.1:8000/api/newGroup/`,
+                                        { method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ token: Context.user.id, name:Input })
+                                      });
+
+            if(!response.ok) throw new Error("issue");
+
+            const data = await response.json();
+            const {message} = data;
+            console.log(message);
+            
 
         }catch(Error){
             setNameIssue("Name is not unique, try another one");

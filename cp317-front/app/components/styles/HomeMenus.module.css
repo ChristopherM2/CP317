@@ -79,95 +79,7 @@ body.disable-scroll {
     transform: scale(1.1); /* Enlarge button slightly on hover */
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-}
-  
-.openButton {
-    width: 100px; /* Adjust width as needed */
-    height: auto;
-    cursor: pointer;
-}
-  
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(180, 143, 62, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-}
-  
-.popupContent {
-    background-color: rgb(152, 130, 63);
-    padding: 100px;
-    border-radius: 10px;
-    border: 30px solid #452e0b; /* Add a border */
-    position: relative;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    z-index: 1000;
-}
 
-.popupList {
-    margin-top: 20px;
-}
-
-.wordItem {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Ensures space between text and delete button */
-    margin-bottom: 10px;
-    padding: 5px 0;
-}
-
-.popupList label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 16px;
-    flex-grow: 1; /* Ensures the label takes up remaining space */
-}
-
-.popupList input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-.deleteButton {
-    margin-left: auto;
-    background: none;
-    border: none;
-    color: red;
-    cursor: pointer;
-}
-
-.closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.deleteButton {
-    background: none;
-    border: none;
-    color: red;
-    font-size: 20px;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-.deleteButton:hover {
-    color: darkred;
-}
 
 .clockButton {
     position: fixed;
@@ -191,22 +103,4 @@ body.disable-scroll {
 
 .clockButton img:hover {
     transform: scale(1.1); /* Enlarge button slightly on hover */
-}
-
-.timerDisplay {
-    font-size: 2em;
-    text-align: center;
-    margin: 20px 0;
-}
-  
-  .timerControls {
-    display: flex;
-    justify-content: space-around;
-}
-  
-  .startButton,
-  .stopButton,
-  .resetButton {
-    padding: 5px 10px;
-    cursor: pointer;
 }

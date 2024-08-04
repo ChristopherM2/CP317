@@ -9,6 +9,7 @@ import { useContext, useState, useEffect } from 'react';
 import AuthContext from '../components/AuthContext';
 import NavBar from '../components/NavBar';
 import HomeMenu from '../components/HomeMenus';
+import { ExpProvider } from '../components/ExpContext';
 
 //component to export
 
@@ -50,8 +51,9 @@ const HelloWorld = () => {
                     <p>
                     meowwww ur logged in, {Context?.user?.id}!
                     </p>     */}
-                    
+                    <ExpProvider>
                     <HomeMenu/>
+                    </ExpProvider>
                     <NavBar/>
                
                 </div>

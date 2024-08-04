@@ -22,7 +22,7 @@ const Group = () => {
                 <div>
                     <h1>Group Page</h1>
                     <p>
-                        
+                        Group's name, group members n other stuff
                     </p>
                     <NavBar/>
 

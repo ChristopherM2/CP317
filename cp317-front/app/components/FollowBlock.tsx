@@ -32,7 +32,7 @@ const FollowBlock: React.FC<PopupProps>= ({onClose}) => {
             const {message} = data; // message is the token to add to follow
             //user_id = request.data['token']
             //firendToken = request.data['friendPublicToken']
-            console.log("got the token." + JSON.stringify({token:Context.user.id, friendPublicToken:message}))
+            //console.log("got the token." + JSON.stringify({token:Context.user.id, friendPublicToken:message}))
 
             const response2 = await fetch("http://127.0.0.1:8000/api/friends/",
                                              { method: 'POST',

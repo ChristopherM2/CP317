@@ -1,10 +1,13 @@
 import traceback
 
-from rest_framework.response import *
+from rest_framework.response import Response
 import firebase_admin
-from firebase_admin import *
-import firebase
-from google.cloud import firestore
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+from datetime import datetime
+from .databaseConnection import FirebaseConnection
+#from google.cloud import firestore
 
 
 class friend:
@@ -23,14 +26,19 @@ class friend:
     """
 
     def friends(self, request, app):  # TODO implement
-        db = firestore.Client(app)
+        try:
+            db = firestore.client(app)
+        except Exception as e:
+            print(traceback.format_exc())
+            return Response({'message': str(e)}, status=502)
         if request.method == 'POST':
             try:
                 user_id = request.data['token']
+                userPublicToken = db.collection('accountInfo').document(user_id).get().to_dict()['publicToken']
                 firendToken = request.data['friendPublicToken']
                 db.collection('accountInfo').document(user_id).update({'following': firestore.ArrayUnion([firendToken])})
                 friend = db.collection('accountInfo').where('publicToken', '==', firendToken).get()[0].id
-                db.collection('accountInfo').document(friend).update({'followers': firestore.ArrayUnion([user_id])})
+                db.collection('accountInfo').document(friend).update({'followers': firestore.ArrayUnion([userPublicToken])})
 
 
                 return Response({'message': 'Friend added'}, status=200)

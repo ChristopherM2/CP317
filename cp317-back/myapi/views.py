@@ -6,6 +6,7 @@ from .appModules.login import *
 from .appModules.settings import *
 from .appModules.user import *
 
+from .appModules.friends import *
 """
 -------------------------------------------------------
 Each method is a view that returns a response to the client, 
@@ -54,7 +55,7 @@ def signup(request):
 
 @api_view(['POST', 'DELETE'])
 def friends(request):
-    return friends(None,request, app)
+    return friend.friends(None,request, app)
 
 
 @api_view(['GET', 'POST'])

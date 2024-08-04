@@ -46,8 +46,13 @@ class user:
         try:
             db = firestore.client(app)
             users_ref = db.collection('accountInfo')
-            user_id = request.data['email']
-            user = users_ref.where('email', '==', user_id).get()[0].to_dict().get('publicToken')
+            if 'email' in request.data:
+                user_id = request.data['email']
+                user = users_ref.where('email', '==', user_id).get()[0].to_dict().get('publicToken')
+            else:
+                return Response({'message': 'No email or username provided'}, status=500)
+
+
             return Response({'message': user}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)

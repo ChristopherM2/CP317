@@ -1,4 +1,9 @@
 .container {
+    margin-left : -1%;
+    margin-top : -1%;
+    background-color: #f5f5e1;
+    width: 101%;
+    height: 101vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,11 +26,12 @@
 
 .GroupInfo,
 .GroupMembers {
+    
     width: 100%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: #f9f9f9;
+    background-color: #e6e6c9;
     margin-bottom: 20px;
 }
 .GroupInfo {
@@ -71,4 +77,20 @@
 
 .GroupMembers ul li:last-child {
     border-bottom: none;
+}
+
+.listMembers {
+    list-style: none;
+    padding: 0px;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.listMembers li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }

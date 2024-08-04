@@ -41,7 +41,7 @@ const Group = () => {
             const {message} = data;
             
             setGroupName(message.group); // set group name
-            console.log(message.group);
+            //console.log(message.group);
             
             const response2 = await fetch(`http://127.0.0.1:8000/api/getGroupMembers/`, // get member list
                                         { method: 'POST',
@@ -67,29 +67,7 @@ const Group = () => {
     
     },[Context?.user?.id]);
 
-    // gets and sets member list from group
-    const getMembers = async() => { 
-        console.log(JSON.stringify({ name:GroupName }))
-        try{
-            const response2 = await fetch(`http://127.0.0.1:8000/api/getGroupMembers/`, // get member list
-                                        { method: 'POST',
-                                        headers: {
-                                          'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({ name:GroupName })
-                                      });
-
-          if (!response2.ok) {
-            throw new Error('Network response2 was not ok');
-          }
-          const data2 = await response2.json(); 
-          const {message2} = data2;
-          console.log(message2)
-          setMembers(message2.members); // set member list
-        }catch(error){
-            console.error('Failed to fetch members:', error);
-        }
-    }
+   
 
     const LeaveGroup = async() => {
         if (!Context?.user?.id) return
@@ -131,7 +109,7 @@ const Group = () => {
                         </div>
                         <div className={styles.GroupMembers}>
                             <div>
-                                <ul>
+                                <ul className={styles.listMembers}>
                                     {Members.map((tok, index) => (
                                     <GroupMember key={index} token={tok}/>
                                     ))}

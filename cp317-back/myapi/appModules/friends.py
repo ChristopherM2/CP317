@@ -27,7 +27,7 @@ class friend:
         if request.method == 'POST':
             try:
                 user_id = request.data['token']
-                firendToken = request.data['firendPublicToken']
+                firendToken = request.data['friendPublicToken']
                 db.collection('accountInfo').document(user_id).update({'following': firestore.ArrayUnion([firendToken])})
                 friend = db.collection('accountInfo').where('publicToken', '==', firendToken).get()[0].id
                 db.collection('accountInfo').document(friend).update({'followers': firestore.ArrayUnion([user_id])})
@@ -39,7 +39,7 @@ class friend:
         elif request.method == 'DELETE':
             try:
                 user_id = request.data['token']
-                firendToken = request.data['firendPublicToken']
+                firendToken = request.data['friendPublicToken']
                 db.collection('accountInfo').document(user_id).update({'following': firestore.ArrayRemove([firendToken])})
                 friend = db.collection('accountInfo').where('publicToken', '==', firendToken).get()[0].id
                 db.collection('accountInfo').document(friend).update({'followers': firestore.ArrayRemove([user_id])})

@@ -38,7 +38,8 @@ class group:
             user = db.collection('accountInfo').document(token).get().to_dict()
             if user.get('group') is not None:
                 return Response({'message': "User is already in a group"}, status=403)
-
+            elif db.collection('groups').document(name).get().exists:
+                return Response({'message': "Group already exists"}, status=400)
 
             else:
                 print(name)
@@ -47,7 +48,7 @@ class group:
 
                 user = db.collection('accountInfo').document(token)
                 user.set({'groups': name}, merge=True)
-                return Response({'message': "Group already exists"}, status=200)
+                return Response({'message': "Created :3"}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 

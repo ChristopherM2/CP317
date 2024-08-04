@@ -20,7 +20,12 @@ const Friends = () => {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
 
     useEffect(() => { // run on load
-        const fetchUserDetails = async () => {
+        
+
+        fetchUserDetails();
+    }, [Context?.user?.id]);
+
+    const fetchUserDetails = async () => {
             if (!Context?.user?.id) return; // return when not logged in
 
             try { // fetch user's details
@@ -48,15 +53,13 @@ const Friends = () => {
             }
         };
 
-        fetchUserDetails();
-    }, [Context?.user?.id]);
-
     const handleClick = () => {
         setIsPopupVisible(true);
     }
 
     const handleClosePopup = () => {
         setIsPopupVisible(false);
+        fetchUserDetails();
     }
 
 

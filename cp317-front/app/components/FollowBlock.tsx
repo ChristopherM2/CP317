@@ -44,7 +44,8 @@ const FollowBlock: React.FC<PopupProps>= ({onClose}) => {
 
             const data2 = response2.json();
             console.log(data2);
-
+            onClose();
+            
 
 
         }catch (error) {

@@ -216,7 +216,7 @@ class group:
         db = firestore.client(app)
         name = request.data['name']
         if db.collection('groups').document(name).get().exists:
-            group = db.collection('groups').document(name)
+            group = db.collection('groups').document(name).get().to_dict()
             return Response({'message': group.get('members')}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)

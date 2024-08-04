@@ -93,6 +93,7 @@ class group:
     "Given a user token, remove the user from the group"
 
     def removeUserFromGroup(self, request, app):  # 97% sure it works
+
         db = firestore.client(app)
         token = request.data['token']
         user = db.collection('accountInfo').document(token)
@@ -103,7 +104,7 @@ class group:
         group = db.collection('groups').document(name)
         group_data = group.get().to_dict()
         currentMembers = group_data.get('members', [])
-        if token not in currentMembers:
+        if publicToken not in currentMembers:
             return Response({'message': "User not in group"}, status=403)
         currentMembers.remove(publicToken)
         group.set({'members': currentMembers}, merge=True)

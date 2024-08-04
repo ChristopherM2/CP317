@@ -76,7 +76,7 @@ def add_user_to_group(request):
     return group.addUserToGroup(None, request, app)
 
 
-@api_view(['DELETE'])
+@api_view(['DELETE', 'POST'])
 def remove_user_from_group(request):
     return group.removeUserFromGroup(None, request, app)
 

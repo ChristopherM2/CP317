@@ -58,7 +58,7 @@ const HelloWorld = () => {
             (
                 <div className={styles.login}>
                     <h1>Login to continue!</h1>
-                    <button className={styles.loginButton}> login</button>
+                    <button className={styles.loginButton} onClick={() => router.push('/login')}> login</button>
                 </div>
             )
         

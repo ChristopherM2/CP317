@@ -29,47 +29,49 @@ class Login:
     -------------------------------------------------------
     """
 
-    def loginreqs(self, request, app):
+    # This function is used to login a user
+    """ 
+    params: request as http request , app as firebase app
+    request should contain email and password
+    returns a token which can be used to access the user's data
+    """
+
+    def loginReqs(self, request, app):
         db = firestore.client(app)
-        print(request.data.get('password'))
         users_ref = db.collection('creds')
         if request.method == 'POST' or request.method == 'GET':
             try:
                 email = request.data['email']
                 password = request.data['password'].encode('utf-8')
             except Exception as e:
-                return Response({'message': "Invalid request, missing fields :(((("}, status=418)
+                return Response({'message': "Invalid request, missing fields :(((("}, status=418) # 418 <3
             user = users_ref.where('email', '==', email).get()
             if not user:
-                return Response({'message': "User does not exist"}, status=401)
+                return Response({'message': "User does not exist"}, status=401)  # oh no
             password2 = user[0].to_dict()['password'].encode('utf-8')
             if bcrypt.checkpw(password, password2):
-                return Response({'message': "Login Successful", 'id': user[0].id}, status=200)
+                return Response({'message': "Login Successful", 'id': user[0].id}, status=200) # lets go
             else:
-                return Response({'message': "Login Failed"}, status=401)
+                return Response({'message': "Login Failed"}, status=401)# oh no
 
     """
-    -------------------------------------------------------
-    Adds a new user to the database and returns a response including the user token
-    -------------------------------------------------------
-    Parameters:
-        1- http request
-    Returns:
-        http response
-    -------------------------------------------------------
+    
+    Creates a new user in the database
+    params : request as http request , app as firebase app
+    request should contain email and password
+    returns a token which can be used to access the user's data 
     """
 
-    def signupreqs(self, request, app):
+    def signupReqs(self, request, app):
         db = firestore.client(app)
         users_ref = db.collection('creds')
-        print(request.data)
-        # MEOW
+
         if request.method == 'POST':
             email = request.data.get('email')
             password = request.data.get('password')
 
             if not email or not password:
-                return Response({'message': "Missing username or password"}, status=400)
+                return Response({'message': "Missing username or password"}, status=400) #how dare they not provide a email or password
 
             password = password.encode('utf-8')
             user = users_ref.where('email', '==', email).get()
@@ -77,13 +79,12 @@ class Login:
             if user:
                 print(user[0].to_dict())
                 print(user[0].id)
-                return Response({'message': "User already exists\n (im a teapot)"}, status=418)
+                return Response({'message': "User already exists\n (im a teapot)"}, status=418) # why is 418 a such a beautful status code
             else:
-                hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+                hashed = bcrypt.hashpw(password, bcrypt.gensalt())  #lets not store plaintext passwords
                 new_user = {
                     'email': email,
-                    'password': hashed.decode('utf-8'),  # Store password as string
-                    #'nonEncrypted': password.decode('utf-8')
+                    'password': hashed.decode('utf-8'),
 
                 }
                 user_ref = users_ref.add(new_user)
@@ -103,7 +104,6 @@ class Login:
                 duplicate_user = users_ref.where('email', '==', email).get()
                 # it always does it twice I hate this
                 if len(duplicate_user) > 1:
-                    print("Deleting duplicate user")
                     users_ref.document(duplicate_user[1].id).delete()
-                Settings().default_settings(user_ref[1].id, app)
-                return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201)
+                Settings().defaultSettings(user_ref[1].id, app)
+                return Response({'message': "User created", 'id': str(user_ref[1].id)}, status=201) # We did it

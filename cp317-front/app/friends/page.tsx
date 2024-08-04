@@ -53,11 +53,11 @@ const Friends = () => {
             }
         };
 
-    const handleClick = () => {
+    const handleClick = () => { // show popup
         setIsPopupVisible(true);
     }
 
-    const handleClosePopup = () => {
+    const handleClosePopup = () => { // close popup
         setIsPopupVisible(false);
         fetchUserDetails();
     }

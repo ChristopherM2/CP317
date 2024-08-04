@@ -12,7 +12,7 @@ const FollowBlock: React.FC<PopupProps>= ({onClose}) => {
     const [isNotValid, setIsNotValid] = useState<boolean>(false);
     const Context = useContext(AuthContext)
 
-    const run = async () =>{
+    const run = async () =>{ // finds user's public token, and then adds it to their following list
         //console.log(JSON.stringify({email:input}));
         try{
             if(!Context?.user?.id) return;
@@ -30,9 +30,6 @@ const FollowBlock: React.FC<PopupProps>= ({onClose}) => {
             }
             const data = await response.json();
             const {message} = data; // message is the token to add to follow
-            //user_id = request.data['token']
-            //firendToken = request.data['friendPublicToken']
-            //console.log("got the token." + JSON.stringify({token:Context.user.id, friendPublicToken:message}))
 
             const response2 = await fetch("http://127.0.0.1:8000/api/friends/",
                                              { method: 'POST',

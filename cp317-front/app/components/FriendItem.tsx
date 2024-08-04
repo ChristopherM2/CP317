@@ -18,7 +18,7 @@ const FriendItem: React.FC<FriendProps>  = ({ token, hasX = false}) => {
   const Context = useContext(AuthContext);
 
   useEffect(() => {
-    // sets the detail for each follower/folllowing item
+    // sets the detail for each follower/folllowing item from public token
     const setDetails = async() => {
         const response = await fetch("http://127.0.0.1:8000/api/getPublicUser/",
                                               { method: 'POST',

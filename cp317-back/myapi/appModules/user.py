@@ -34,8 +34,8 @@ class user:
         try:
             db = firestore.client(app)
             users_ref = db.collection('accountInfo')
-            user_id = request.data['email']
-            user = users_ref.where('email', '==', user_id).get()[0].to_dict()
+            user_id = request.data['friendPublicToken']
+            user = users_ref.where('publicToken', '==', user_id).get()[0].to_dict()
             response = {'pfp': user.get('settings').get('image'), 'username': user.get('settings').get('username'),
                         'email': user.get('email'), 'group': user.get('group'), 'count': user.get('count')}
             return Response(response, status=200)

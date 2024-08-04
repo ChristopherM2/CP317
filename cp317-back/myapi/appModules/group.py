@@ -7,8 +7,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 from datetime import datetime
-from .databaseConnection import FirebaseConnection
-meow = FirebaseConnection()
+
 class group:
     def __init__(self, instance: Any):
         pass
@@ -180,7 +179,8 @@ class group:
 
     def sendmessage(self, request, app):  # this should work :100:
         db = firestore.client(app)
-        group = db.collection('groups').document(request.data['name'])
+        user = db.collection('AccountInfo').document(request.data['token']).get().to_dict()
+        group = db.collection('groups').document(user.get('group'))
 
         # Get the current messages
         group_doc = group.get()
@@ -190,11 +190,11 @@ class group:
             return Response({'message': "Group doesn't exist :( "}, status=401)
 
         # Append the new message to the messages list
+
         new_message = {
             'message': request.data['message'],
             'time': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),  # Current time in string format
-            'sender': meow.get_data('AccountInfo',request.data['token']).get('settings').get('username'),
-            'pfp': meow.get_data('AccountInfo',request.data['token']).get('settings').get('image'),
+            'sender': user.get('publicToken'),
 
         }
         messages.append(new_message)
@@ -250,7 +250,7 @@ class group:
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-    def updatemembercompletion(self, request, app):  # TODO Verify it works (didnt verify im sure it works :3)
+    def updateMemberCompletion(self, request, app):  # TODO Verify it works (didnt verify im sure it works :3)
         db = firestore.client(app)
         name = request.data['name']
         token = request.data['token']
@@ -266,7 +266,7 @@ class group:
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-    def getmessages(self, request, app):  # TODO Verify it works
+    def getMessages(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
         name = request.data['name']
         if self.groupexists(name, app):
@@ -275,7 +275,7 @@ class group:
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-    def getcompletedtasks(self, request, app):  # TODO Verify it works
+    def getCompletedTasks(self, request, app):  # TODO Verify it works
         db = firestore.client(app)
         name = request.data['name']
         if self.groupexists(name, app):
@@ -284,7 +284,7 @@ class group:
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
-    def userinGroup(self, token, app):
+    def userInGroup(self, token, app):
         db = firestore.client(app)
         user = db.collection('accountInfo').document(token).get()
         if not user:

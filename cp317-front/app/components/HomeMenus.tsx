@@ -45,14 +45,17 @@ const HomeMenu = () => {
           <img src="/images/Nav-group.png" alt="Group button in Home Menu" className={styles.floatingButton} />
         </div>
       </Link>
-      <div className={styles.navContainer}>
-        <img src="/images/Board1.png" alt="Button for tasks" className={styles.boardButton} onClick={handleButtonClick} />
-        <TaskBoardPopup isOpen={isPopupOpen} onClose={handleClosePopup} /> 
-        <div className={styles.navContainer}>
-          <img src="/images/Lvl1Clock1.png" alt="Button for Pom Timer" className={styles.clockButton} onClick={handleButtonClick2} />
-          <ClockPopup isOpen={isPopupOpen2} onClose={handleClosePopup2} />
-        </div>
+      <div className={styles.boardButton}>
+        <img src="/images/Board1.png" alt="Button for tasks"  onClick={handleButtonClick} />
+        
       </div>
+      <div className={styles.clockButton}>
+          <img src="/images/Lvl1Clock1.png" alt="Button for Pom Timer"  onClick={handleButtonClick2} />
+      </div>
+
+      <ClockPopup isOpen={isPopupOpen2} onClose={handleClosePopup2} />
+      <TaskBoardPopup isOpen={isPopupOpen} onClose={handleClosePopup} /> 
+      
     </div>
   );
 }

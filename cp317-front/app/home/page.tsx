@@ -51,9 +51,7 @@ const HelloWorld = () => {
                     <p>
                     meowwww ur logged in, {Context?.user?.id}!
                     </p>     */}
-                    <ExpProvider>
                     <HomeMenu/>
-                    </ExpProvider>
                     <NavBar/>
                
                 </div>

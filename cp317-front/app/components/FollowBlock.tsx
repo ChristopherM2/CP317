@@ -1,6 +1,7 @@
 'use client';
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import styles from './styles/FollowBlock.module.css'
+import AuthContext from './AuthContext';
 
 interface PopupProps{
     onClose: () => void;
@@ -9,10 +10,12 @@ interface PopupProps{
 const FollowBlock: React.FC<PopupProps>= ({onClose}) => {
     const [input, setInput] = useState<string>('');
     const [isNotValid, setIsNotValid] = useState<boolean>(false);
+    const Context = useContext(AuthContext)
 
     const run = async () =>{
         //console.log(JSON.stringify({email:input}));
         try{
+            if(!Context?.user?.id) return;
             const response = await fetch("http://127.0.0.1:8000/api/findPublicToken/",
                                              { method: 'POST',
                                               headers: {
@@ -27,14 +30,21 @@ const FollowBlock: React.FC<PopupProps>= ({onClose}) => {
             }
             const data = await response.json();
             const {message} = data; // message is the token to add to follow
+            //user_id = request.data['token']
+            //firendToken = request.data['friendPublicToken']
+            console.log("got the token." + JSON.stringify({token:Context.user.id, friendPublicToken:message}))
 
-            const response2 = await fetch("http://127.0.0.1:8000/api/findPublicToken/",
+            const response2 = await fetch("http://127.0.0.1:8000/api/friends/",
                                              { method: 'POST',
                                               headers: {
                                                 'Content-Type': 'application/json'
                                               },
-                                              body: JSON.stringify({email:input})
+                                              body: JSON.stringify({token:Context.user.id, friendPublicToken:message})
                                             });
+
+            const data2 = response2.json();
+            console.log(data2);
+
 
 
         }catch (error) {

@@ -16,6 +16,7 @@ const Profile = () => {
     const [Name, setName] = useState<string>('PlaceholderName');
     const [Email, setEmail] = useState<string>('PlaceholderEmail');
     const [Contributions, setContributions] = useState<string>('0');
+    const [ImageLink, setImageLink] = useState<string>('')
 
     useEffect(() => {
         const fetchUserDetails = async () => {
@@ -40,6 +41,8 @@ const Profile = () => {
                 setName(message.settings?.username);
                 setEmail(message.email);
                 setContributions(message.count || '0');
+               // console.log(message.settings.image);
+                setImageLink(message.settings.image);
             } catch (error) {
                 console.error('Failed to fetch user details:', error);
             }
@@ -57,7 +60,7 @@ const Profile = () => {
                     <div className={styles.box}>
                         <h2 className={styles.header}>Profile</h2>
                         <div className={styles.profileTop}>
-                            <img src="https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb" alt="your pfp" className={styles.pfp}/>
+                            <img src={ImageLink} alt="your pfp" className={styles.pfp}/>
                             <Link href='/settings'><button className={styles.profileButton}>Edit Profile</button></Link>
                         </div>
                         <ul className={styles.list}>

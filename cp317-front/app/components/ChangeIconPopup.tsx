@@ -3,21 +3,21 @@ Settings popups to change user icon
 */
 
 'use client';
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, ChangeEvent } from 'react'
 import styles from './styles/SettingsIconPopup.module.css'
 import AuthContext from './AuthContext';
 
 
 interface PopupProps {
     onClose: () => void;
-    placeholder: string;
-    api: string;
 }
 
-const ChangeIconPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) => {
-    const [imageLink, setImage] = useState<string>('')
+const ChangeIconPopup: React.FC<PopupProps> = ({ onClose}) => {
     const Context = useContext(AuthContext)
-    const [input, setInput] = useState<string>('');
+
+    const [imageLink, setImageLink] = useState<string>('')
+    const [file, setFile] = useState<File | null>(null);
+    const [ranSetImg, setRanSetimg] = useState<boolean>(false)
 
     //get user's current image 
     useEffect(() =>{
@@ -36,7 +36,7 @@ const ChangeIconPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) =>
                 if(response.ok){ // set user image
                     const data =  await response.json();
                     const {message} = data;
-                    setImage(message.settings.image);
+                    setImageLink(message.settings.image);
                 }
             }catch (error) {
                 console.error('Failed to fetch user details:', error);
@@ -46,17 +46,45 @@ const ChangeIconPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) =>
         
     }, [Context?.user?.id])
 
-    
-    // function runs on click of 'set image', uploads image link to database
+     // 
+    // function runs on click of 'set image' and puts link in imageLink
+    // then it should set the image in database
     const run = async () => {
-        if(imageLink == '') return;
-        console.log("Icon change run" +  api);
+        if(imageLink == '' || !Context?.user?.id) return;
+
+        try{ // fetch user image
+                const response = await fetch(`http://127.0.0.1:8000/api/updateImage/`,
+                                                { method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify({ token: Context?.user?.id, image:imageLink})
+                                                });
+
+                if(response.ok){ // set user image
+                    setRanSetimg(true);
+                }
+        }catch (error) {
+                console.error('Failed to fetch user details:', error);
+        }
+
+
+        
     }
 
-    //uploads the image to firebase store, and puts link in imageLink
-    const uploadImage = async() => {
-
-    }
+    //show image to user
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setRanSetimg(false);
+        if (event.target.files && event.target.files[0]) {
+            setFile(event.target.files[0]); // set the file
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImageLink(reader.result as string); // show the image
+                //console.log(reader.result as string)
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    };
    
 
     return (
@@ -65,8 +93,24 @@ const ChangeIconPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) =>
                 <h3 className={styles.title}>Change Your Icon</h3>
                 <button onClick={onClose} className={styles.closeButton} >×</button>
                 <img className = {styles.pfp} src={imageLink || ""} alt="" />
-                <button className={styles.bottomButtons} onClick={uploadImage}>Upload Image</button>
-                <button className={styles.bottomButtons}  onClick={run}>Set Image</button>
+                <input
+                    type="file"
+                    id="fileInput"
+                    style={{ display: 'none' }}
+                    accept="image/*"
+                    onChange={handleFileChange}
+                />
+                <button
+                    className={styles.bottomButtons}
+                    onClick={() => document.getElementById('fileInput')?.click()}
+                >
+                    Choose Image
+                </button>
+                <button className={styles.bottomButtons} onClick={run}>
+                    Set Image
+                </button>
+
+                {ranSetImg && <p className={styles.set}>Image set!</p>}
             </div>
         </div>
     )

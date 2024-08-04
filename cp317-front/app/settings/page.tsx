@@ -85,8 +85,6 @@ const Settings = () => {
 
             {isPopupVisibleIcon && <ChangeIconPopup 
                         onClose={handleClosePopup}
-                        placeholder={popupContent.placeholder}
-                        api={popupContent.api}
                     />}
             
             </div>

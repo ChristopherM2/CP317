@@ -71,14 +71,13 @@ const Group = () => {
 
     const LeaveGroup = async() => {
         if (!Context?.user?.id) return
-        console.log("LEAVE GROUP RUN");
         try{
             const response3 = await fetch(`http://127.0.0.1:8000/api/removeUserFromGroup/`, // get member list
                                         { method: 'POST',
                                         headers: {
                                           'Content-Type': 'application/json'
                                         },
-                                        body: JSON.stringify({ token:Context.user.id, name:GroupName })
+                                        body: JSON.stringify({token:Context.user.id})
                                       });
 
           if (!response3.ok) {
@@ -105,7 +104,7 @@ const Group = () => {
                     <div className={styles.groupContainer}>
                         <div className={styles.GroupInfo}>
                             <h3>Group Name: {GroupName}</h3>
-                            <button onClick={() => LeaveGroup}>Leave Group</button>
+                            <button onClick={LeaveGroup}>Leave Group</button>
                         </div>
                         <div className={styles.GroupMembers}>
                             <div>

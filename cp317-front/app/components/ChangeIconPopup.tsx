@@ -63,6 +63,7 @@ const ChangeIconPopup: React.FC<PopupProps> = ({ onClose}) => {
 
                 if(response.ok){ // set user image
                     setRanSetimg(true);
+                    onClose()
                 }
         }catch (error) {
                 console.error('Failed to fetch user details:', error);

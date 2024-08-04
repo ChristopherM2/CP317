@@ -31,6 +31,7 @@ const SettingsTextPopup: React.FC<PopupProps> = ({ onClose, placeholder, api }) 
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             } 
+            onClose()
             } catch (error) {
                 console.error('Failed to fetch user details:', error);
             }

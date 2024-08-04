@@ -47,10 +47,13 @@ class friend:
         elif request.method == 'DELETE':
             try:
                 user_id = request.data['token']
+                userPublicToken = db.collection('accountInfo').document(user_id).get().to_dict()['publicToken']
                 firendToken = request.data['friendPublicToken']
-                db.collection('accountInfo').document(user_id).update({'following': firestore.ArrayRemove([firendToken])})
+                db.collection('accountInfo').document(user_id).update(
+                    {'following': firestore.ArrayRemove([firendToken])})
                 friend = db.collection('accountInfo').where('publicToken', '==', firendToken).get()[0].id
-                db.collection('accountInfo').document(friend).update({'followers': firestore.ArrayRemove([user_id])})
+                db.collection('accountInfo').document(friend).update(
+                    {'followers': firestore.ArrayRemove([userPublicToken])})
 
 
 

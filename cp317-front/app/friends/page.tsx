@@ -36,10 +36,10 @@ const Friends = () => {
                     throw new Error('Network response was not ok');
                 }
 
-                const data = await response.json(); // data should have .name, .email, .contributions
-                //console.log(data)
+                const data = await response.json(); 
                 const {message} = data;
-                //console.log(message);
+
+                //message.followers is public tokens of followers, fetch username & pfp in frienditem
                 setFollowers(message.followers) // sets the array with followers
                 setFollowing(message.following) // sets the array with following
 
@@ -83,8 +83,8 @@ const Friends = () => {
                                 {following.map((friend, index) => (
                                     <FriendItem
                                         key={index}
-                                        name={friend}
-                                        imageUrl="https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb"
+                                        token={friend}
+                                        hasX={true}
                                     />
                                 ))}
                             </ul>
@@ -95,8 +95,7 @@ const Friends = () => {
                                 {followers.map((friend, index) => (
                                     <FriendItem
                                         key={index}
-                                        name={friend}
-                                        imageUrl="https://firebasestorage.googleapis.com/v0/b/cp317-69ff0.appspot.com/o/images%2Fdesktop-wallpaper-default-pfp-aesthetic-default-pfp.jpg?alt=media&token=98cdee9b-009c-47b1-a97f-197390691ffb"
+                                        token={friend}
                                     />
                                 ))}
                             </ul>

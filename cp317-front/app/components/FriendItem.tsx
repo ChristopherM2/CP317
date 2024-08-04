@@ -2,19 +2,41 @@
 Simple component, just represents a userItem to render in friends tab
 */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './styles/FriendItem.module.css';
 
 interface FriendProps {
-    name: string;
-    imageUrl: string;
+    token: string;
+    hasX?: boolean;
 }
 
-const FriendItem: React.FC<FriendProps>  = ({ name, imageUrl }) => {
+const FriendItem: React.FC<FriendProps>  = ({ token, hasX = false}) => {
+  const [imageUrl, setImageUrl] = useState<string>('');
+
+  useEffect(() => {
+    const setDetails = async() => {
+        const response = await fetch("http://127.0.0.1:8000/api/getPublicUser/",
+                                              { method: 'POST',
+                                                headers: {
+                                                  'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify({token:token})
+                                              });
+
+
+        const data = response.json();
+        console.log(data);
+    }
+
+    setDetails();
+  }, [token])
+
+
+
   return (
     <div className={styles.card}>
       <img src={imageUrl} alt="Profile" className={styles.image} />
-      <span className={styles.text}>{name}</span>
+      <span className={styles.text}>{token}</span>
     </div>
   );
 };

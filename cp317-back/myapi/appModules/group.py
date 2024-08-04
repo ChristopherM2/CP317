@@ -8,6 +8,7 @@ from firebase_admin import firestore
 
 from datetime import datetime
 
+
 class group:
     def __init__(self, instance: Any):
         pass
@@ -24,106 +25,95 @@ class group:
     -------------------------------------------------------
     """
 
-
     "given a user token check if the user exists in the database"
-    def userExists(self, token, app):  # private helper function frfr //works
-        db = firestore.client(app)
-        user = db.collection('accountInfo').document(token).get()
-
-        if not user:
-            return False
-        return True
-
-    "Given a group name and a user token, check if the group exists"
-    def groupExists(self, token, app):  # private function frfr //works
-        db = firestore.client(app)
-        group = db.collection('groups').document(token).get()
-        print(group.exists)
-        if not group.exists:
-            return False
-        return True
 
     "Given a group name and a user token, create a new group with the user as the admin and only member"
+
     def newGroup(self, request, app):  # verified to work
         db = firestore.client(app)
+        try:
+            name = request.data['name']
+            token = request.data['token']
+            print(name)
+            user = db.collection('accountInfo').document(token).get().to_dict()
+            if user.get('group') is not None:
+                return Response({'message': "User is already in a group"}, status=403)
 
-        name = request.data['name']
-        token = request.data['token']
-        if not self.userExists(token, app):
-            return Response({'message': "User does not exist or you are not authenticated"}, status=498)
-        elif self.groupExists(name, app):
-            return Response({'message': "Group already exists"}, status=418)
-        elif self.userInGroup(token, app):
-            return Response({'message': "Your in a group already please leave"}, status=403)
-        else:
-            group = db.collection('groups').document(name).set(
-                {'members': [token], 'admin': token, 'messages': [], 'tasks': []})
 
-            user = db.collection('accountInfo').document(token)
-            user.set({'groups': name}, merge=True)
-            return Response({'message': "Group already exists"}, status=200)
+            else:
+                print(name)
+                group = db.collection('groups').document(name).set(
+                    {'members': [token], 'admin': token, 'messages': [], 'tasks': []})
+
+                user = db.collection('accountInfo').document(token)
+                user.set({'groups': name}, merge=True)
+                return Response({'message': "Group already exists"}, status=200)
+        except Exception as e:
+            return Response({'message': str(e)}, status=500)
 
     "get all the available groups in the database"
+
     def getAvailableGroups(self, request, app):  # verified to work
         db = firestore.client(app)
         groups = db.collection('groups').stream()
         group_list = []
         for group in groups:
-            meow = group.to_dict()
-            group_list.append(meow.get('name'))
+            meow = group
+            group_list.append(meow.id)
         return Response({'message': group_list}, status=200)
 
-
-
     "Given a group name and a user token, add the user to the group"
+
     def addUserToGroup(self, request, app):  # Verified to work
         db = firestore.client(app)
         name = request.data['name']  # group name to join
         token = request.data['token']  # user to add
-
-        if not self.userExists(token, app):
+        user = db.collection('accountInfo').document(token).get()
+        if user is not None:
+            user = user.to_dict()
+        if user is None:
             return Response({'message': "User does not exist or you are not authenticated"}, status=498)
-        elif not self.groupExists(name, app):
-            return Response({'message': "Group does not exist"}, status=418)
-        elif self.userInGroup(token, app):
-            return Response({'message': "Your in a group already please leave"}, status=403)
-        else:
-            group_ref = db.collection('groups').document(name)
-            user_ref = db.collection('accountInfo').document(token)
+        elif user.get('group') is not None:
+            return Response({'message': "User is already in a group"}, status=403)
 
-            try:
-                group_doc = group_ref.get()
-                if group_doc.exists:
-                    group_data = group_doc.to_dict()
-                    currentMembers = group_data.get('members', [])
+        group_ref = db.collection('groups').document(name)
+        user_ref = db.collection('accountInfo').document(token)
 
-                    # Ensure token is not already in currentMembers to avoid duplicates
-                    if token not in currentMembers:
-                        currentMembers.append(token)
+        try:
+            group_doc = group_ref.get()
+            if group_doc.exists:
+                group_data = group_doc.to_dict()
+                currentMembers = group_data.get('members', [])
 
-                        # Update the user's group
-                        user_ref.set({'group': name}, merge=True)
+                # Ensure token is not already in currentMembers to avoid duplicates
+                if token not in currentMembers:
+                    currentMembers.append(token)
 
-                        # Update the group's members
-                        group_ref.update({'members': currentMembers})
+                    # Update the user's group
+                    user_ref.set({'group': name}, merge=True)
 
-                        return Response({'message': "User added to group", 'name': name}, status=200)
-                    else:
-                        return Response({'message': "Error", 'name': name}, status=400)
+                    # Update the group's members
+                    group_ref.update({'members': currentMembers})
+
+                    return Response({'message': "User added to group", 'name': name}, status=200)
                 else:
                     return Response({'message': "Error", 'name': name}, status=400)
-            except Exception as e:
-                print(f"Error updating group: {e} :((((")
+            else:
+                return Response({'message': "Error", 'name': name}, status=400)
+        except Exception as e:
+            print(f"Error updating group: {e} :((((")
 
     "Given a user token, remove the user from the group"
+
     def removeUserFromGroup(self, request, app):  # 97% sure it works
         db = firestore.client(app)
         token = request.data['token']  # user to add
+        if db.collection('accountInfo').document(token).get() is None:
+            return Response({'message': "User does not exist or you are not authenticated"}, status=498)
         name = db.collection('accountInfo').document(token).get().to_dict().get('group')
-        if not self.userExists(token, app):
-            print("return Response({'message': 'User does not exist or you are not authenticated'}, status=498)")
-        elif not self.groupExists(name, app):
-            print("return Response({'message': 'Group does not exist'}, status=418)")
+        if name is None:
+            return Response({'message': "User is not in a group"}, status=403)
+
         else:
             group = db.collection('groups').where('name', '==', name).get()[0].id
             group_ref = db.collection('groups').document(group)
@@ -155,6 +145,7 @@ class group:
                 return Response({'message': 'Error updating group: {e}'}, status=500)
 
     "Given a group name and a user token, complete a task in the group tasks list"
+
     def completeTask(self, request, app):
         try:
             db = firestore.client(app)
@@ -163,7 +154,7 @@ class group:
             group = db.collection('accountInfo').document(token).get().to_dict().get('group')
             task = request.data['task']
 
-            if not self.userExists(token, app):
+            if db.collection('accountInfo').document(token).get() is None:
                 return Response({'message': "User does not exist or you are not authenticated"}, status=498)
 
             group_doc = db.collection('groups').where('name', '==', group).get()[0]
@@ -185,9 +176,8 @@ class group:
         except Exception as e:
             return Response({'message': str(e)}, status=500)
 
-
-
     "Given a user token send a message to the user's group"
+
     def sendMessage(self, request, app):  # this should work :100:
         db = firestore.client(app)
         user = db.collection('AccountInfo').document(request.data['token']).get().to_dict()
@@ -214,17 +204,18 @@ class group:
         group.set({'messages': messages}, merge=True)
 
     "Given a group name and a user token, add a task to the group tasks list"
+
     def addTask(self, request, app):  # works now frfr
         db = firestore.client(app)
-        name = request.data['name']
+
         token = request.data['token']
+        if db.collection('accountInfo').document(token).get() is None:
+            return Response({'message': "User does not exist or you are not authenticated"}, status=498)
         taskz = request.data['task']
+        name = db.collection('accountInfo').document(token).get().to_dict().get('group')
         group = db.collection('groups').document(name)
         group_doc = group.get()
-        if not self.userExists(token, app):
-            return Response({'message': "User does not exist or you are not authenticated"}, status=498)
-        elif not self.groupExists(name, app):
-            return Response({'message': "Group does not exist"}, status=418)
+
         if group_doc.exists:
             tasks_list = group_doc.to_dict().get('tasks', [])
             if tasks_list is None:
@@ -245,31 +236,34 @@ class group:
         return Response({'message': "Task added successfully"}, status=200)
 
     "Given a group name, return the current tasks"
+
     def getTasks(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
-        if self.groupExists(name, app):
+        if db.collection('groups').document(name).get().exists:
             group = db.collection('groups').document(name)
             return Response({'message': group.get('tasks')}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
     "Given a group name, return the group members"
+
     def getGroupMembers(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
-        if self.groupExists(name, app):
+        if db.collection('groups').document(name).get().exists:
             group = db.collection('groups').document(name)
             return Response({'message': group.get('members')}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
     "Given a group name, update the member completion count and the group completed tasks count"
+
     def updateMemberCompletion(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
         token = request.data['token']
-        if self.groupExists(name, app):
+        if db.collection('groups').document(name).get().exists:
             curr = db.collection('accountInfo').document(token).get().to_dict().get('count')
             db.collection('accountInfo').document(token).set({'count': curr + 1}, merge=True)
             group = db.collection('groups').document(name)
@@ -277,15 +271,16 @@ class group:
             completedTasks += 1
             group.set({'completedTasks': completedTasks}, merge=True)
 
-            return Response({f'message': "completed tasks updated. count: "+completedTasks}, status=200)
+            return Response({f'message': "completed tasks updated. count: " + completedTasks}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
 
     " Given a group name, return the messages"
+
     def getMessages(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
-        if self.groupExists(name, app):
+        if db.collection('groups').document(name).get().exists:
             group = db.collection('groups').document(name)
             return Response({'message': group.get('messages')}, status=200)
         else:
@@ -294,28 +289,15 @@ class group:
     """
     Given a group name, return the completed tasks
     """
+
     def getCompletedTasks(self, request, app):
         db = firestore.client(app)
         name = request.data['name']
-        if self.groupExists(name, app):
+        if db.collection('groups').document(name).get().exists:
             group = db.collection('groups').document(name)
             return Response({'message': group.get('completedTasks')}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
-
-    """
-    Helper function to check if a user is in a group
-    """
-    def userInGroup(self, token, app):
-        db = firestore.client(app)
-        user = db.collection('accountInfo').document(token).get()
-        if not user:
-            return False
-        try:
-            if user.get('groups') is not None:
-                return True
-        except Exception as e:
-            return False
 
     if __name__ == '__main__':  # edit this method to test the functions
         # copy and paste the code from the function you want to test

@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect, useRef} from 'react'
 import Link from 'next/link'
 import styles from './styles/HomeMenus.module.css'
 import TaskBoardPopup from './TaskBoardPopup'; // Import the new popup component
-import { ExpContext } from './ExpContext';
 import ClockPopup from './ClockPopup';
 import AuthContext from './AuthContext';
 import JoinGroupPopup from './JoinGroupPopup'
@@ -65,6 +64,10 @@ const HomeMenu = () => {
           if (!response.ok) {
               throw new Error('Network response was not ok');
           }
+          const data = await response.json(); 
+          const {message} = data;
+          console.log(message.totalContributions);
+          setExp(message.totalContributions);
 
           //const data = await response.json(); 
          // const {message} = data;
@@ -124,7 +127,7 @@ const HomeMenu = () => {
       </div> 
 
       
-      <TaskBoardPopup isOpen={isBoardPopup} onClose={() => setBoardPopup(false)} /> 
+      <TaskBoardPopup isOpen={isBoardPopup} onClose={() => {setBoardPopup(false); isInGroup();}} /> 
       <ClockPopup isOpen={isClockPopup} onClose={() => setClockPopup(false)} />
       
     </div>

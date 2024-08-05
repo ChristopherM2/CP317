@@ -39,5 +39,6 @@ urlpatterns = [
     path('updateTracking/', views.updateTracking, name="updateTracking"), #param token, tracking
     path('updatePassword/', views.updatePassword, name="updatePassword"), #param token, password
     path('getAvailableGroups/', views.getAvailableGroups, name="getAvailableGroups"), #param token, returns groups
+    path('api/getGroup/', views.getGroup, name="getGroup"), #param name, returns group
 
 ]

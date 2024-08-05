@@ -42,7 +42,14 @@ const Settings = () => {
         setIsPopupIconVisible(false);
     }
 
-
+/*
+<li>
+                            <ToggleSetting label = 'Dark Mode' api = 'http://127.0.0.1:8000/api/time/'/>
+                        </li>
+                        <li>
+                            <ToggleSetting label='Allow Tracking' api='http://127.0.0.1:8000/api/time/'/>
+                        </li>
+*/
 
 
   return (
@@ -66,12 +73,7 @@ const Settings = () => {
                         <li className={styles.change} onClick={handleClick('password', 'http://127.0.0.1:8000/api/updatePassword/')}>
                             Change Password
                         </li>
-                        <li>
-                            <ToggleSetting label = 'Dark Mode' api = 'http://127.0.0.1:8000/api/time/'/>
-                        </li>
-                        <li>
-                            <ToggleSetting label='Allow Tracking' api='http://127.0.0.1:8000/api/time/'/>
-                        </li>
+                        
                         
                     </ul>
                     <button onClick= {Context?.logout}className={styles.logoutButton}>Logout</button>

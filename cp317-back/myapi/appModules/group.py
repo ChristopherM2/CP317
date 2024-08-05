@@ -44,7 +44,7 @@ class group:
             else:
                 print(name)
                 group = db.collection('groups').document(name).set(
-                    {'members': [token], 'admin': token, 'messages': [], 'tasks': []})
+                    {'members': [token], 'admin': token, 'messages': [], 'totalContributions': 0, 'tasks': []})
 
                 user = db.collection('accountInfo').document(token)
                 user.set({'group': name}, merge=True)
@@ -120,26 +120,19 @@ class group:
 
             token = request.data['token']
             group = db.collection('accountInfo').document(token).get().to_dict().get('group')
-            task = request.data['task']
 
             if db.collection('accountInfo').document(token).get() is None:
                 return Response({'message': "User does not exist or you are not authenticated"}, status=498)
 
-            group_doc = db.collection('groups').where('name', '==', group).get()[0]
-            if group_doc.exists:
-                tasks_list = group_doc.to_dict().get('tasks', [])
-                if tasks_list is None:
-                    tasks_list = []
-            else:
-                tasks_list = []
+            group = db.collection('groups').document(group)
+            user = db.collection('accountInfo').document(token).get().to_dict()
+            userContributions = user.get('count')
+            userContributions += 20
+            groupContributions = group.get().to_dict().get('totalContributions')
+            groupContributions += 20
+            group.set({'totalContributions': groupContributions}, merge=True)
+            db.collection('accountInfo').document(token).set({'count': userContributions}, merge=True)
 
-            # Find the task in the tasks list
-            for t in tasks_list:
-                if t.get('task') == task:
-                    t['completed'] = True
-                    break
-
-            group.set({'tasks': tasks_list}, merge=True)
             return Response({'message': "Task completed successfully"}, status=200)
         except Exception as e:
             return Response({'message': str(e)}, status=500)

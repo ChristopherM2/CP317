@@ -135,6 +135,7 @@ class group:
 
             return Response({'message': "Task completed successfully"}, status=200)
         except Exception as e:
+            print(e)
             return Response({'message': str(e)}, status=500)
 
     "Given a user token send a message to the user's group"

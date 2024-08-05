@@ -43,7 +43,7 @@ const GroupMember:React.FC<MemberProps> = ({token}) => {
                 <p>{UserName}</p>
                 <p>{Count}</p>
             </div>
-        </div>
+    </div>
   )
 }
 

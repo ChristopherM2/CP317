@@ -45,6 +45,9 @@ const ClockPopup: React.FC<ClockPopupProps> = ({ isOpen, onClose }) => {
     setIsRunning(false);
     setTimer(1500); // Reset to 25 minutes
   };
+  const handleBreakTimer = () => {
+    setTimer(300);
+  }
 
   const formatTime = (seconds: number) => {
     const getMinutes = `0${Math.floor(seconds / 60)}`.slice(-2);
@@ -65,6 +68,7 @@ const ClockPopup: React.FC<ClockPopupProps> = ({ isOpen, onClose }) => {
         <div className={styles.timerControls}>
           <button onClick={handleStartTimer} className={styles.startButton}>Start</button>
           <button onClick={handleStopTimer} className={styles.stopButton}>Stop</button>
+          <button onClick={handleBreakTimer} className={styles.breakButton}>Break</button>
           <button onClick={handleResetTimer} className={styles.resetButton}>Reset</button>
         </div>
       </div>

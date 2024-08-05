@@ -40,7 +40,7 @@
     justify-content: space-around;
 }
   
-.startButton, .stopButton, .resetButton {
+.startButton, .stopButton, .resetButton, .breakButton {
     padding: 10px;
     background: #007bff;
     color: white;
@@ -49,7 +49,7 @@
     cursor: pointer;
 }
   
-.startButton:hover, .stopButton:hover, .resetButton:hover {
+.startButton:hover, .stopButton:hover, .resetButton:hover, .breakButton:hover {
     background: #0056b3;
 }
   

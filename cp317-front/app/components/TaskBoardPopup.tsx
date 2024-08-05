@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import styles from './styles/TaskBoardPopup.module.css';
 import { ExpContext } from './ExpContext';
+import TaskItem from './TaskItem'
 
 interface TaskBoardPopupProps {
   isOpen: boolean;
@@ -8,17 +9,23 @@ interface TaskBoardPopupProps {
 }
 
 const TaskBoardPopup: React.FC<TaskBoardPopupProps> = ({ isOpen, onClose }) => {
-  const [words, setWords] = useState<string[]>([]);
-  const [newWord, setNewWord] = useState<string>('');
+  const [Descriptions, setDescriptions] = useState<string[]>([]);
+  const [NewDescription, setNewDescription] = useState<string>('');
+  const [Titles, setTitles] = useState<string[]>([]);
+  const [NewTitle, setNewTitle] = useState<string>('');
+
   const { exp, addExp } = useContext(ExpContext) || { exp: 0, addExp: () => {} };
 
-  const handleAddWord = () => {
-    if (newWord.trim() && words.length < 6) {
-      setWords([...words, newWord.trim()]);
-      setNewWord('');
+  // add title and description to arrays
+  const handleAddTask = () => {
+    if (NewDescription.trim() && Descriptions.length < 6) {
+      setTitles(arr => [...arr, NewTitle]);
+      setDescriptions([...Descriptions, NewDescription.trim()]);
+      setNewDescription('');
+      setNewTitle('');
     }
   };
-
+/*
   const handleNewWordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewWord(event.target.value);
   };
@@ -30,7 +37,15 @@ const TaskBoardPopup: React.FC<TaskBoardPopupProps> = ({ isOpen, onClose }) => {
   const handleCheckboxChange = (index: number) => {
     addExp(20);
     handleDeleteWord(index);
-  };
+  };*/
+  /*<label>
+                <input type="checkbox" onChange={() => handleCheckboxChange(index)} />
+                {word}
+              </label>
+              <button onClick={() => handleDeleteWord(index)} className={styles.deleteButton}>
+                &times;
+              </button>*/
+
 
   if (!isOpen) return null;
 
@@ -44,28 +59,27 @@ const TaskBoardPopup: React.FC<TaskBoardPopupProps> = ({ isOpen, onClose }) => {
         <div className={styles.inputContainer}>
           <input
             type="text"
-            value={newWord}
-            onChange={handleNewWordChange}
+            value={NewTitle}
+            placeholder="Enter Task's title"
+            onChange={(e) =>  setNewTitle(e.target.value)}
+            className={styles.textInputTitle}
+          />
+          <input
+            type="text"
+            value={NewDescription}
+            placeholder="Enter Task's description"
+            onChange={(e) =>  setNewDescription(e.target.value)}
             className={styles.textInput}
           />
-          <button onClick={handleAddWord} className={styles.addButton}>Add</button>
+          <button onClick={handleAddTask} className={styles.addButton}>Add</button>
         </div>
+        
         <ul className={styles.popupList}>
-          {words.map((word, index) => (
-            <li key={index} className={styles.wordItem}>
-              <label>
-                <input type="checkbox" onChange={() => handleCheckboxChange(index)} />
-                {word}
-              </label>
-              <button onClick={() => handleDeleteWord(index)} className={styles.deleteButton}>
-                &times;
-              </button>
-            </li>
-          ))}
-          {words.length >= 6 && (
-            <li className={styles.limitReached}>Please delete a task before making a new one!</li>
-          )}
+          {Titles.map((title, index) => (<TaskItem key={index} Title = {title} Description={Descriptions[index]}/>))}
+          
         </ul>
+            
+        
       </div>
     </div>
   );

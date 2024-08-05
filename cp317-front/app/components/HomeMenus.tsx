@@ -42,7 +42,7 @@ const HomeMenu = () => {
 
           const data = await response.json(); 
           const {message} = data;
-          console.log("group name:" + message.group);
+          //console.log("group name:" + message.group);
           setGroupName(message.group || null); // set group name
       } catch (error) {
           console.error('Failed to fetch user details:', error);

@@ -12,7 +12,7 @@ const HomeMenu = () => {
   const [GroupName, setGroupName] = useState<string|null>(null);
   const Context = useContext(AuthContext);
 
-  const { exp } = useContext(ExpContext) || { exp: 0 };
+  const { exp } = useContext(ExpContext) || { exp: 300 };
 
   const [isBoardPopup, setBoardPopup] = useState<boolean>(false);
   const [isClockPopup, setClockPopup] = useState<boolean>(false);
@@ -55,7 +55,15 @@ const HomeMenu = () => {
     isInGroup();
   }
 
-
+  const getExpDisplay = () => {
+    if (exp >= 200) {
+      return `EXP: ${exp} / 300`;
+    } else if (exp >= 100) {
+      return `EXP: ${exp} / 200`;
+    } else {
+      return `EXP: ${exp} / 100`;
+    }
+  }
 
 /*
   const formatTime = (seconds: number) => {
@@ -68,10 +76,14 @@ const HomeMenu = () => {
     return (
    
     <div className={styles.homeMenu}>
-      <div className={styles.homeMenu}>
-        <img src="images/BackgroundLvl1Animated.gif" alt="Lvl 1 Home Menu" className={styles.Menu} />
-      </div>
-      <div className={styles.expDisplay}>EXP: {exp} / 100</div> {/* Display the exp variable */}
+        <div className={styles.homeMenu}>
+          <img
+            src={exp >= 100 ? 'images/BackgroundLvl2HomeAnimated.gif' : 'images/BackgroundLvl1Animated.gif'}
+            alt="Lvl Home Menu" // Home Menu levels up after hitting 100 xp!
+            className={styles.Menu}
+          />
+        </div>
+      <div className={styles.expDisplay}>{getExpDisplay()}</div> {/* Display the exp variable */}
       <Link href='/group'>
         <div className={styles.homeMenu}>
           <img src="/images/Nav-group.png" alt="Group button in Home Menu" className={styles.floatingButton} />
@@ -82,8 +94,9 @@ const HomeMenu = () => {
         
       </div>
       <div className={styles.clockButton}>
-          <img src="/images/Lvl1Clock1.png" alt="Button for Pom Timer"  onClick={() => setClockPopup(true)} />
-      </div>
+          <img src={exp >= 300 ? "/images/Lvl3Clock.png" : "/images/Lvl1Clock1.png"} alt="Button for Pom Timer" onClick={() => setClockPopup(true)}  />
+        {/* when hitting Level 3, upgrade the clock! */}
+      </div> 
 
       
       <TaskBoardPopup isOpen={isBoardPopup} onClose={() => setBoardPopup(false)} /> 

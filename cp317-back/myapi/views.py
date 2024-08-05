@@ -34,7 +34,7 @@ app = firebase_admin.initialize_app(cred)
 def hello_world(request):
     return Response({'message': 'if this works i wont end it all!!'}, status=200)
 @api_view(['GET', 'POST'])
-def get_group(request):
+def getGroup(request):
     return group.getGroup(None, request, app)
 
 @api_view(['GET', 'POST'])

@@ -12,7 +12,8 @@ const HomeMenu = () => {
   const [GroupName, setGroupName] = useState<string|null>(null);
   const Context = useContext(AuthContext);
 
-  const { exp } = useContext(ExpContext) || { exp: 300 };
+  //const { exp } = useContext(ExpContext) || { exp: 300 };
+  const [exp, setExp] = useState<number>(0)
 
   const [isBoardPopup, setBoardPopup] = useState<boolean>(false);
   const [isClockPopup, setClockPopup] = useState<boolean>(false);
@@ -44,10 +45,34 @@ const HomeMenu = () => {
           const {message} = data;
           //console.log("group name:" + message.group);
           setGroupName(message.group || null); // set group name
+          fetchExp(message.group);
       } catch (error) {
           console.error('Failed to fetch user details:', error);
       }
   }
+
+  const fetchExp = async(groupname:string) =>{
+    if (!Context?.user?.id) return; // return when not logged in
+      try {
+          const response = await fetch(`http://127.0.0.1:8000/api/getGroup/`,
+                                        { method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ name:groupname })
+                                      });
+
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+
+          //const data = await response.json(); 
+         // const {message} = data;
+      } catch (error) {
+          console.error('Failed to fetch user details:', error);
+      }
+  }
+
 
   const createAndJoin = () =>{
     setCreatePopup(false);

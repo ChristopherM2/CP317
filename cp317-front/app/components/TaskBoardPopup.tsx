@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import styles from './styles/TaskBoardPopup.module.css';
 import { ExpContext } from './ExpContext';
 import TaskItem from './TaskItem'
+import AuthContext from './AuthContext';
 
 interface TaskBoardPopupProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ const TaskBoardPopup: React.FC<TaskBoardPopupProps> = ({ isOpen, onClose }) => {
   const [NewTitle, setNewTitle] = useState<string>('');
 
   const { exp, addExp } = useContext(ExpContext) || { exp: 0, addExp: () => {} };
+  const Context = useContext(AuthContext);
 
   // add title and description to arrays
   const handleAddTask = () => {
@@ -25,6 +27,31 @@ const TaskBoardPopup: React.FC<TaskBoardPopupProps> = ({ isOpen, onClose }) => {
       setNewTitle('');
     }
   };
+  const completeTask = async(index:number) =>{
+    setDescriptions(prevDescriptions => prevDescriptions.filter((_, i) => i !== index));
+    setTitles(prevTitles => prevTitles.filter((_, i) => i !== index));
+    
+    try{
+      if(!Context?.user?.id) return
+       const response = await fetch(`http://127.0.0.1:8000/api/completeTask/`,
+                                        { method: 'POST',
+                                        headers: {
+                                          'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ token: Context.user.id })
+                                      });
+
+         if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+
+    } catch (error) {
+          console.error('Failed to fetch user details:', error);
+    }
+    
+
+  }
+
 /*
   const handleNewWordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewWord(event.target.value);
@@ -75,7 +102,8 @@ const TaskBoardPopup: React.FC<TaskBoardPopupProps> = ({ isOpen, onClose }) => {
         </div>
         
         <ul className={styles.popupList}>
-          {Titles.map((title, index) => (<TaskItem key={index} Title = {title} Description={Descriptions[index]}/>))}
+          {Titles.map((title, index) => (<TaskItem key={index} Title = {title}
+           Description={Descriptions[index]} onComplete={() => completeTask(index)}/>))}
           
         </ul>
             

@@ -20,16 +20,16 @@ Returns:
     Respective Return per method
 -------------------------------------------------------
 """
-#private info for firebase
+"private info for firebase"
 cred = credentials.Certificate("serviceAccountKey.json")
-#initialize firebase
+"initialize firebase"
 app = firebase_admin.initialize_app(cred)
 
 
-#this is basically a router for the api
+"""this is basically a router for the api
 
-# urls.py will call these methods when a request is made to the server
-# the methods will then call the respective methods in the appModules
+ urls.py will call these methods when a request is made to the server
+ the methods will then call the respective methods in the appModules"""
 @api_view(['GET', 'POST'])
 def hello_world(request):
     return Response({'message': 'if this works i wont end it all!!'}, status=200)

@@ -21,7 +21,7 @@ const ChatBox = () => {
           <div className={styles.chatWindow}>
             
               <div className={styles.chatMessage}>
-                This message overlaps on to 2 lines yeah? hopefully! im gonna kill everyone if it doesn holy shit MEOWWWWWWThis message overlaps on to 2 lines yeah? hopefully!
+                This is an example text message 123456789, it should wrap after hitting the end
               </div>
     
           </div>

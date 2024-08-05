@@ -248,6 +248,14 @@ class group:
             return Response({'message': group.get('messages')}, status=200)
         else:
             return Response({'message': "Group does not exist"}, status=418)
+    def getGroup(self, request, app):
+        db = firestore.client(app)
+        name = request.data['name']
+        if db.collection('groups').document(name).get().exists:
+            group = db.collection('groups').document(name)
+            return Response({'message': group.get().to_dict()}, status=200)
+        else:
+            return Response({'message': "Group does not exist"}, status=418)
 
     """
     Given a group name, return the completed tasks

@@ -1,6 +1,6 @@
 To get started with our project, run the following commands
 
-git clone https://github.com/ChristopherM2/CP317/
+git clone https://github.com/ChristopherM2/Study-Motivation-Website
 
 cd CP317
 make sure to have python3 and npm installed on your machine

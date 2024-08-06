@@ -1,6 +1,3 @@
-Heres our project. 
-We promise we didnt start it a week before it was due :3
-
 To get started with our project, run the following commands
 
 git clone https://github.com/ChristopherM2/CP317/
